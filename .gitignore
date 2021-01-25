@@ -236,7 +236,7 @@ _Pvt_Extensions
 ########################
 
 # linter
-.eslintcache
+*.eslintcache
 
 # dependencies
 /BoulderPOS/pos-client/node_modules
