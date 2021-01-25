@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>pos-client\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <RootNamespace>POS_Boulderers</RootNamespace>
+    <RootNamespace>BoulderPOS</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
