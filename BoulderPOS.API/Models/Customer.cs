@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using BoulderPOS.API.Models;
 
-namespace BoulderPOS.Model
+namespace BoulderPOS.API.Models
 {
     public class Customer
     {
@@ -38,11 +36,14 @@ namespace BoulderPOS.Model
         [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
 
-        [Column(TypeName = "bytea")]
-        public byte[] Picture { get; set; }
+        [Column(TypeName = "varchar")]
+        public string PicturePath { get; set; }
 
-        public ICollection<ProductPayment> Orders { get; set; }
-        public CustomerSubscription Subscription { get; set; }
-        public CustomerEntries Entries { get; set; }
+        [Column(TypeName = "bytea")]
+        public string PicturePreviewPath { get; set; }
+
+        public virtual ICollection<ProductPayment> Orders { get; set; }
+        public virtual CustomerSubscription Subscription { get; set; }
+        public virtual CustomerEntries Entries { get; set; }
     }
 }

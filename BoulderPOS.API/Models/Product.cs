@@ -1,6 +1,6 @@
-﻿using BoulderPOS.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +11,8 @@ namespace BoulderPOS.API.Models
     {
         public int Id { get; set; }
 
+        [Required]
+        [Column(TypeName = "varchar(50)")]
         public string Name { get; set; }
 
         [Column(TypeName = "decimal(8, 2)")]
@@ -18,9 +20,7 @@ namespace BoulderPOS.API.Models
 
         public int CategoryId { get; set; }
 
-        public ICollection<ProductPayment> Orders { get; set; }
-
-        public ProductCategory Category { get; set; }
+        public virtual ProductCategory Category { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(TypeName = "timestamp")]
@@ -29,6 +29,8 @@ namespace BoulderPOS.API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Column(TypeName = "timestamp")]
         public DateTime Updated { get; set; }
+
+        public virtual ICollection<ProductPayment> Orders { get; set; }
 
     }
 }

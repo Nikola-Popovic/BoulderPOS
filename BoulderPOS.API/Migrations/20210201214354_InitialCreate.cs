@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System;
 
 namespace BoulderPOS.API.Migrations
 {
@@ -9,21 +9,7 @@ namespace BoulderPOS.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "productCategory",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "varchar(30)", nullable: true),
-                    categoryIcon = table.Column<byte[]>(type: "bytea", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pK_productCategory", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "user",
+                name: "customers",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -35,34 +21,26 @@ namespace BoulderPOS.API.Migrations
                     email = table.Column<string>(type: "varchar(100)", nullable: false),
                     phoneNumber = table.Column<string>(type: "varchar(16)", nullable: true),
                     birthDate = table.Column<DateTime>(type: "date", nullable: false),
-                    picture = table.Column<byte[]>(type: "bytea", nullable: true)
+                    picturePath = table.Column<string>(type: "varchar", nullable: true),
+                    picturePreviewPath = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pK_user", x => x.id);
+                    table.PrimaryKey("pK_customers", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "product",
+                name: "productCategories",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "text", nullable: true),
-                    price = table.Column<decimal>(type: "decimal(8, 2)", nullable: false),
-                    categoryId = table.Column<int>(type: "integer", nullable: false),
-                    created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    updated = table.Column<DateTime>(type: "timestamp", nullable: false)
+                    name = table.Column<string>(type: "varchar(30)", nullable: false),
+                    categoryIconPath = table.Column<string>(type: "varchar", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pK_product", x => x.id);
-                    table.ForeignKey(
-                        name: "fK_product_productCategory_categoryId",
-                        column: x => x.categoryId,
-                        principalTable: "productCategory",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pK_productCategories", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,22 +51,22 @@ namespace BoulderPOS.API.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     customerId = table.Column<int>(type: "integer", nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
-                    unlimitedEntries = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    unlimitedEntries = table.Column<bool>(type: "boolean", nullable: false, defaultValue:false),
                     updated = table.Column<DateTime>(type: "timestamp", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pK_customerEntries", x => x.id);
                     table.ForeignKey(
-                        name: "fK_customerEntries_user_customerId",
+                        name: "fK_customerEntries_customers_customerId",
                         column: x => x.customerId,
-                        principalTable: "user",
+                        principalTable: "customers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "customerSubscription",
+                name: "customerSubscriptions",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -96,47 +74,93 @@ namespace BoulderPOS.API.Migrations
                     customerId = table.Column<int>(type: "integer", nullable: false),
                     startDate = table.Column<DateTime>(type: "date", nullable: false),
                     endDate = table.Column<DateTime>(type: "date", nullable: false),
-                    autoRenewal = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    autoRenewal = table.Column<bool>(type: "boolean", nullable: false),
                     created = table.Column<DateTime>(type: "timestamp", nullable: false),
                     updated = table.Column<DateTime>(type: "timestamp", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pK_customerSubscription", x => x.id);
+                    table.PrimaryKey("pK_customerSubscriptions", x => x.id);
                     table.ForeignKey(
-                        name: "fK_customerSubscription_user_customerId",
+                        name: "fK_customerSubscriptions_customers_customerId",
                         column: x => x.customerId,
-                        principalTable: "user",
+                        principalTable: "customers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "productPayment",
+                name: "products",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8, 2)", nullable: false),
+                    categoryId = table.Column<int>(type: "integer", nullable: false),
+                    created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    updated = table.Column<DateTime>(type: "timestamp", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pK_products", x => x.id);
+                    table.ForeignKey(
+                        name: "fK_products_productCategories_categoryId",
+                        column: x => x.categoryId,
+                        principalTable: "productCategories",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "productInventory",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    productId = table.Column<int>(type: "integer", nullable: false),
+                    inStoreQuantity = table.Column<int>(type: "integer", nullable: false),
+                    orderedQuantity = table.Column<int>(type: "integer", nullable: false),
+                    suretyQuantity = table.Column<int>(type: "integer", nullable: false),
+                    updated = table.Column<DateTime>(type: "timestamp", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pK_productInventory", x => x.id);
+                    table.ForeignKey(
+                        name: "fK_productInventory_products_productId",
+                        column: x => x.productId,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "productPayments",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     customerId = table.Column<int>(type: "integer", nullable: false),
                     productId = table.Column<int>(type: "integer", nullable: false),
-                    isRefunded = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    isRefunded = table.Column<bool>(type: "boolean", nullable: false, defaultValue:false),
                     sellingPrice = table.Column<decimal>(type: "decimal(8, 2)", nullable: false),
                     created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     updated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pK_productPayment", x => x.id);
+                    table.PrimaryKey("pK_productPayments", x => x.id);
                     table.ForeignKey(
-                        name: "fK_productPayment_product_productId",
-                        column: x => x.productId,
-                        principalTable: "product",
+                        name: "fK_productPayments_customers_customerId",
+                        column: x => x.customerId,
+                        principalTable: "customers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fK_productPayment_user_customerId",
-                        column: x => x.customerId,
-                        principalTable: "user",
+                        name: "fK_productPayments_products_productId",
+                        column: x => x.productId,
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -148,25 +172,30 @@ namespace BoulderPOS.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "iX_customerSubscription_customerId",
-                table: "customerSubscription",
+                name: "iX_customerSubscriptions_customerId",
+                table: "customerSubscriptions",
                 column: "customerId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "iX_product_categoryId",
-                table: "product",
-                column: "categoryId");
+                name: "iX_productInventory_productId",
+                table: "productInventory",
+                column: "productId");
 
             migrationBuilder.CreateIndex(
-                name: "iX_productPayment_customerId",
-                table: "productPayment",
+                name: "iX_productPayments_customerId",
+                table: "productPayments",
                 column: "customerId");
 
             migrationBuilder.CreateIndex(
-                name: "iX_productPayment_productId",
-                table: "productPayment",
+                name: "iX_productPayments_productId",
+                table: "productPayments",
                 column: "productId");
+
+            migrationBuilder.CreateIndex(
+                name: "iX_products_categoryId",
+                table: "products",
+                column: "categoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -175,19 +204,22 @@ namespace BoulderPOS.API.Migrations
                 name: "customerEntries");
 
             migrationBuilder.DropTable(
-                name: "customerSubscription");
+                name: "customerSubscriptions");
 
             migrationBuilder.DropTable(
-                name: "productPayment");
+                name: "productInventory");
 
             migrationBuilder.DropTable(
-                name: "product");
+                name: "productPayments");
 
             migrationBuilder.DropTable(
-                name: "user");
+                name: "customers");
 
             migrationBuilder.DropTable(
-                name: "productCategory");
+                name: "products");
+
+            migrationBuilder.DropTable(
+                name: "productCategories");
         }
     }
 }

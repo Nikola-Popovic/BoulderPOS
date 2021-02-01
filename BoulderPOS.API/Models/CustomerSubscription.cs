@@ -1,5 +1,4 @@
-﻿using BoulderPOS.Model;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,7 +19,7 @@ namespace BoulderPOS.API.Models
 
         public bool AutoRenewal { get; set; }
 
-        public Customer customer { get; set; }
+        public virtual Customer customer { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(TypeName = "timestamp")]

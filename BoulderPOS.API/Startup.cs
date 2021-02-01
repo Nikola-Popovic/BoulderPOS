@@ -22,8 +22,12 @@ namespace BoulderPOS.API
         {
             services.AddControllers();
 
-            services.AddDbContext<POSDBContext>(options =>
+            // Cross Origin Resource Sharing
+            services.AddCors();
+            
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
+                options.UseLazyLoadingProxies();
                 options.UseNpgsql(Configuration.GetConnectionString("DevConnection"));
                 options.UseCamelCaseNamingConvention();
             });
@@ -37,6 +41,12 @@ namespace BoulderPOS.API
                 app.UseDeveloperExceptionPage();
             }
 
+            /** Add React App URL
+            app.UseCors(options =>
+                options.WithOrigins("")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+            **/
             app.UseRouting();
 
             app.UseAuthorization();

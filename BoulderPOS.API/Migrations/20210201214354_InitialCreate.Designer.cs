@@ -3,21 +3,78 @@ using System;
 using BoulderPOS.API.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BoulderPOS.API.Migrations
 {
-    [DbContext(typeof(POSDBContext))]
-    partial class POSDBContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20210201214354_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.2");
+
+            modelBuilder.Entity("BoulderPOS.API.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("date")
+                        .HasColumnName("birthDate");
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("firstName");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("lastName");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("phoneNumber");
+
+                    b.Property<string>("PicturePath")
+                        .HasColumnType("varchar")
+                        .HasColumnName("picturePath");
+
+                    b.Property<byte[]>("PicturePreviewPath")
+                        .HasColumnType("bytea")
+                        .HasColumnName("picturePreviewPath");
+
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated");
+
+                    b.HasKey("Id")
+                        .HasName("pK_customers");
+
+                    b.ToTable("customers");
+                });
 
             modelBuilder.Entity("BoulderPOS.API.Models.CustomerEntries", b =>
                 {
@@ -89,13 +146,13 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnName("startDate");
 
                     b.HasKey("Id")
-                        .HasName("pK_customerSubscription");
+                        .HasName("pK_customerSubscriptions");
 
                     b.HasIndex("CustomerId")
                         .IsUnique()
-                        .HasDatabaseName("iX_customerSubscription_customerId");
+                        .HasDatabaseName("iX_customerSubscriptions_customerId");
 
-                    b.ToTable("customerSubscription");
+                    b.ToTable("customerSubscriptions");
                 });
 
             modelBuilder.Entity("BoulderPOS.API.Models.Product", b =>
@@ -116,7 +173,8 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnName("created");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)")
                         .HasColumnName("name");
 
                     b.Property<decimal>("Price")
@@ -129,12 +187,73 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnName("updated");
 
                     b.HasKey("Id")
-                        .HasName("pK_product");
+                        .HasName("pK_products");
 
                     b.HasIndex("CategoryId")
-                        .HasDatabaseName("iX_product_categoryId");
+                        .HasDatabaseName("iX_products_categoryId");
 
-                    b.ToTable("product");
+                    b.ToTable("products");
+                });
+
+            modelBuilder.Entity("BoulderPOS.API.Models.ProductCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("CategoryIconPath")
+                        .HasColumnType("varchar")
+                        .HasColumnName("categoryIconPath");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pK_productCategories");
+
+                    b.ToTable("productCategories");
+                });
+
+            modelBuilder.Entity("BoulderPOS.API.Models.ProductInventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<int>("InStoreQuantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("inStoreQuantity");
+
+                    b.Property<int>("OrderedQuantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("orderedQuantity");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer")
+                        .HasColumnName("productId");
+
+                    b.Property<int>("SuretyQuantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("suretyQuantity");
+
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated");
+
+                    b.HasKey("Id")
+                        .HasName("pK_productInventory");
+
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("iX_productInventory_productId");
+
+                    b.ToTable("productInventory");
                 });
 
             modelBuilder.Entity("BoulderPOS.API.Models.ProductPayment", b =>
@@ -154,6 +273,10 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("customerId");
 
+                    b.Property<bool>("IsRefunded")
+                        .HasColumnType("boolean")
+                        .HasColumnName("isRefunded");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("integer")
                         .HasColumnName("productId");
@@ -167,101 +290,24 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("updated");
 
-                    b.Property<bool>("IsRefunded")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isRefunded");
-
                     b.HasKey("Id")
-                        .HasName("pK_productPayment");
+                        .HasName("pK_productPayments");
 
                     b.HasIndex("CustomerId")
-                        .HasDatabaseName("iX_productPayment_customerId");
+                        .HasDatabaseName("iX_productPayments_customerId");
 
                     b.HasIndex("ProductId")
-                        .HasDatabaseName("iX_productPayment_productId");
+                        .HasDatabaseName("iX_productPayments_productId");
 
-                    b.ToTable("productPayment");
-                });
-
-            modelBuilder.Entity("BoulderPOS.Model.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("date")
-                        .HasColumnName("birthDate");
-
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("created");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("email");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("firstName");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("lastName");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("varchar(16)")
-                        .HasColumnName("phoneNumber");
-
-                    b.Property<byte[]>("Picture")
-                        .HasColumnType("bytea")
-                        .HasColumnName("picture");
-
-                    b.Property<DateTime>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated");
-
-                    b.HasKey("Id")
-                        .HasName("pK_user");
-
-                    b.ToTable("user");
-                });
-
-            modelBuilder.Entity("BoulderPOS.Model.ProductCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<byte[]>("CategoryIcon")
-                        .HasColumnType("bytea")
-                        .HasColumnName("categoryIcon");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("varchar(30)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pK_productCategory");
-
-                    b.ToTable("productCategory");
+                    b.ToTable("productPayments");
                 });
 
             modelBuilder.Entity("BoulderPOS.API.Models.CustomerEntries", b =>
                 {
-                    b.HasOne("BoulderPOS.Model.Customer", "Customer")
+                    b.HasOne("BoulderPOS.API.Models.Customer", "Customer")
                         .WithOne("Entries")
                         .HasForeignKey("BoulderPOS.API.Models.CustomerEntries", "CustomerId")
-                        .HasConstraintName("fK_customerEntries_user_customerId")
+                        .HasConstraintName("fK_customerEntries_customers_customerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -270,10 +316,10 @@ namespace BoulderPOS.API.Migrations
 
             modelBuilder.Entity("BoulderPOS.API.Models.CustomerSubscription", b =>
                 {
-                    b.HasOne("BoulderPOS.Model.Customer", "customer")
+                    b.HasOne("BoulderPOS.API.Models.Customer", "customer")
                         .WithOne("Subscription")
                         .HasForeignKey("BoulderPOS.API.Models.CustomerSubscription", "CustomerId")
-                        .HasConstraintName("fK_customerSubscription_user_customerId")
+                        .HasConstraintName("fK_customerSubscriptions_customers_customerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -282,29 +328,41 @@ namespace BoulderPOS.API.Migrations
 
             modelBuilder.Entity("BoulderPOS.API.Models.Product", b =>
                 {
-                    b.HasOne("BoulderPOS.Model.ProductCategory", "Category")
+                    b.HasOne("BoulderPOS.API.Models.ProductCategory", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .HasConstraintName("fK_product_productCategory_categoryId")
+                        .HasConstraintName("fK_products_productCategories_categoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("BoulderPOS.API.Models.ProductInventory", b =>
+                {
+                    b.HasOne("BoulderPOS.API.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .HasConstraintName("fK_productInventory_products_productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("BoulderPOS.API.Models.ProductPayment", b =>
                 {
-                    b.HasOne("BoulderPOS.Model.Customer", "User")
+                    b.HasOne("BoulderPOS.API.Models.Customer", "User")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .HasConstraintName("fK_productPayment_user_customerId")
+                        .HasConstraintName("fK_productPayments_customers_customerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BoulderPOS.API.Models.Product", "Product")
                         .WithMany("Orders")
                         .HasForeignKey("ProductId")
-                        .HasConstraintName("fK_productPayment_product_productId")
+                        .HasConstraintName("fK_productPayments_products_productId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -313,12 +371,7 @@ namespace BoulderPOS.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BoulderPOS.API.Models.Product", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("BoulderPOS.Model.Customer", b =>
+            modelBuilder.Entity("BoulderPOS.API.Models.Customer", b =>
                 {
                     b.Navigation("Entries");
 
@@ -327,7 +380,12 @@ namespace BoulderPOS.API.Migrations
                     b.Navigation("Subscription");
                 });
 
-            modelBuilder.Entity("BoulderPOS.Model.ProductCategory", b =>
+            modelBuilder.Entity("BoulderPOS.API.Models.Product", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("BoulderPOS.API.Models.ProductCategory", b =>
                 {
                     b.Navigation("Products");
                 });

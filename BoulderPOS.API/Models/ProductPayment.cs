@@ -1,5 +1,4 @@
-﻿using BoulderPOS.Model;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,9 +18,9 @@ namespace BoulderPOS.API.Models
         [Column(TypeName = "decimal(8, 2)")]
         public decimal SellingPrice { get; set; }
 
-        public Customer User { get; set; }
+        public virtual Customer User { get; set; }
 
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime Created { get; set; }
