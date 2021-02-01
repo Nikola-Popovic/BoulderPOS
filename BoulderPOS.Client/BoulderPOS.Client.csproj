@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>pos-client\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <RootNamespace>BoulderPOS</RootNamespace>
+    <RootNamespace>BoulderPOS.Client</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
