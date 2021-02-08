@@ -12,14 +12,14 @@ namespace BoulderPOS.API.Models
         public int CustomerId { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime startDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime endDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public bool AutoRenewal { get; set; }
 
-        public virtual Customer customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(TypeName = "timestamp")]

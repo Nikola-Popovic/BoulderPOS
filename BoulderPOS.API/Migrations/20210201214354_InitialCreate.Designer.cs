@@ -137,13 +137,13 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated");
 
-                    b.Property<DateTime>("endDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("date")
-                        .HasColumnName("endDate");
+                        .HasColumnName("EndDate");
 
-                    b.Property<DateTime>("startDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("date")
-                        .HasColumnName("startDate");
+                        .HasColumnName("StartDate");
 
                     b.HasKey("Id")
                         .HasName("pK_customerSubscriptions");
@@ -316,14 +316,14 @@ namespace BoulderPOS.API.Migrations
 
             modelBuilder.Entity("BoulderPOS.API.Models.CustomerSubscription", b =>
                 {
-                    b.HasOne("BoulderPOS.API.Models.Customer", "customer")
+                    b.HasOne("BoulderPOS.API.Models.Customer", "Customer")
                         .WithOne("Subscription")
                         .HasForeignKey("BoulderPOS.API.Models.CustomerSubscription", "CustomerId")
                         .HasConstraintName("fK_customerSubscriptions_customers_customerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("customer");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("BoulderPOS.API.Models.Product", b =>

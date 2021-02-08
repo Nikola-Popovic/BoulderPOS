@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace BoulderPOS.API
 {
@@ -31,6 +32,15 @@ namespace BoulderPOS.API
                 options.UseNpgsql(Configuration.GetConnectionString("DevConnection"));
                 options.UseCamelCaseNamingConvention();
             });
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "Alpha",
+                    Title = "BoulderPOS API"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +49,11 @@ namespace BoulderPOS.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "BoulderAPI Alpha");
+                });
             }
 
             /** Add React App URL
@@ -48,7 +63,7 @@ namespace BoulderPOS.API
                     .AllowAnyMethod());
             **/
             app.UseRouting();
-
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
