@@ -28,5 +28,21 @@ namespace BoulderPOS.API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Column(TypeName = "timestamp")]
         public DateTime Updated { get; set; }
+
+        public CustomerSubscription(int customerId)
+        {
+            CustomerId = customerId;
+            Created = DateTime.Now;
+            Updated = DateTime.Now;
+        }
+
+        public CustomerSubscription(int customerId, DateTime startDate, DateTime endDate)
+        {
+            CustomerId = customerId;
+            StartDate = startDate;
+            EndDate = endDate;
+            Created = DateTime.Now;
+            Updated = DateTime.Now;
+        }
     }
 }

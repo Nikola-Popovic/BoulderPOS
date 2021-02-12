@@ -1,4 +1,5 @@
 using BoulderPOS.API.Persistence;
+using BoulderPOS.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ namespace BoulderPOS.API
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseLazyLoadingProxies();
-                options.UseNpgsql(Configuration.GetConnectionString("DevConnection"));
+                options.UseNpgsql(Configuration.GetConnectionString("DockerConnection"));
                 options.UseCamelCaseNamingConvention();
             });
 
@@ -41,6 +42,8 @@ namespace BoulderPOS.API
                     Title = "BoulderPOS API"
                 });
             });
+
+            ConfigureIoC(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +73,17 @@ namespace BoulderPOS.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void ConfigureIoC(IServiceCollection services)
+        {
+            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<ICustomerEntriesService, CustomerEntriesService>();
+            services.AddTransient<ICustomerSubscriptionService, CustomerSubscriptionService>();
+            services.AddTransient<IProductCategoryService, ProductCategoryService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IProductInventoryService, ProductInventoryService>();
+            services.AddTransient<IProductPaymentService, ProductPaymentService>();
         }
     }
 }

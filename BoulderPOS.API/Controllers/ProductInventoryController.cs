@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BoulderPOS.API.Models;
-using BoulderPOS.API.Persistence;
+using BoulderPOS.API.Services;
 
 namespace BoulderPOS.API.Controllers
 {
@@ -14,25 +10,26 @@ namespace BoulderPOS.API.Controllers
     [ApiController]
     public class ProductInventoryController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProductInventoryService _inventoryService;
 
-        public ProductInventoryController(ApplicationDbContext context)
+        public ProductInventoryController(IProductInventoryService inventoryService)
         {
-            _context = context;
+            _inventoryService = inventoryService;
         }
+        
 
         // GET: api/ProductInventory
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductInventory>>> GetProductInventory()
         {
-            return await _context.ProductInventory.ToListAsync();
+            return Ok(await _inventoryService.GetProductInventory());
         }
 
         // GET: api/ProductInventory/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductInventory>> GetProductInventory(int id)
         {
-            var productInventory = await _context.ProductInventory.FindAsync(id);
+            var productInventory = await _inventoryService.GetProductInventory(id);
 
             if (productInventory == null)
             {
@@ -53,25 +50,13 @@ namespace BoulderPOS.API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(productInventory).State = EntityState.Modified;
-
-            try
+            var updated = await _inventoryService.UpdateProductInventory(id, productInventory);
+            if (updated == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductInventoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
-            return NoContent();
+            return Ok(updated);
         }
 
         // POST: api/ProductInventory
@@ -80,31 +65,17 @@ namespace BoulderPOS.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ProductInventory>> PostProductInventory(ProductInventory productInventory)
         {
-            _context.ProductInventory.Add(productInventory);
-            await _context.SaveChangesAsync();
+            var created = await _inventoryService.CreateProductInventory(productInventory);
 
-            return CreatedAtAction("GetProductInventory", new { id = productInventory.Id }, productInventory);
+            return CreatedAtAction("GetProductInventory", new { id = created.Id }, created);
         }
 
         // DELETE: api/ProductInventory/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ProductInventory>> DeleteProductInventory(int id)
         {
-            var productInventory = await _context.ProductInventory.FindAsync(id);
-            if (productInventory == null)
-            {
-                return NotFound();
-            }
-
-            _context.ProductInventory.Remove(productInventory);
-            await _context.SaveChangesAsync();
-
-            return productInventory;
-        }
-
-        private bool ProductInventoryExists(int id)
-        {
-            return _context.ProductInventory.Any(e => e.Id == id);
+            await _inventoryService.DeleteProductInventory(id);
+            return NoContent();
         }
     }
 }

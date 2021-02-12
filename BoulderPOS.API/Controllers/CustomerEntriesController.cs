@@ -1,110 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BoulderPOS.API.Models;
-using BoulderPOS.API.Persistence;
+using BoulderPOS.API.Services;
 
 namespace BoulderPOS.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/entries")]
     [ApiController]
     public class CustomerEntriesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICustomerEntriesService _entriesService;
 
-        public CustomerEntriesController(ApplicationDbContext context)
+        public CustomerEntriesController(ICustomerEntriesService entriesService)
         {
-            _context = context;
+            _entriesService = entriesService;
         }
 
-        // GET: api/CustomerEntries
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerEntries>>> GetCustomerEntries()
-        {
-            return await _context.CustomerEntries.ToListAsync();
-        }
-
-        // GET: api/CustomerEntries/5
+        // GET: api/entries/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CustomerEntries>> GetCustomerEntries(int id)
+        public async Task<ActionResult<CustomerEntries>> GetCustomerEntries(int customerId)
         {
-            var customerEntries = await _context.CustomerEntries.FindAsync(id);
+            var entries = await _entriesService.GetCustomerEntries(customerId);
 
-            if (customerEntries == null)
+            if (entries == null)
             {
                 return NotFound();
             }
 
-            return customerEntries;
+            return entries;
         }
 
-        // PUT: api/CustomerEntries/5
+        // PUT: api/entries/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomerEntries(int id, CustomerEntries customerEntries)
+        public async Task<IActionResult> PutCustomerEntries(int customerId, CustomerEntries customerEntries)
         {
-            if (id != customerEntries.Id)
+            if (customerId != customerEntries.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(customerEntries).State = EntityState.Modified;
+            var entries = await _entriesService.UpdateCustomerEntries(customerId, customerEntries);
 
-            try
+            if (entries == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerEntriesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
         }
 
-        // POST: api/CustomerEntries
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<CustomerEntries>> PostCustomerEntries(CustomerEntries customerEntries)
+        // POST: api/entries/5/add
+        [HttpPost("{id}/add")]
+        public async Task<IActionResult> AddCustomerEntries(int customerId, int quantity)
         {
-            _context.CustomerEntries.Add(customerEntries);
-            await _context.SaveChangesAsync();
+            var entries = await _entriesService.AddCustomerEntries(customerId, quantity);
 
-            return CreatedAtAction("GetCustomerEntries", new { id = customerEntries.Id }, customerEntries);
-        }
-
-        // DELETE: api/CustomerEntries/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<CustomerEntries>> DeleteCustomerEntries(int id)
-        {
-            var customerEntries = await _context.CustomerEntries.FindAsync(id);
-            if (customerEntries == null)
+            if (entries == null)
             {
                 return NotFound();
             }
 
-            _context.CustomerEntries.Remove(customerEntries);
-            await _context.SaveChangesAsync();
-
-            return customerEntries;
+            return Ok(entries);
         }
 
-        private bool CustomerEntriesExists(int id)
+        // POST: api/entries/5/remove
+        [HttpPost("{id}/remove")]
+        public async Task<IActionResult> RemoveCustomerEntries(int customerId, int quantity)
         {
-            return _context.CustomerEntries.Any(e => e.Id == id);
+            var entries = await _entriesService.TakeCustomerEntries(customerId, quantity);
+
+            if (entries == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(entries);
         }
     }
 }

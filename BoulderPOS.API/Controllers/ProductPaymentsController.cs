@@ -1,38 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BoulderPOS.API.Models;
-using BoulderPOS.API.Persistence;
+using BoulderPOS.API.Services;
 
 namespace BoulderPOS.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/payments")]
     [ApiController]
     public class ProductPaymentsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProductPaymentService _paymentService;
 
-        public ProductPaymentsController(ApplicationDbContext context)
+        public ProductPaymentsController(IProductPaymentService paymentService)
         {
-            _context = context;
+            _paymentService = paymentService;
         }
 
-        // GET: api/ProductPayments
+        // GET: api/payments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductPayment>>> GetProductPayments()
         {
-            return await _context.ProductPayments.ToListAsync();
+            return Ok(await _paymentService.GetProductPayments());
         }
 
-        // GET: api/ProductPayments/5
+        // GET: api/payments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductPayment>> GetProductPayment(int id)
         {
-            var productPayment = await _context.ProductPayments.FindAsync(id);
+            var productPayment = await _paymentService.GetProductPayment(id);
 
             if (productPayment == null)
             {
@@ -42,7 +38,7 @@ namespace BoulderPOS.API.Controllers
             return productPayment;
         }
 
-        // PUT: api/ProductPayments/5
+        // PUT: api/payments/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -53,58 +49,34 @@ namespace BoulderPOS.API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(productPayment).State = EntityState.Modified;
+            var updated = await _paymentService.UpdateProductPayment(id, productPayment);
 
-            try
+            if (updated == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductPaymentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
-            return NoContent();
+            return Ok(updated);
         }
 
-        // POST: api/ProductPayments
+        // POST: api/payments
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<ProductPayment>> PostProductPayment(ProductPayment productPayment)
         {
-            _context.ProductPayments.Add(productPayment);
-            await _context.SaveChangesAsync();
+            var created = await _paymentService.CreateProductPayment(productPayment);
 
-            return CreatedAtAction("GetProductPayment", new { id = productPayment.Id }, productPayment);
+            return CreatedAtAction("GetProductPayment", new { id = created.Id }, created);
         }
 
-        // DELETE: api/ProductPayments/5
+        // DELETE: api/payments/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ProductPayment>> DeleteProductPayment(int id)
         {
-            var productPayment = await _context.ProductPayments.FindAsync(id);
-            if (productPayment == null)
-            {
-                return NotFound();
-            }
+            await _paymentService.DeleteProductPayment(id);
 
-            _context.ProductPayments.Remove(productPayment);
-            await _context.SaveChangesAsync();
-
-            return productPayment;
-        }
-
-        private bool ProductPaymentExists(int id)
-        {
-            return _context.ProductPayments.Any(e => e.Id == id);
+            return NoContent();
         }
     }
 }

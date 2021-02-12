@@ -7,6 +7,11 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 
+## To run a database Ef migrations when starting if Postgres is dockerized
+# See https://docs.docker.com/compose/aspnet-mssql-compose/
+# RUN chmod +x ./script/databaseStartup.sh
+# CMD /bin/bash ./script/databaseStartup.sh
+
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["BoulderPOS.API/BoulderPOS.API.csproj", "BoulderPOS.API/"]

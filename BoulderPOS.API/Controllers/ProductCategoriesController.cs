@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BoulderPOS.API.Models;
-using BoulderPOS.API.Persistence;
+using BoulderPOS.API.Services;
 
 namespace BoulderPOS.API.Controllers
 {
@@ -14,32 +10,32 @@ namespace BoulderPOS.API.Controllers
     [ApiController]
     public class ProductCategoriesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProductCategoryService _categoryService;
 
-        public ProductCategoriesController(ApplicationDbContext context)
+        public ProductCategoriesController(IProductCategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         // GET: api/ProductCategories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductCategory>>> GetProductCategories()
         {
-            return await _context.ProductCategories.ToListAsync();
+            return Ok(await _categoryService.GetProductCategories());
         }
 
         // GET: api/ProductCategories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductCategory>> GetProductCategory(int id)
         {
-            var productCategory = await _context.ProductCategories.FindAsync(id);
+            var category = await _categoryService.GetProductCategory(id);
 
-            if (productCategory == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return productCategory;
+            return category;
         }
 
         // PUT: api/ProductCategories/5
@@ -53,25 +49,14 @@ namespace BoulderPOS.API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(productCategory).State = EntityState.Modified;
+            var updated = await _categoryService.UpdateProductCategory(id, productCategory);
 
-            try
+            if (updated == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductCategoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
-            return NoContent();
+            return Ok(updated);
         }
 
         // POST: api/ProductCategories
@@ -80,31 +65,19 @@ namespace BoulderPOS.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ProductCategory>> PostProductCategory(ProductCategory productCategory)
         {
-            _context.ProductCategories.Add(productCategory);
-            await _context.SaveChangesAsync();
+            var created = await _categoryService.CreateProductCategory(productCategory);
 
-            return CreatedAtAction("GetProductCategory", new { id = productCategory.Id }, productCategory);
+            return CreatedAtAction("GetProductCategory", new { id = created.Id }, created);
         }
 
         // DELETE: api/ProductCategories/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ProductCategory>> DeleteProductCategory(int id)
+        public async Task<ActionResult> DeleteProductCategory(int id)
         {
-            var productCategory = await _context.ProductCategories.FindAsync(id);
-            if (productCategory == null)
-            {
-                return NotFound();
-            }
+            await _categoryService.DeleteProductCategory(id);
 
-            _context.ProductCategories.Remove(productCategory);
-            await _context.SaveChangesAsync();
-
-            return productCategory;
+            return NoContent();
         }
-
-        private bool ProductCategoryExists(int id)
-        {
-            return _context.ProductCategories.Any(e => e.Id == id);
-        }
+        
     }
 }
