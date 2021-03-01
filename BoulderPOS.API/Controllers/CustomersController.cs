@@ -39,6 +39,20 @@ namespace BoulderPOS.API.Controllers
             return customer;
         }
 
+        // GET: api/Customers/customer
+        [HttpGet("customer")]
+        public async Task<ActionResult<Customer>> GetCustomerWithPhoneNumber([FromQuery] string phoneNumber)
+        {
+            var customer = await _customerService.GetCustomerByPhone(phoneNumber);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return customer;
+        }
+
         // PUT: api/Customers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

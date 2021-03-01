@@ -262,3 +262,5 @@ yarn-error.log*
 
 
 BoulderPOS.Postgres/secret.txt
+
+BoulderPOS.Client/pos-client/node_modules*

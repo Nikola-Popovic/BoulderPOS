@@ -1,5 +1,6 @@
 using BoulderPOS.API.Persistence;
 using BoulderPOS.API.Services;
+using BoulderPOS.API.Util;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,9 @@ namespace BoulderPOS.API
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseLazyLoadingProxies();
-                options.UseNpgsql(Configuration.GetConnectionString("DockerConnection"));
+                options.UseNpgsql(EnvironmentHelper.RunningInDocker
+                    ? Configuration.GetConnectionString("DockerConnection")
+                    : Configuration.GetConnectionString("LocalhostConnection"));
                 options.UseCamelCaseNamingConvention();
             });
 

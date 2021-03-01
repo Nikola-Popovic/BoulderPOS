@@ -28,6 +28,11 @@ namespace BoulderPOS.API.Services
             return await _context.Customers.FindAsync(id); ;
         }
 
+        public async Task<Customer> GetCustomerByPhone(string phoneNumber)
+        {
+            return await _context.Customers.SingleAsync(predicate: customer => customer.PhoneNumber.Equals(phoneNumber));
+        }
+
         public async Task<Customer> UpdateCustomer(int id, Customer customer)
         {
            _context.Entry(customer).State = EntityState.Modified;

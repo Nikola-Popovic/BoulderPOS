@@ -10,6 +10,8 @@ namespace BoulderPOS.API.Services
 
         public Task<Customer> GetCustomer(int id);
 
+        public Task<Customer> GetCustomerByPhone(string phoneNumber);
+
         public Task<Customer> UpdateCustomer(int id, Customer customer);
 
         public Task<Customer> CreateCustomer(Customer customer);
