@@ -6,7 +6,8 @@ namespace BoulderPOS.API.Models
 {
     public class ProductInventory
     {
-        [Key] public int Id { get; set; }
+        [Key] 
+        public int Id { get; set; }
 
         public int ProductId { get; set; }
 

@@ -35,6 +35,8 @@ namespace BoulderPOS.API.Models
 
         [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
+        
+        public bool NewsletterSubscription { get; set; }
 
         [Column(TypeName = "varchar")]
         public string PicturePath { get; set; }
