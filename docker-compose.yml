@@ -12,10 +12,12 @@ services:
     build:
       context: ./BoulderPOS.api
       dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ./BoulderPOS.API:/boulder-api/app
     ports:
-      - 49156:49156
+      - 5000:80
   boulder-waiver:
     image: boulderwaive:dev
     container_name: boulder-waiver
