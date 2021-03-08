@@ -1,7 +1,9 @@
+using System;
 using BoulderPOS.API.Persistence;
 using BoulderPOS.API.Services;
 using BoulderPOS.API.Util;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +15,8 @@ namespace BoulderPOS.API
 {
     public class Startup
     {
+        private const string CorsAllowedOrigins = "corsAllowedOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,7 +30,22 @@ namespace BoulderPOS.API
             services.AddControllers();
 
             // Cross Origin Resource Sharing
-            services.AddCors();
+            services.AddCors(options =>
+                {
+                    options.AddPolicy(CorsAllowedOrigins, builder =>
+                    {
+                        var allowedOrigins = Configuration.GetSection("AllowedOrigins");
+                        var origins = new []
+                        {
+                            allowedOrigins.GetValue<string>("ReverseProxyConnection"),
+                            allowedOrigins.GetValue<string>("WaiverConnection")
+                        };
+                        builder.WithOrigins(origins)
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                });
+
+                });
             
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -61,13 +80,9 @@ namespace BoulderPOS.API
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "BoulderAPI Alpha");
                 });
             }
+            
+            app.UseCors(CorsAllowedOrigins);
 
-            /** Add React App URL
-            app.UseCors(options =>
-                options.WithOrigins("")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
-            **/
             app.UseRouting();
             
             app.UseAuthorization();

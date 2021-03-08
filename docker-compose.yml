@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  postgres_db:
+    container_name: boulder-postgres
+    build: 
+      context: ./BoulderPOS.postgres
+      dockerfile: Dockerfile
+    restart: always
+  boulder-api:
+    container_name: boulder-api
+    build:
+      context: ./BoulderPOS.api
+      dockerfile: Dockerfile
+    volumes:
+      - ./BoulderPOS.API:/boulder-api/app
+    ports:
+      - 80:80
+  boulder-waiver:
+    image: boulderwaive:dev
+    container_name: boulder-waiver
+    build:
+      context: ./BoulderPOS.boulderwaiver
+      dockerfile: Dockerfile
+    volumes:
+      - ./BoulderPos.boulderwaiver:/app
+    ports:
+      - 3000:3000
+  reverse-proxy:
+    image: nginx:1.17.10
+    container_name: reverse-proxy
+    depends_on: 
+      - boulder-waiver
+      - boulder-api
+    volumes:
+      - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 81:81
+  

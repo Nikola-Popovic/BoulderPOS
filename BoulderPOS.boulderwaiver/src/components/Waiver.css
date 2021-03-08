@@ -1,0 +1,19 @@
+.waiver-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.waiver-content {
+    height:calc(200px + 30vh);  
+    width: calc(250px + 25vw);
+    border: 1px solid gainsboro;
+    overflow-y: auto;
+}
+
+.waiver-bottom {
+    display: flex;
+    flex-direction: row;
+    width: calc(150px + 20vw);
+    justify-content: space-between;
+}
