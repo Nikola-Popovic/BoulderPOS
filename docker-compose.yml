@@ -15,7 +15,7 @@ services:
     volumes:
       - ./BoulderPOS.API:/boulder-api/app
     ports:
-      - 80:80
+      - 49156:49156
   boulder-waiver:
     image: boulderwaive:dev
     container_name: boulder-waiver
