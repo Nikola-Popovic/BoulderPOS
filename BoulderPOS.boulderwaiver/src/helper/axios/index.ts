@@ -5,20 +5,21 @@ import axios from 'axios';
  by modifying he .env file at the root of the project.
 */
 // const port = process.env['API_PORT'] ? process.env['API_PORT'] : '8080';
-const port = '81';
+
+// Ideally this would be an environment variable
+const API_URL = 'localhost/api'
 
 const toString =  (url : ReturnType<typeof baseUrl>) => {
-    return url.protocol + '//' + url.hostname + ':' + url.port + '/api';
+    return url.protocol + '//' + API_URL;
 }
 
-var baseUrl = (port : String) => ({
+var baseUrl = (url : String) => ({
     protocol : window.location.protocol,
-    hostname : 'localhost',
-    port : port
+    url : url
 })
 
 const apiClient = axios.create({
-    baseURL : toString(baseUrl(port)),
+    baseURL : toString(baseUrl(API_URL)),
     timeout : 5000
 });
 

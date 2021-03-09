@@ -71,12 +71,12 @@ module.exports = {
         favicon: './public/favicon.ico'
       }),
       new MiniCssExtractPlugin({
-        filename: '[name]-[hash].css'
+        filename: '[name]-[fullhash].css'
       })
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
-        filename: 'bundle-[hash].js',
+        filename: 'bundle-[fullhash].js',
       }
   };
