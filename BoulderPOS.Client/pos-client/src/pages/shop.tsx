@@ -3,9 +3,10 @@ import AvailableProducts from '../components/shop/availableProducts/availablePro
 import Bill from '../components/shop/bill/bill';
 import { ItemCategory } from '../data/ItemCategory';
 import { PaymentMethod } from '../data/PaymentMethod';
+import { DBEmul } from '../data/DBEmul';
 import { BillItem, ShopItem } from '../data/ShopItem';
 
-class Shop extends Component<{},{cart: BillItem[], selectedCategory: ItemCategory}> {
+class Shop extends Component<{db: DBEmul},{cart: BillItem[], selectedCategory: ItemCategory}> {
     constructor(props:any) {
         super(props);
         this.state = {

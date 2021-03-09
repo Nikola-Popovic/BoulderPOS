@@ -1,6 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './navbar.css';
+import history from "../../assets/history1.png"
+import home from "../../assets/home.png"
 
 const NavBar = () => {
     return (
@@ -11,7 +13,7 @@ const NavBar = () => {
                 <div className="EndSection">
                     <span className="NavLink" style={{cursor:"pointer"}}>
                         <img 
-                        src="https://cdn1.iconfinder.com/data/icons/user-interface-2-glyph/32/ui_history_schedule_time-512.png" 
+                        src={history}
                         alt="Undo" 
                         width="40" 
                         height="40"
@@ -19,7 +21,7 @@ const NavBar = () => {
                     </span>
                     <NavLink className="NavLink" style={{cursor:"pointer"}} to="/">
                         <img 
-                        src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png" 
+                        src={home} 
                         alt="Home" 
                         width="35" 
                         height="35"

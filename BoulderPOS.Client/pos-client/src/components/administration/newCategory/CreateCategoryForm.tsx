@@ -2,8 +2,8 @@ import React from 'react'
 
 const CreateCategoryForm = () => {
     return (
-        <div>
-            <h1>new category</h1>
+        <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+            <h1>New Category!</h1>
         </div>
     )
 }
