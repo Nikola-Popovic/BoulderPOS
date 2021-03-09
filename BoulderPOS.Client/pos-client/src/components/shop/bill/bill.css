@@ -1,0 +1,74 @@
+.billContext {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    width: 35%;
+    float: left;
+    background-color:lightgray;
+}
+
+table, th, td {
+    border: 1px solid black;
+    margin-bottom: auto;
+  }
+
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  th {
+    text-align: left;
+  }
+
+  tbody>tr>:nth-child(3) {
+    text-align: right;
+  }
+
+  tr:nth-child(odd) {
+    background-color: #bbbbbb;
+  }
+
+
+
+.bottomSection {
+    display: flex;
+    justify-content:space-around;
+    flex-direction: row;
+    margin-top: auto;
+    height: 30%;
+    border-top: 3px solid gray;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 5vh;
+}
+
+.bottomSectionChild {
+    display: flex;
+    flex-direction: column;    
+    align-items: flex-end;
+}
+
+.billTotalSpan {
+    font-size: 15pt;
+    font-weight: bold;
+    margin-bottom: 5vh;
+}
+
+.billPaymentButton {
+    background-color: rgb(22, 22, 22);
+    color: white;
+    width: 150px;
+    height: 70px;
+    border-radius: 15px;
+    font-size: 15pt;
+}
+
+.scrollable {
+  overflow: scroll;
+  height: 500px;
+  display: flex;
+  flex-direction: column-reverse;
+  margin-bottom: 1rem;
+}
