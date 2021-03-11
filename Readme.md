@@ -6,8 +6,11 @@
 The project uses Linux containers if you are on windows make sure to install WSL (Windows Subsystem for Linux) and to have Docker configured with WSL.
 
 ### Run the project
-At the root folder, run `docker compose up --build`.
+At the root folder, run `docker-compose up`.
 This command will start the postgres database, the api, the reverse proxy and the frontend applications.
+
+### Build and start the project
+`docker-compose up --build`
 
 ### Debug a process
 To debug an application inside a Docker container, Attach a debugger to the process.

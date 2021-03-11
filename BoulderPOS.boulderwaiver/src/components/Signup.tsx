@@ -7,7 +7,7 @@ import {
     Grid,
     FormGroup
   } from '@material-ui/core';
-import { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { TextField, Checkbox } from 'formik-material-ui';
 import * as Yup from 'yup';
@@ -15,6 +15,7 @@ import { NewCustomer } from '../payload';
 import { CustomerService } from '../services/api';
 import { DatePickerField } from './DatePickerField';
 import { PhoneInputField } from './PhoneInputField';
+import { useSnackbar } from 'notistack';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -28,6 +29,8 @@ const userSchema = Yup.object().shape({
 })
 
 function Signup() {
+    const history = useHistory();
+    const { enqueueSnackbar } = useSnackbar();
     const initialValues = {
         FirstName: '',
         LastName : '',
@@ -43,13 +46,16 @@ function Signup() {
         promise.then( _response => {
             formikHelpers.setSubmitting(false);
             // Notify success
-            alert('Success');
-            // Go to success Page ?
+            enqueueSnackbar('Sign up successful !', {
+                variant: 'success',
+            });
+            history.push('/');
         }).catch( error => {
             formikHelpers.setSubmitting(false);
             // Notify alert
-            alert(`Error ${error.response.data}`);
-            // Go to success Page ?
+            enqueueSnackbar('An error occured. Please try again in a moment.', {
+                variant: 'error',
+            });
         });
     }
 
