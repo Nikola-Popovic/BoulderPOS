@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BoulderPOS.API.Models
 {
@@ -19,16 +20,10 @@ namespace BoulderPOS.API.Models
 
         public int CategoryId { get; set; }
 
+        [JsonIgnore]
         public virtual ProductCategory Category { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column(TypeName = "timestamp")]
-        public DateTime Created { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [Column(TypeName = "timestamp")]
-        public DateTime Updated { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<ProductPayment> Orders { get; set; }
 
     }

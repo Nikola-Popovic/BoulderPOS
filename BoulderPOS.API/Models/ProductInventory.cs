@@ -18,9 +18,5 @@ namespace BoulderPOS.API.Models
         public int SuretyQuantity { get; set; }
 
         public virtual Product Product { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [Column(TypeName = "timestamp")]
-        public DateTime Updated { get; set; }
     }
 }

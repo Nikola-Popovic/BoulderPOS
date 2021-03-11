@@ -78,14 +78,12 @@ namespace BoulderPOS.API.Services
                 // Update start and end
                 subscription.StartDate = now;
                 subscription.EndDate = now.AddMonths(timeInMonth);
-                subscription.Updated = now;
                 return await UpdateCustomerSubscription(customerId, subscription);
             }
             else
             {
                 // Add Time
                 subscription.EndDate = subscription.EndDate.AddMonths(timeInMonth);
-                subscription.Updated = now;
                 return await UpdateCustomerSubscription(customerId, subscription);
             }
         }

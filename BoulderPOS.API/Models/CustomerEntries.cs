@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BoulderPOS.API.Models
 {
-    public class CustomerEntries
+    public class CustomerEntries 
     {
         [Key]
         public int Id { get; set; }
@@ -16,17 +16,13 @@ namespace BoulderPOS.API.Models
 
         public bool UnlimitedEntries { get; set; }
 
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [Column(TypeName = "timestamp")]
-        public DateTime Updated { get; set; }
 
         public CustomerEntries(int customerId)
         {
             CustomerId = customerId;
             Quantity = 0;
-            Updated = DateTime.Now;
             UnlimitedEntries = false;
         }
 
@@ -35,7 +31,6 @@ namespace BoulderPOS.API.Models
             CustomerId = customerId;
             Quantity = quantity;
             UnlimitedEntries = unlimitedEntries;
-            Updated = DateTime.Now;
         }
     }
 }

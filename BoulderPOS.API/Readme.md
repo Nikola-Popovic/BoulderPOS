@@ -1,10 +1,5 @@
 # Boulder.API
 
-## Configurations
-
-#### Install Postgres 12
-#### Configure Postgres 
-
 ### Running the Entity Framework Migrations
 
 #### Using the Nugget Package Manager
@@ -24,7 +19,6 @@ Run the following command :
 ```c
 > dotnet ef database update
 ```
-
 
 ## More EF Core Commands
 
