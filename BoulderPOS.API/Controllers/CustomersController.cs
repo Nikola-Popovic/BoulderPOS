@@ -24,7 +24,7 @@ namespace BoulderPOS.API.Controllers
             var customers = await _customerService.GetCustomers();
             return Ok(customers);
         }
-
+        
         // GET: api/Customers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)

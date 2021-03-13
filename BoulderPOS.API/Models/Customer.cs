@@ -10,14 +10,6 @@ namespace BoulderPOS.API.Models
         [Key]
         public int Id { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column(TypeName = "timestamp")]
-        public DateTime Created { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [Column(TypeName = "timestamp")]
-        public DateTime Updated { get; set; }
-
         [Column(TypeName = "varchar(50)")]
         [Required]
         public string FirstName { get; set; }

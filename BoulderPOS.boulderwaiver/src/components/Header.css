@@ -1,0 +1,11 @@
+a:link {
+    text-decoration: none;
+}
+.header {
+    display: flex;
+    position: relative;
+    height:10vh;
+    font-size: calc(13px + 2vmin);
+    align-items: flex-end;
+    color: orange;
+}

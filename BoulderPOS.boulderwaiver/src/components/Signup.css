@@ -1,0 +1,18 @@
+.form-box {
+    border: 1px solid gainsboro;
+    justify-content: center;
+    padding-bottom: 2vh;
+    padding-top: 2vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
+}
+
+.submit-button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form-group {
+    margin-top: 3vh;
+}

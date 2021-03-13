@@ -31,11 +31,6 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("date")
                         .HasColumnName("birthDate");
 
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("created");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
@@ -67,11 +62,6 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("bytea")
                         .HasColumnName("picturePreviewPath");
 
-                    b.Property<DateTime>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated");
-
                     b.HasKey("Id")
                         .HasName("pK_customers");
 
@@ -98,11 +88,6 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("unlimitedEntries");
 
-                    b.Property<DateTime>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated");
-
                     b.HasKey("Id")
                         .HasName("pK_customerEntries");
 
@@ -125,11 +110,6 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("autoRenewal");
 
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("created");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer")
                         .HasColumnName("customerId");
@@ -141,11 +121,6 @@ namespace BoulderPOS.API.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("date")
                         .HasColumnName("startDate");
-
-                    b.Property<DateTime>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated");
 
                     b.HasKey("Id")
                         .HasName("pK_customerSubscriptions");
@@ -169,11 +144,6 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("categoryId");
 
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("created");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(50)")
@@ -182,11 +152,6 @@ namespace BoulderPOS.API.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(8, 2)")
                         .HasColumnName("price");
-
-                    b.Property<DateTime>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated");
 
                     b.HasKey("Id")
                         .HasName("pK_products");
@@ -244,11 +209,6 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("suretyQuantity");
 
-                    b.Property<DateTime>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated");
-
                     b.HasKey("Id")
                         .HasName("pK_productInventory");
 
@@ -266,11 +226,6 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer")
                         .HasColumnName("customerId");
@@ -286,11 +241,6 @@ namespace BoulderPOS.API.Migrations
                     b.Property<decimal>("SellingPrice")
                         .HasColumnType("decimal(8, 2)")
                         .HasColumnName("sellingPrice");
-
-                    b.Property<DateTime>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated");
 
                     b.HasKey("Id")
                         .HasName("pK_productPayments");
