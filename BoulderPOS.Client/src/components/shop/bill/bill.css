@@ -66,9 +66,10 @@ table, th, td {
 }
 
 .scrollable {
-  overflow: scroll;
+  overflow: auto;
   height: 500px;
   display: flex;
   flex-direction: column-reverse;
   margin-bottom: 1rem;
+  scrollbar-color: auto lightgray;
 }
