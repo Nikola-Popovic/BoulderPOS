@@ -239,7 +239,7 @@ _Pvt_Extensions
 *.eslintcache
 
 # dependencies
-/BoulderPOS/pos-client/node_modules
+*/node_modules
 /BoulderPOS/pos-client/.pnp
 .pnp.js
 
