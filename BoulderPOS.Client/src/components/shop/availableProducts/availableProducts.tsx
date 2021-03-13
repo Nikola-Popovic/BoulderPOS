@@ -19,7 +19,7 @@ class AvailableProducts extends Component<{categories: ItemCategory[], items: Sh
     listCategories() {
         const itemCategories = [];
         for(let category of this.props.categories) {
-            if(category.id === this.props.selectedCategory.id) {
+            if(category.id == this.props.selectedCategory.id) {
                 itemCategories.push(<button className="selectedCategory">{category.name}</button>)
             } else {
                 itemCategories.push(<button className="shopCategory" onClick={() => this.props.onCategoryClick(category)} >{category.name}</button>)
@@ -33,7 +33,7 @@ class AvailableProducts extends Component<{categories: ItemCategory[], items: Sh
     listItems() {
         const shopItems = [];
         for(let item of this.props.items) {
-            if(item.categoryId === this.props.selectedCategory.id)
+            if(item.categoryId == this.props.selectedCategory.id)
                 shopItems.push(<button className="shopItem" onClick={() => this.props.onItemClick(item)}>{item.name}<br/><br/>{toCurrency(item.price)}</button>)
         }
 

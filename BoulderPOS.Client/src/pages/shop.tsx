@@ -3,9 +3,10 @@ import AvailableProducts from '../components/shop/availableProducts/availablePro
 import Bill from '../components/shop/bill/bill';
 import { ItemCategory } from '../data/ItemCategory';
 import { PaymentMethod } from '../data/PaymentMethod';
+import { DBEmul } from '../data/DBEmul';
 import { BillItem, ShopItem } from '../data/ShopItem';
 
-class Shop extends Component<{},{cart: BillItem[], selectedCategory: ItemCategory}> {
+class Shop extends Component<{db: DBEmul},{cart: BillItem[], selectedCategory: ItemCategory}> {
     constructor(props:any) {
         super(props);
         this.state = {
@@ -16,8 +17,8 @@ class Shop extends Component<{},{cart: BillItem[], selectedCategory: ItemCategor
     }
 
     onShopItemClick(item: ShopItem) {
-        let tempCart = this.state.cart;
-        if(tempCart.find(a => a.id === item.id ) === undefined) {
+        var tempCart = this.state.cart;
+        if(tempCart.find(a => a.id == item.id ) == undefined) {
             tempCart.push(
                 {
                     id: item.id,
@@ -28,10 +29,10 @@ class Shop extends Component<{},{cart: BillItem[], selectedCategory: ItemCategor
                 });
         }
         else {
-            let i = tempCart.findIndex(a => a.id === item.id)
+            let i = tempCart.findIndex(a => a.id == item.id)
             tempCart[i].quantity++;
         }
-        if(tempCart !== undefined){
+        if(tempCart != undefined){
             this.setState({
                 cart: tempCart
             })
@@ -109,12 +110,6 @@ const ITEMS = [
         id: 1,
         name:"Patate frite",
         price: 2.99,
-        categoryId: 2,
-    },
-    {
-        id: 1123,
-        name:"ITEM AVEC UN TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES LONG NOM",
-        price: 1.00,
         categoryId: 2,
     },
     {
