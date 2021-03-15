@@ -23,6 +23,10 @@ namespace BoulderPOS.API.Models
         [JsonIgnore]
         public virtual Customer Customer { get; set; }
 
+        public CustomerSubscription()
+        {
+        }
+
         public CustomerSubscription(int customerId)
         {
             CustomerId = customerId;

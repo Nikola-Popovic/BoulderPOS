@@ -23,5 +23,9 @@ namespace BoulderPOS.API.Models
         public virtual Customer User { get; set; }
 
         public virtual Product Product { get; set; }
+
+        public ProductPayment()
+        {
+        }
     }
 }

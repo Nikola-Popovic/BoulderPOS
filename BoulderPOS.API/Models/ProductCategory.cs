@@ -17,5 +17,9 @@ namespace BoulderPOS.API.Models
         public string CategoryIconPath { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
+
+        public ProductCategory()
+        {
+        }
     }
 }

@@ -19,6 +19,10 @@ namespace BoulderPOS.API.Models
         [JsonIgnore]
         public virtual Customer Customer { get; set; }
 
+        public CustomerEntries()
+        {
+        }
+
         public CustomerEntries(int customerId)
         {
             CustomerId = customerId;

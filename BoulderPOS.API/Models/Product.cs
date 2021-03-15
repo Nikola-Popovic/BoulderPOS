@@ -26,5 +26,8 @@ namespace BoulderPOS.API.Models
         [JsonIgnore]
         public virtual ICollection<ProductPayment> Orders { get; set; }
 
+        public Product()
+        {
+        }
     }
 }

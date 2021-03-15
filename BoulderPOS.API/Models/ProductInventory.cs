@@ -18,5 +18,9 @@ namespace BoulderPOS.API.Models
         public int SuretyQuantity { get; set; }
 
         public virtual Product Product { get; set; }
+
+        public ProductInventory()
+        {
+        }
     }
 }
