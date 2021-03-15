@@ -1,8 +1,10 @@
 ﻿using System;
+using BoulderPOS.API.IntegrationsTests.DataSeed;
 using BoulderPOS.API.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -13,16 +15,20 @@ namespace BoulderPOS.API.IntegrationsTests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            
             builder.ConfigureServices(services =>
             {
+                // For in memory database use : .AddEntityFrameworkInMemoryDatabase
                 var serviceProvider = new ServiceCollection()
-                    .AddEntityFrameworkInMemoryDatabase()
+                    .AddEntityFrameworkNpgsql()
                     .BuildServiceProvider();
 
-                services.AddDbContext<ApplicationDbContext>(options =>
+                services.AddDbContext<ApplicationDbContext>((options, context) =>
                 {
-                    options.UseInMemoryDatabase("InMemoryApplicationDb");
-                    options.UseInternalServiceProvider(serviceProvider);
+                    context.UseNpgsql(configuration.GetConnectionString("TestingDBConnection"));
+                    // For in memory database use  context.UseInMemoryDatabase("InMemoryApplicationDb");
+                    context.UseInternalServiceProvider(serviceProvider);
                 });
 
                 var sp = services.BuildServiceProvider();
@@ -37,7 +43,7 @@ namespace BoulderPOS.API.IntegrationsTests
 
                     // Ensure the database is created.
                     appDb.Database.EnsureCreated();
-
+                    appDb.Database.Migrate();
                     try
                     {
                         // Seed the database with some specific test data.
