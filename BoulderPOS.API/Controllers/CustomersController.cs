@@ -39,19 +39,23 @@ namespace BoulderPOS.API.Controllers
             return customer;
         }
 
-        // GET: api/Customers/customer
-        [HttpGet("customer")]
-        public async Task<ActionResult<Customer>> GetCustomerWithPhoneNumber([FromQuery] string phoneNumber)
+        // GET: api/Customers/search
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomersByPhoneNumber([FromQuery] string phoneNumber)
         {
-            var customer = await _customerService.GetCustomerByPhone(phoneNumber);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return customer;
+            var customers = await _customerService.GetCustomersByPhone(phoneNumber);
+            return Ok(customers);
         }
+
+        // Less efficient
+        // GET: api/Customers/searchAll
+        [HttpGet("searchAll")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomersByCustomerInfo([FromQuery] string customerInfo)
+        {
+            var customers = await _customerService.GetCustomersByCustomerInfo(customerInfo);
+            return Ok(customers);
+        }
+
 
         // PUT: api/Customers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for

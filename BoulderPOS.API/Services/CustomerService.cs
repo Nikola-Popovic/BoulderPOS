@@ -28,10 +28,23 @@ namespace BoulderPOS.API.Services
             return await _context.Customers.FindAsync(id); ;
         }
 
-        public async Task<Customer> GetCustomerByPhone(string phoneNumber)
+        public Task<IEnumerable<Customer>> GetCustomersByPhone(string phoneNumber)
         {
-            return await _context.Customers.SingleAsync(predicate: customer => customer.PhoneNumber.Equals(phoneNumber));
+            var customers = _context.Customers.Where(customer => customer.PhoneNumber.Contains(phoneNumber)).AsEnumerable();
+            return Task.FromResult(customers);
         }
+
+        // Wouldn't be quite efficient but just in case it is desired
+        public Task<IEnumerable<Customer>> GetCustomersByCustomerInfo(string customerInfo)
+        {
+            var customers = _context.Customers.Where(customer => 
+                (customer.PhoneNumber.Any(char.IsDigit) &&   customer.PhoneNumber.Contains(customerInfo)) ||
+                customer.FirstName.Equals(customerInfo) ||
+                customer.LastName.Equals(customerInfo)
+            ).AsEnumerable();
+            return Task.FromResult(customers);
+        }
+
 
         public async Task<Customer> UpdateCustomer(int id, Customer customer)
         {
