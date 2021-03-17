@@ -43,7 +43,7 @@ namespace BoulderPOS.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{productId}")]
-        public async Task<IActionResult> PutProductInventory(int productId, ProductInventory productInventory)
+        public async Task<ActionResult<ProductInventory>> PutProductInventory(int productId, ProductInventory productInventory)
         {
             if (productId != productInventory.ProductId)
             {
@@ -57,25 +57,6 @@ namespace BoulderPOS.API.Controllers
             }
 
             return Ok(updated);
-        }
-
-        // POST: api/ProductInventory
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<ProductInventory>> PostProductInventory(ProductInventory productInventory)
-        {
-            var created = await _inventoryService.CreateProductInventory(productInventory);
-
-            return CreatedAtAction("GetProductInventory", new { id = created.ProductId }, created);
-        }
-
-        // DELETE: api/ProductInventory/5
-        [HttpDelete("{productId}")]
-        public async Task<ActionResult<ProductInventory>> DeleteProductInventory(int productId)
-        {
-            await _inventoryService.DeleteProductInventory(productId);
-            return NoContent();
         }
     }
 }
