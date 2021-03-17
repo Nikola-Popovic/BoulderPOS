@@ -6,7 +6,7 @@ using BoulderPOS.API.Services;
 
 namespace BoulderPOS.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categories")]
     [ApiController]
     public class ProductCategoriesController : ControllerBase
     {
@@ -17,14 +17,14 @@ namespace BoulderPOS.API.Controllers
             _categoryService = categoryService;
         }
 
-        // GET: api/ProductCategories
+        // GET: api/categories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductCategory>>> GetProductCategories()
         {
             return Ok(await _categoryService.GetProductCategories());
         }
 
-        // GET: api/ProductCategories/5
+        // GET: api/categories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductCategory>> GetProductCategory(int id)
         {
@@ -38,7 +38,21 @@ namespace BoulderPOS.API.Controllers
             return category;
         }
 
-        // PUT: api/ProductCategories/5
+        // GET: api/categories/5
+        [HttpGet("{id}/products")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategory(int id)
+        {
+            var products = await _categoryService.GetProductsByCategory(id);
+
+            if (products == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(products);
+        }
+
+        // PUT: api/categories/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -59,7 +73,7 @@ namespace BoulderPOS.API.Controllers
             return Ok(updated);
         }
 
-        // POST: api/ProductCategories
+        // POST: api/categories
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -70,7 +84,7 @@ namespace BoulderPOS.API.Controllers
             return CreatedAtAction("GetProductCategory", new { id = created.Id }, created);
         }
 
-        // DELETE: api/ProductCategories/5
+        // DELETE: api/categories/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProductCategory(int id)
         {
