@@ -9,19 +9,15 @@ namespace BoulderPOS.API.Services
     public class CustomerEntriesService : ICustomerEntriesService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ICustomerService _customerService; 
-        public CustomerEntriesService(ApplicationDbContext context, ICustomerService customerService) 
+        public CustomerEntriesService(ApplicationDbContext context) 
         {
             _context = context;
-            _customerService = customerService;
         }
 
         public async Task<CustomerEntries> GetCustomerEntries(int customerId)
         {
             var entries = await _context.CustomerEntries.FirstAsync(entry => entry.CustomerId == customerId);
-            if (entries != null) return entries;
-            var customer = await _customerService.GetCustomer(customerId);
-            return customer.Entries;
+            return entries;
         }
 
         public async Task<CustomerEntries> UpdateCustomerEntries(int customerId, CustomerEntries customerEntries)
@@ -60,7 +56,7 @@ namespace BoulderPOS.API.Services
 
             if (entries == null)
             {
-                entries = new CustomerEntries(customerId, 0, false);
+                return null;
             }
 
             entries.Quantity += quantity;
@@ -69,7 +65,12 @@ namespace BoulderPOS.API.Services
 
         public async Task<CustomerEntries> TakeCustomerEntries(int customerId, int quantity)
         {
-            var entries = await GetCustomerEntries(customerId) ?? new CustomerEntries(customerId, 0, false);
+            var entries = await GetCustomerEntries(customerId);
+
+            if (entries == null)
+            {
+                return null;
+            }
 
             if (entries.UnlimitedEntries)
             {
