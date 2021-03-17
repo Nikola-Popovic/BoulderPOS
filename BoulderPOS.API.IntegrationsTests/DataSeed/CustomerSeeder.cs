@@ -8,6 +8,9 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
 {
     public static class CustomerSeeder
     {
+        public static CustomerEntries Customer1Entries => new CustomerEntries(Customer1.Id, 10) { Id = 1 };
+        public static CustomerEntries Customer2Entries => new CustomerEntries(Customer2.Id, 5, true) { Id = 2 };
+
         public static Customer Customer1 => new Customer()
         {
             BirthDate = new DateTime(1996, 10, 29),
@@ -35,12 +38,10 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             BirthDate = DateTime.Now,
             Email = "test.useur@mail.com",
             FirstName = "Test",
-            LastName = "User",
+            LastName = "Customer",
             Id = 3,
             NewsletterSubscription = false,
             PhoneNumber = "+1234567890"
         };
-
-        
     }
 }

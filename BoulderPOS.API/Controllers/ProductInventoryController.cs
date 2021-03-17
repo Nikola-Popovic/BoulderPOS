@@ -26,10 +26,10 @@ namespace BoulderPOS.API.Controllers
         }
 
         // GET: api/ProductInventory/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProductInventory>> GetProductInventory(int id)
+        [HttpGet("{productId}")]
+        public async Task<ActionResult<ProductInventory>> GetProductInventory(int productId)
         {
-            var productInventory = await _inventoryService.GetProductInventory(id);
+            var productInventory = await _inventoryService.GetProductInventory(productId);
 
             if (productInventory == null)
             {
@@ -42,15 +42,15 @@ namespace BoulderPOS.API.Controllers
         // PUT: api/ProductInventory/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductInventory(int id, ProductInventory productInventory)
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> PutProductInventory(int productId, ProductInventory productInventory)
         {
-            if (id != productInventory.Id)
+            if (productId != productInventory.ProductId)
             {
                 return BadRequest();
             }
 
-            var updated = await _inventoryService.UpdateProductInventory(id, productInventory);
+            var updated = await _inventoryService.UpdateProductInventory(productId, productInventory);
             if (updated == null)
             {
                 return NotFound();
@@ -67,14 +67,14 @@ namespace BoulderPOS.API.Controllers
         {
             var created = await _inventoryService.CreateProductInventory(productInventory);
 
-            return CreatedAtAction("GetProductInventory", new { id = created.Id }, created);
+            return CreatedAtAction("GetProductInventory", new { id = created.ProductId }, created);
         }
 
         // DELETE: api/ProductInventory/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ProductInventory>> DeleteProductInventory(int id)
+        [HttpDelete("{productId}")]
+        public async Task<ActionResult<ProductInventory>> DeleteProductInventory(int productId)
         {
-            await _inventoryService.DeleteProductInventory(id);
+            await _inventoryService.DeleteProductInventory(productId);
             return NoContent();
         }
     }

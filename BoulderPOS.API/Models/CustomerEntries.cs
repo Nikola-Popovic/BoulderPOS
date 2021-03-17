@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace BoulderPOS.API.Models
@@ -9,7 +9,7 @@ namespace BoulderPOS.API.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [ForeignKey("Customer")]
         public int CustomerId { get; set; }
 
         public int Quantity { get; set; }
@@ -22,12 +22,17 @@ namespace BoulderPOS.API.Models
         public CustomerEntries()
         {
         }
-
         public CustomerEntries(int customerId)
         {
             CustomerId = customerId;
             Quantity = 0;
             UnlimitedEntries = false;
+        }
+
+        public CustomerEntries(int customerId, int quantity)
+        {
+            CustomerId = customerId;
+            Quantity = quantity;
         }
 
         public CustomerEntries(int customerId, int quantity, bool unlimitedEntries)

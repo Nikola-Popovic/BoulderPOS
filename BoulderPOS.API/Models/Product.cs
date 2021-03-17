@@ -18,10 +18,14 @@ namespace BoulderPOS.API.Models
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Price { get; set; }
 
+        [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
         [JsonIgnore]
         public virtual ProductCategory Category { get; set; }
+
+        [JsonIgnore]
+        public virtual ProductInventory Inventory { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<ProductPayment> Orders { get; set; }

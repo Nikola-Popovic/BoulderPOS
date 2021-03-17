@@ -10,6 +10,7 @@ namespace BoulderPOS.API.Models
         [Key]
         public int Id { get; set; }
 
+        [ForeignKey("Customer")]
         public int CustomerId { get; set; }
 
         [Column(TypeName = "date")]

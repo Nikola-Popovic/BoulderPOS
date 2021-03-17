@@ -17,7 +17,7 @@ namespace BoulderPOS.API.Controllers
         }
 
         // GET: api/subscriptions/5
-        [HttpGet("{id}")]
+        [HttpGet("{customerId}")]
         public async Task<ActionResult<CustomerSubscription>> GetCustomerSubscription(int customerId)
         {
             var subscription = await _subscriptionService.GetCustomerSubscription(customerId);
@@ -33,7 +33,7 @@ namespace BoulderPOS.API.Controllers
         // PUT: api/subscriptions/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+        [HttpPut("{customerId}")]
         public async Task<IActionResult> PutCustomerSubscription(int customerId, CustomerSubscription customerSubscription)
         {
             var updated = await _subscriptionService.UpdateCustomerSubscription(customerId, customerSubscription);
@@ -49,7 +49,7 @@ namespace BoulderPOS.API.Controllers
 
 
         // POST: api/subscriptions/5/add
-        [HttpPost("{id}/add")]
+        [HttpPost("{customerId}/add")]
         public async Task<ActionResult<CustomerSubscription>> AddCustomerSubscription(int customerId, int timeInMonth)
         {
             var updated = await _subscriptionService.AddCustomerSubscription(customerId, timeInMonth); 
@@ -67,11 +67,11 @@ namespace BoulderPOS.API.Controllers
         {
             var subscription = await _subscriptionService.CreateCustomerSubscription(customerSubscription);
 
-            return CreatedAtAction("GetCustomerSubscription", new { id = subscription.Id }, subscription);
+            return CreatedAtAction("GetCustomerSubscription", new { id = subscription.CustomerId }, subscription);
         }
 
         // DELETE: api/subscriptions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{customerId}")]
         public async Task<ActionResult<CustomerSubscription>> DeleteCustomerSubscription(int customerId)
         {
             await _subscriptionService.DeleteCustomerSubscription(customerId);

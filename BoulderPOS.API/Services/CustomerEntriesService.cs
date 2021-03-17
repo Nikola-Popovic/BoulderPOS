@@ -9,21 +9,23 @@ namespace BoulderPOS.API.Services
     public class CustomerEntriesService : ICustomerEntriesService
     {
         private readonly ApplicationDbContext _context;
-
-        public CustomerEntriesService(ApplicationDbContext context) 
+        private readonly ICustomerService _customerService; 
+        public CustomerEntriesService(ApplicationDbContext context, ICustomerService customerService) 
         {
             _context = context;
+            _customerService = customerService;
         }
 
         public async Task<CustomerEntries> GetCustomerEntries(int customerId)
         {
-            var customer = await _context.Customers.FindAsync(customerId);
+            var entries = await _context.CustomerEntries.FirstAsync(entry => entry.CustomerId == customerId);
+            if (entries != null) return entries;
+            var customer = await _customerService.GetCustomer(customerId);
             return customer.Entries;
         }
 
         public async Task<CustomerEntries> UpdateCustomerEntries(int customerId, CustomerEntries customerEntries)
         {
-            
             _context.Entry(customerEntries).State = EntityState.Modified;
 
             try
@@ -41,7 +43,7 @@ namespace BoulderPOS.API.Services
                     throw;
                 }
             }
-
+            
             return customerEntries;
         }
 
@@ -58,7 +60,7 @@ namespace BoulderPOS.API.Services
 
             if (entries == null)
             {
-                return null;
+                entries = new CustomerEntries(customerId, 0, false);
             }
 
             entries.Quantity += quantity;
@@ -67,9 +69,14 @@ namespace BoulderPOS.API.Services
 
         public async Task<CustomerEntries> TakeCustomerEntries(int customerId, int quantity)
         {
-            var entries = await GetCustomerEntries(customerId);
+            var entries = await GetCustomerEntries(customerId) ?? new CustomerEntries(customerId, 0, false);
 
-            if (entries == null || (entries.Quantity - quantity) < 0)
+            if (entries.UnlimitedEntries)
+            {
+                return entries;
+            }
+
+            if ((entries.Quantity - quantity) < 0)
             {
                 return null;
             }
