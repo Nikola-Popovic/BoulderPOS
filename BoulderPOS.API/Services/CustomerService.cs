@@ -10,10 +10,12 @@ namespace BoulderPOS.API.Services
     public class CustomerService : ICustomerService
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICustomerEntriesService _entriesService;
 
-        public CustomerService(ApplicationDbContext context) 
+        public CustomerService(ApplicationDbContext context, ICustomerEntriesService entriesService) 
         {
             _context = context;
+            _entriesService = entriesService;
         }
 
         public async Task<IEnumerable<Customer>> GetCustomers()
@@ -73,6 +75,11 @@ namespace BoulderPOS.API.Services
             var created = _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
+            if (customer.Entries == null)
+            {
+                customer.Entries = await _entriesService.CreateCustomerEntries(new CustomerEntries(customer.Id));
+            }
+
             return created.Entity;
         }
 
@@ -87,7 +94,7 @@ namespace BoulderPOS.API.Services
 
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
-
+            
             return customer;
         }
 
