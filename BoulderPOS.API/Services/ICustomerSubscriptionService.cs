@@ -17,6 +17,8 @@ namespace BoulderPOS.API.Services
 
         Task<CustomerSubscription> AddCustomerSubscription(int customerId, int timeInMonth);
 
+        // TODO: Auto-renewal cron task
+
         bool CustomerSubscriptionExist(int customerId);
     }
 }

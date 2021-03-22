@@ -21,12 +21,12 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             { CategoryId = FoodCategory.Id, Id = 3, Name = "Grilled Cheese Duplicate", Price = new decimal(7.50) };
 
         public static ProductInventory Product1Inventory => new ProductInventory()
-            {Id = 1, InStoreQuantity = 5, OrderedQuantity = 10, SuretyQuantity = 9, ProductId = Product1Food.Id};
+            {InStoreQuantity = 5, OrderedQuantity = 10, SuretyQuantity = 9, ProductId = Product1Food.Id};
 
         public static ProductInventory Product2Inventory => new ProductInventory()
-            { Id = 2, InStoreQuantity = 3, OrderedQuantity = 0, SuretyQuantity = 1, ProductId = Product2Equipment.Id };
+            {InStoreQuantity = 3, OrderedQuantity = 0, SuretyQuantity = 1, ProductId = Product2Equipment.Id };
 
         public static ProductInventory ProductToDeleteInventory => new ProductInventory()
-            { Id = 3, InStoreQuantity = 3, OrderedQuantity = 0, SuretyQuantity = 1, ProductId = Product2Equipment.Id };
+            { InStoreQuantity = 3, OrderedQuantity = 0, SuretyQuantity = 1, ProductId = Product2Equipment.Id };
     }
 }

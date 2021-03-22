@@ -18,8 +18,8 @@ namespace BoulderPOS.API.Services
 
         public async Task<CustomerSubscription> GetCustomerSubscription(int customerId)
         {
-            var customer = await _context.Customers.FindAsync(customerId);
-            return customer.Subscription;
+            var subscription = await _context.CustomerSubscriptions.FirstAsync(e => e.CustomerId == customerId);
+            return subscription;
         }
 
         public async Task<CustomerSubscription> UpdateCustomerSubscription(int customerId, CustomerSubscription customerSubscription)
@@ -47,6 +47,7 @@ namespace BoulderPOS.API.Services
 
         public async Task<CustomerSubscription> CreateCustomerSubscription(CustomerSubscription customerSubscription)
         {
+            // customerSubscription.Customer = await _context.Customers.FindAsync(customerSubscription.CustomerId);
             var created =_context.CustomerSubscriptions.Add(customerSubscription);
             await _context.SaveChangesAsync();
             return created.Entity;

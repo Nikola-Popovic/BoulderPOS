@@ -8,12 +8,18 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
     {
         public static void PopulateTestData(ApplicationDbContext dbContext)
         {
-            AddEntries(dbContext);
             AddCustomers(dbContext);
-            dbContext.SaveChanges();
-
+            AddEntries(dbContext);
+            AddSubscription(dbContext);
             AddCategories(dbContext);
             AddProducts(dbContext);
+        }
+
+        private static void AddSubscription(ApplicationDbContext dbContext)
+        {
+            dbContext.CustomerSubscriptions.Add(CustomerSeeder.ValidSubscription);
+            dbContext.CustomerSubscriptions.Add(CustomerSeeder.InvalidSubscription);
+            dbContext.SaveChanges();
         }
 
         private static void AddCustomers(ApplicationDbContext dbContext)
@@ -21,11 +27,15 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             dbContext.Customers.Add(CustomerSeeder.Customer1);
             dbContext.Customers.Add(CustomerSeeder.Customer2);
             dbContext.Customers.Add(CustomerSeeder.CustomerToDelete);
+            dbContext.Customers.Add(CustomerSeeder.CustomerWithValidSubscription);
+            dbContext.Customers.Add(CustomerSeeder.CustomerWithInvalidSubscription);
+            dbContext.SaveChanges();
         }
         private static void AddEntries(ApplicationDbContext dbContext)
         {
             dbContext.CustomerEntries.Add(CustomerSeeder.Customer1Entries);
             dbContext.CustomerEntries.Add(CustomerSeeder.Customer2Entries);
+            dbContext.SaveChanges();
         }
 
         private static void AddCategories(ApplicationDbContext dbContext)

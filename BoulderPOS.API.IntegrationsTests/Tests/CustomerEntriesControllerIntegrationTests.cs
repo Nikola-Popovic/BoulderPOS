@@ -101,11 +101,5 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
                 Assert.Equal(previousQty, customerEntries.Quantity);
             }
         }
-
-        [Fact]
-        public async Task CannotRemoveWhenSubscribed()
-        {
-            // Todo
-        }
     }
 }

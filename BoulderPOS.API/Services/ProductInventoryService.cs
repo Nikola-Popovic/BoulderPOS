@@ -51,9 +51,9 @@ namespace BoulderPOS.API.Services
             return productInventory;
         }
 
-        public async Task<ProductInventory> CreateProductInventory(ProductInventory product)
+        public async Task<ProductInventory> CreateProductInventory(ProductInventory inventory)
         {
-            var created = _context.ProductInventory.Add(product);
+            var created = _context.ProductInventory.Add(inventory);
             await _context.SaveChangesAsync();
             return created.Entity;
         }
