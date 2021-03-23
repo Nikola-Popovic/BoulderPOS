@@ -7,6 +7,8 @@ namespace BoulderPOS.API.Persistence.Builder
     {
         public static ModelBuilder ConfigureCustomerModelBuilder(this ModelBuilder modelBuilder)
         {
+            // Todo : Make email unique, add error for email already exists and display
+            // modelBuilder.Entity<Customer>().HasIndex(c => c.Email).IsUnique(); 
 
             modelBuilder.Entity<Customer>()
                 .HasOne(a => a.Entries)

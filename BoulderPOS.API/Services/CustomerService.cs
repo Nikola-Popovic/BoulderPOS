@@ -11,11 +11,13 @@ namespace BoulderPOS.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly ICustomerEntriesService _entriesService;
+        private readonly ICustomerSubscriptionService _subscriptionService;
 
-        public CustomerService(ApplicationDbContext context, ICustomerEntriesService entriesService) 
+        public CustomerService(ApplicationDbContext context, ICustomerEntriesService entriesService, ICustomerSubscriptionService subscriptionService) 
         {
             _context = context;
             _entriesService = entriesService;
+            _subscriptionService = subscriptionService;
         }
 
         public async Task<IEnumerable<Customer>> GetCustomers()
@@ -43,6 +45,13 @@ namespace BoulderPOS.API.Services
                 customer.LastName.Equals(customerInfo)
             ).AsEnumerable();
             return Task.FromResult(customers);
+        }
+
+        public async Task<bool> CheckInCustomer(int id)
+        {
+            if (!CustomerExists(id)) return false;
+
+            return true;
         }
 
 
