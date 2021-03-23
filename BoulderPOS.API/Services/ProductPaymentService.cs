@@ -55,6 +55,10 @@ namespace BoulderPOS.API.Services
 
         public async Task<ProductPayment> CreateProductPayment(ProductPayment productPayment)
         {
+            if (_context.ProductPayments.Any())
+            {
+                productPayment.Id = await _context.ProductPayments.MaxAsync(p => p.Id) + 1;
+            }
             productPayment.ProcessedDateTime = DateTime.Now;
             productPayment.UpdatedDateTime = DateTime.Now;
             var created = _context.ProductPayments.Add(productPayment);

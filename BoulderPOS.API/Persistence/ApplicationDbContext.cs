@@ -29,7 +29,11 @@ namespace BoulderPOS.API.Persistence
             modelBuilder.ConfigureEntriesModelBuilder();
 
             modelBuilder.Entity<ProductInventory>().HasKey(c => c.ProductId);
-
+            modelBuilder.Entity<ProductPayment>()
+                .HasOne(a => a.Customer)
+                .WithMany(c => c.Orders)
+                .IsRequired(false)
+                .HasForeignKey(p => p.CustomerId);
         }
     }
 }

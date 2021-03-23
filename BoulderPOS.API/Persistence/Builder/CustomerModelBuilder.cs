@@ -13,12 +13,6 @@ namespace BoulderPOS.API.Persistence.Builder
                 .WithOne(entry => entry.Customer)
                 .HasForeignKey<CustomerEntries>(entry => entry.CustomerId);
 
-            modelBuilder.Entity<Customer>()
-                .HasMany(a => a.Orders)
-                .WithOne(orders => orders.Customer)
-                .HasForeignKey(order => order.CustomerId)
-                .IsRequired(false);
-            
             return modelBuilder;
         }
     }

@@ -10,8 +10,7 @@ namespace BoulderPOS.API.Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Customer")]
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
         [ForeignKey("Product")]
         public int ProductId { get; set; }
