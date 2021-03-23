@@ -58,5 +58,16 @@ namespace BoulderPOS.API.Controllers
 
             return Ok(updated);
         }
+
+        // POST: api/ProductInventory/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<ProductInventory>> CreateProductInventory(ProductInventory productInventory)
+        {
+            var created = await _inventoryService.CreateProductInventory(productInventory);
+
+            return CreatedAtAction("GetProductInventory", new { productId = created.ProductId }, created);
+        }
     }
 }

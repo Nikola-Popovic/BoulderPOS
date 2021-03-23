@@ -24,8 +24,8 @@ namespace BoulderPOS.API.Services
 
         public async Task<ProductInventory> GetProductInventory(int productId)
         {
-            var product = await _context.Products.FindAsync(productId);
-            return product.Inventory;
+            var inventory = await _context.ProductInventory.FirstAsync(inv => inv.ProductId == productId);
+            return inventory;
         }
 
         public async Task<ProductInventory> UpdateProductInventory(int id, ProductInventory productInventory)

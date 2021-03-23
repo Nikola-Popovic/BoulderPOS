@@ -18,15 +18,7 @@ namespace BoulderPOS.API.Persistence.Builder
                 .WithOne(orders => orders.Customer)
                 .HasForeignKey(order => order.CustomerId)
                 .IsRequired(false);
-
-            /*
-            modelBuilder.Entity<Customer>()
-                .HasOne(a => a.Subscription)
-                .WithOne(sus => sus.Customer)
-                .HasForeignKey<CustomerSubscription>(sus => sus.CustomerId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
-            */
+            
             return modelBuilder;
         }
     }

@@ -20,6 +20,9 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
         public static Product ProductToRemove => new Product()
             { CategoryId = FoodCategory.Id, Id = 3, Name = "Grilled Cheese Duplicate", Price = new decimal(7.50) };
 
+        public static Product ProductWithoutInventory => new Product()
+            { CategoryId = FoodCategory.Id, Id = 4, Name = "Fish Sticks", Price = new decimal(4.50) };
+
         public static ProductInventory Product1Inventory => new ProductInventory()
             {InStoreQuantity = 5, OrderedQuantity = 10, SuretyQuantity = 9, ProductId = Product1Food.Id};
 
@@ -27,6 +30,6 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             {InStoreQuantity = 3, OrderedQuantity = 0, SuretyQuantity = 1, ProductId = Product2Equipment.Id };
 
         public static ProductInventory ProductToDeleteInventory => new ProductInventory()
-            { InStoreQuantity = 3, OrderedQuantity = 0, SuretyQuantity = 1, ProductId = Product2Equipment.Id };
+            { InStoreQuantity = 3, OrderedQuantity = 0, SuretyQuantity = 1, ProductId = ProductToRemove.Id };
     }
 }

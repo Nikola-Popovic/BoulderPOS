@@ -8,16 +8,22 @@ namespace BoulderPOS.API.Persistence.Builder
         public static ModelBuilder ConfigureProductModelBuilder(this ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Product>().HasOne(a => a.Category).WithMany()
+            modelBuilder.Entity<Product>()
+                .HasOne(a => a.Category)
+                .WithMany()
                 .HasForeignKey(entry => entry.CategoryId);
 
-            modelBuilder.Entity<Product>().HasOne(a => a.Inventory)
-                .WithOne(inv => inv.Product)
-                .HasForeignKey<ProductInventory>(inv => inv.ProductId)
-                .OnDelete(DeleteBehavior.Cascade)
+            modelBuilder.Entity<Product>()
+                .HasMany(a => a.Orders)
+                .WithOne(orders => orders.Product)
+                .HasForeignKey(order => order.ProductId)
                 .IsRequired();
 
-            modelBuilder.Entity<Product>().HasMany(a => a.Orders).WithOne(orders => orders.Product).HasForeignKey(order => order.ProductId).IsRequired(true);
+            modelBuilder.Entity<Product>().HasOne(a => a.Inventory)
+                .WithOne(b => b.Product)
+                .HasForeignKey<ProductInventory>(inv => inv.ProductId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             return modelBuilder;
         }

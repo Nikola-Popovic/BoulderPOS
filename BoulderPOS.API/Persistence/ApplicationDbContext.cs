@@ -25,18 +25,9 @@ namespace BoulderPOS.API.Persistence
 
             modelBuilder.ConfigureProductModelBuilder();
             modelBuilder.ConfigureCustomerModelBuilder();
-
-            // modelBuilder.Entity<ProductInventory>().HasIndex(c => c.ProductId).IsUnique();
             modelBuilder.Entity<ProductInventory>().HasKey(c => c.ProductId);
-            // modelBuilder.Entity<CustomerSubscription>().HasIndex(s => s.CustomerId).IsUnique();
-            modelBuilder.Entity<CustomerSubscription>().HasKey(c => c.CustomerId);
-            modelBuilder.Entity<CustomerSubscription>().HasOne(a => a.Customer).WithOne(a => a.Subscription)
-                .HasForeignKey<CustomerSubscription>(b => b.CustomerId).IsRequired().OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<CustomerEntries>().HasOne(a => a.Customer).WithOne(a => a.Entries)
-                .HasForeignKey<CustomerEntries>(b => b.CustomerId);
-            modelBuilder.Entity<ProductCategory>().HasMany(c => c.Products).WithOne(p => p.Category)
-                .HasForeignKey(p => p.CategoryId);
+            modelBuilder.ConfigureSubscriptionBuilder();
+            modelBuilder.ConfigureEntriesBuilder();
         }
     }
 }

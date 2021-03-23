@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BoulderPOS.API.IntegrationsTests.DataSeed;
 using BoulderPOS.API.Models;
 using BoulderPOS.API.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
@@ -29,7 +30,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             var httpResponse = await _httpClient.GetAsync(InventoryApiPath);
 
             httpResponse.EnsureSuccessStatusCode();
-
+            
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
             var inventories = JsonConvert.DeserializeObject<IEnumerable<ProductInventory>>(stringResponse);
 
@@ -40,7 +41,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         [Fact]
         public async Task CanGetProductInventoryById()
         {
-            var pathString = $"{InventoryApiPath}/{ProductSeeder.Product1Inventory.Id}";
+            var pathString = $"{InventoryApiPath}/{ProductSeeder.Product1Inventory.ProductId}";
             var httpResponse = await this._httpClient.GetAsync(pathString);
 
             httpResponse.EnsureSuccessStatusCode();
@@ -58,7 +59,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             using var scope = _factory.Services.CreateScope();
             var appDb = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-            var pathString = $"{InventoryApiPath}/{ProductSeeder.Product1Inventory.Id}";
+            var pathString = $"{InventoryApiPath}/{ProductSeeder.Product1Inventory.ProductId}";
 
             var toUpdate = ProductSeeder.Product1Inventory;
             toUpdate.OrderedQuantity += 5;
@@ -74,8 +75,27 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             Assert.NotNull(inventory);
             Assert.Equal(toUpdate.OrderedQuantity, inventory.OrderedQuantity);
 
-            var updatedInDb = appDb.ProductInventory.Find(toUpdate.Id);
+            var updatedInDb = await appDb.ProductInventory.FirstAsync(pinv => pinv.ProductId == toUpdate.ProductId);
             Assert.Equal(toUpdate.OrderedQuantity, updatedInDb.OrderedQuantity);
+        }
+
+        [Fact]
+        public async Task CanCreateProductInventory()
+        {
+            var toCreate = new ProductInventory(ProductSeeder.ProductWithoutInventory.Id);
+            var stringObj = JsonConvert.SerializeObject(toCreate);
+
+            var httpResponse = await _httpClient.PostAsync(InventoryApiPath, Util.JsonStringContent(stringObj));
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            var createObj = JsonConvert.DeserializeObject<ProductInventory>(responseString);
+
+            Assert.NotNull(createObj);
+            Assert.Equal(toCreate.ProductId, createObj.ProductId);
+            Assert.Equal(toCreate.InStoreQuantity, createObj.InStoreQuantity);
+
         }
 
 

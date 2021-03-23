@@ -105,7 +105,6 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         }
         
         [Fact]
-        // Todo : Bug fix code 500
         public async Task CanCreateProductWithInventory()
         {
             using var scope = _factory.Services.CreateScope();
@@ -128,8 +127,9 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             Assert.NotNull(createdProduct);
             Assert.Equal(newProduct.Name, createdProduct.Name);
 
-            var productInDb = await appDb.Products.FirstAsync(product => product.Name == createdProduct.Name);
-            Assert.Equal(createdProduct.Price, productInDb.Price);
+            var inventoryInDb = await appDb.ProductInventory.FirstAsync(inv => inv.ProductId == createdProduct.Id);
+            Assert.NotNull(inventoryInDb);
+            Assert.Equal(0, inventoryInDb.InStoreQuantity);
         }
 
         [Fact]

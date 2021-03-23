@@ -51,7 +51,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             dbContext.Products.Add(ProductSeeder.Product1Food);
             dbContext.Products.Add(ProductSeeder.Product2Equipment);
             dbContext.Products.Add(ProductSeeder.ProductToRemove);
-            dbContext.SaveChanges();
+            dbContext.Products.Add(ProductSeeder.ProductWithoutInventory);
             AddProductInventory(dbContext);
         }
 
