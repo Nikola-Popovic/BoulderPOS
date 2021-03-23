@@ -47,7 +47,6 @@ namespace BoulderPOS.API.Services
 
         public async Task<CustomerSubscription> CreateCustomerSubscription(CustomerSubscription customerSubscription)
         {
-            // customerSubscription.Customer = await _context.Customers.FindAsync(customerSubscription.CustomerId);
             var created =_context.CustomerSubscriptions.Add(customerSubscription);
             await _context.SaveChangesAsync();
             return created.Entity;

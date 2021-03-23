@@ -5,7 +5,7 @@ namespace BoulderPOS.API.Persistence.Builder
 {
     public static class SubscriptionModelBuilder
     {
-        public static ModelBuilder ConfigureSubscriptionBuilder(this ModelBuilder modelBuilder)
+        public static ModelBuilder ConfigureSubscriptionModelBuilder(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CustomerSubscription>().HasKey(c => c.CustomerId);
             modelBuilder.Entity<CustomerSubscription>().HasOne(a => a.Customer)

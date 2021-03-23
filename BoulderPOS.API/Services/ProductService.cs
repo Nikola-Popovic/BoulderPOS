@@ -66,7 +66,10 @@ namespace BoulderPOS.API.Services
 
         public async Task<Product> CreateProduct(Product product, bool createInventory)
         {
-            product.Id = _context.Products.Max(p => p.Id) + 1;
+            if (_context.Products.Any())
+            {
+                product.Id = await _context.Products.MaxAsync(p => p.Id) + 1;
+            }
             var created = _context.Products.Add(product).Entity;
             await _context.SaveChangesAsync();
 

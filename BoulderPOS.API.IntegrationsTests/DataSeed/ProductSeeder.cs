@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BoulderPOS.API.Models;
+﻿using BoulderPOS.API.Models;
 
 namespace BoulderPOS.API.IntegrationsTests.DataSeed
 {

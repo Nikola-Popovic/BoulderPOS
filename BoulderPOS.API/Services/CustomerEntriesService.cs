@@ -45,7 +45,11 @@ namespace BoulderPOS.API.Services
 
         public async Task<CustomerEntries> CreateCustomerEntries(CustomerEntries customerEntries)
         {
-            customerEntries.Id = (_context.CustomerEntries.Max(e => e.Id) + 1);
+            if (_context.CustomerEntries.Any())
+            {
+                customerEntries.Id = await _context.CustomerEntries.MaxAsync(p => p.Id) + 1;
+            }
+
             var created = _context.CustomerEntries.Add(customerEntries);
             await _context.SaveChangesAsync();
             return created.Entity;

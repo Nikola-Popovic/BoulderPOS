@@ -6,7 +6,7 @@ namespace BoulderPOS.API.Services
 {
     public interface IProductPaymentService
     {
-        Task<IEnumerable<ProductPayment>> GetProductPayments();
+        Task<IEnumerable<ProductPayment>> GetLatestProductPayments();
         Task<ProductPayment> GetProductPayment(int id);
         Task<ProductPayment> UpdateProductPayment(int id, ProductPayment productPayment);
         Task<ProductPayment> CreateProductPayment(ProductPayment productPayment);

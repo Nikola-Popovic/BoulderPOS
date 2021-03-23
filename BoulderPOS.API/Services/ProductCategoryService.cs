@@ -57,7 +57,10 @@ namespace BoulderPOS.API.Services
 
         public async Task<ProductCategory> CreateProductCategory(ProductCategory productCategory)
         {
-            productCategory.Id = (_context.ProductCategories.Max(c => c.Id) + 1);
+            if (_context.ProductCategories.Any())
+            {
+                productCategory.Id = await _context.ProductCategories.MaxAsync(p => p.Id) + 1;
+            }
             _context.ProductCategories.Add(productCategory);
             await _context.SaveChangesAsync();
             return productCategory;

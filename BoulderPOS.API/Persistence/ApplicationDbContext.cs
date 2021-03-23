@@ -25,9 +25,11 @@ namespace BoulderPOS.API.Persistence
 
             modelBuilder.ConfigureProductModelBuilder();
             modelBuilder.ConfigureCustomerModelBuilder();
+            modelBuilder.ConfigureSubscriptionModelBuilder();
+            modelBuilder.ConfigureEntriesModelBuilder();
+
             modelBuilder.Entity<ProductInventory>().HasKey(c => c.ProductId);
-            modelBuilder.ConfigureSubscriptionBuilder();
-            modelBuilder.ConfigureEntriesBuilder();
+
         }
     }
 }
