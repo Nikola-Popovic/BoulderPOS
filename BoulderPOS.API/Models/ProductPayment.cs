@@ -21,6 +21,12 @@ namespace BoulderPOS.API.Models
         [Column(TypeName = "decimal(8, 2)")]
         public decimal SellingPrice { get; set; }
 
+        [Column(TypeName = "timestamp")]
+        public DateTime ProcessedDateTime { get; set; }
+
+        [Column(TypeName = "timestamp")]
+        public DateTime UpdatedDateTime { get; set; }
+
         [JsonIgnore]
         public virtual Customer Customer { get; set; }
 

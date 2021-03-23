@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,9 +18,10 @@ namespace BoulderPOS.API.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<ProductPayment>> GetProductPayments()
+        public async Task<IEnumerable<ProductPayment>> GetLatestProductPayments()
         {
-            return await _context.ProductPayments.ToListAsync();
+            var paymentsByDate = _context.ProductPayments.OrderByDescending(payment => payment.ProcessedDateTime);
+            return await paymentsByDate.ToListAsync();
         }
 
         public async Task<ProductPayment> GetProductPayment(int id)
@@ -29,6 +31,7 @@ namespace BoulderPOS.API.Services
 
         public async Task<ProductPayment> UpdateProductPayment(int id, ProductPayment productPayment)
         {
+            productPayment.UpdatedDateTime = DateTime.Now;
             _context.Entry(productPayment).State = EntityState.Modified;
 
             try
@@ -52,6 +55,8 @@ namespace BoulderPOS.API.Services
 
         public async Task<ProductPayment> CreateProductPayment(ProductPayment productPayment)
         {
+            productPayment.ProcessedDateTime = DateTime.Now;
+            productPayment.UpdatedDateTime = DateTime.Now;
             var created = _context.ProductPayments.Add(productPayment);
             await _context.SaveChangesAsync();
             return created.Entity;

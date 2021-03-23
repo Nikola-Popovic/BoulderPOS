@@ -13,6 +13,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             AddSubscription(dbContext);
             AddCategories(dbContext);
             AddProducts(dbContext);
+            AddPayments(dbContext);
         }
 
         private static void AddSubscription(ApplicationDbContext dbContext)
@@ -60,6 +61,13 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             dbContext.ProductInventory.Add(ProductSeeder.Product1Inventory);
             dbContext.ProductInventory.Add(ProductSeeder.Product2Inventory);
             dbContext.ProductInventory.Add(ProductSeeder.ProductToDeleteInventory);
+            dbContext.SaveChanges();
+        }
+
+        private static void AddPayments(ApplicationDbContext dbContext)
+        {
+            dbContext.ProductPayments.Add(PaymentSeeder.WalkinFoodPayment);
+            dbContext.ProductPayments.Add(PaymentSeeder.Customer1Payment);
             dbContext.SaveChanges();
         }
 
