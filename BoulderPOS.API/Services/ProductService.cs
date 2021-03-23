@@ -11,10 +11,12 @@ namespace BoulderPOS.API.Services
     public class ProductService : IProductService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IProductInventoryService _inventoryService;
 
-        public ProductService(ApplicationDbContext context)
+        public ProductService(ApplicationDbContext context, IProductInventoryService inventoryService)
         {
             _context = context;
+            _inventoryService = inventoryService;
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
@@ -62,12 +64,20 @@ namespace BoulderPOS.API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Product> CreateProduct(Product product)
+        public async Task<Product> CreateProduct(Product product, bool createInventory)
         {
-            var created = _context.Products.Add(product);
+            if (_context.Products.Any())
+            {
+                product.Id = await _context.Products.MaxAsync(p => p.Id) + 1;
+            }
+            var created = _context.Products.Add(product).Entity;
             await _context.SaveChangesAsync();
 
-            return created.Entity;
+            if (createInventory)
+            {
+                created.Inventory = await _inventoryService.CreateProductInventory(new ProductInventory(created.Id));
+            }
+            return created;
         }
 
         public bool ProductExists(int id)

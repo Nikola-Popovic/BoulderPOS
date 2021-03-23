@@ -10,7 +10,7 @@ namespace BoulderPOS.API.Services
         Task<Product> GetProduct(int id);
         Task<Product> UpdateProduct(int id, Product product);
         Task DeleteProduct(int id);
-        Task<Product> CreateProduct(Product product);
+        Task<Product> CreateProduct(Product product, bool createInventory);
         bool ProductExists(int id);
     }
 }

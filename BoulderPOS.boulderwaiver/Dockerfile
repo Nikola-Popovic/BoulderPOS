@@ -11,9 +11,9 @@ COPY package*.json ./
 COPY webpack* ./
 
 # install app dependencies
-RUN npm install --silent
 RUN npm install -g webpack webpack-cli --silent
 RUN npm install react-scripts@3.4.1 -g --silent
+RUN npm install --silent
 
 COPY tsconfig.json ./
 COPY src /app/src

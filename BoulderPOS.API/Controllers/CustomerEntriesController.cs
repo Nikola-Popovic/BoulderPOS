@@ -17,7 +17,7 @@ namespace BoulderPOS.API.Controllers
         }
 
         // GET: api/entries/5
-        [HttpGet("{id}")]
+        [HttpGet("{customerId}")]
         public async Task<ActionResult<CustomerEntries>> GetCustomerEntries(int customerId)
         {
             var entries = await _entriesService.GetCustomerEntries(customerId);
@@ -33,10 +33,10 @@ namespace BoulderPOS.API.Controllers
         // PUT: api/entries/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+        [HttpPut("{customerId}")]
         public async Task<IActionResult> PutCustomerEntries(int customerId, CustomerEntries customerEntries)
         {
-            if (customerId != customerEntries.Id)
+            if (customerId != customerEntries.CustomerId)
             {
                 return BadRequest();
             }
@@ -51,9 +51,9 @@ namespace BoulderPOS.API.Controllers
             return NoContent();
         }
 
-        // POST: api/entries/5/add
-        [HttpPost("{id}/add")]
-        public async Task<IActionResult> AddCustomerEntries(int customerId, int quantity)
+        // PUT: api/entries/5/add
+        [HttpPut("{customerId}/add")]
+        public async Task<ActionResult<CustomerEntries>> AddCustomerEntries(int customerId,[FromQuery] int quantity)
         {
             var entries = await _entriesService.AddCustomerEntries(customerId, quantity);
 
@@ -65,9 +65,9 @@ namespace BoulderPOS.API.Controllers
             return Ok(entries);
         }
 
-        // POST: api/entries/5/remove
-        [HttpPost("{id}/remove")]
-        public async Task<IActionResult> RemoveCustomerEntries(int customerId, int quantity)
+        // PUT: api/entries/5/remove
+        [HttpPut("{customerId}/remove")]
+        public async Task<ActionResult<CustomerEntries>> RemoveCustomerEntries(int customerId,[FromQuery] int quantity)
         {
             var entries = await _entriesService.TakeCustomerEntries(customerId, quantity);
 

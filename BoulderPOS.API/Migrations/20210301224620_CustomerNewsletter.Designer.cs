@@ -356,7 +356,7 @@ namespace BoulderPOS.API.Migrations
 
             modelBuilder.Entity("BoulderPOS.API.Models.ProductPayment", b =>
                 {
-                    b.HasOne("BoulderPOS.API.Models.Customer", "User")
+                    b.HasOne("BoulderPOS.API.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .HasConstraintName("fK_productPayments_customers_customerId")
@@ -372,7 +372,7 @@ namespace BoulderPOS.API.Migrations
 
                     b.Navigation("Product");
 
-                    b.Navigation("User");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("BoulderPOS.API.Models.Customer", b =>

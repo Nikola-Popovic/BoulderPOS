@@ -8,6 +8,7 @@ namespace BoulderPOS.API.Services
     {
         Task<IEnumerable<ProductCategory>> GetProductCategories();
         Task<ProductCategory> GetProductCategory(int id);
+        Task<IEnumerable<Product>> GetProductsByCategory(int id);
         Task<ProductCategory> UpdateProductCategory(int id, ProductCategory productCategory);
         Task<ProductCategory> CreateProductCategory(ProductCategory productCategory);
         Task<ProductCategory> DeleteProductCategory(int id);

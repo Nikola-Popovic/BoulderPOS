@@ -11,11 +11,13 @@ namespace BoulderPOS.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly ICustomerEntriesService _entriesService;
+        private readonly ICustomerSubscriptionService _subscriptionService;
 
-        public CustomerService(ApplicationDbContext context, ICustomerEntriesService entriesService) 
+        public CustomerService(ApplicationDbContext context, ICustomerEntriesService entriesService, ICustomerSubscriptionService subscriptionService) 
         {
             _context = context;
             _entriesService = entriesService;
+            _subscriptionService = subscriptionService;
         }
 
         public async Task<IEnumerable<Customer>> GetCustomers()
@@ -28,10 +30,30 @@ namespace BoulderPOS.API.Services
             return await _context.Customers.FindAsync(id); ;
         }
 
-        public async Task<Customer> GetCustomerByPhone(string phoneNumber)
+        public Task<IEnumerable<Customer>> GetCustomersByPhone(string phoneNumber)
         {
-            return await _context.Customers.SingleAsync(predicate: customer => customer.PhoneNumber.Equals(phoneNumber));
+            var customers = _context.Customers.Where(customer => customer.PhoneNumber.Contains(phoneNumber)).AsEnumerable();
+            return Task.FromResult(customers);
         }
+
+        // Wouldn't be quite efficient but just in case it is desired
+        public Task<IEnumerable<Customer>> GetCustomersByCustomerInfo(string customerInfo)
+        {
+            var customers = _context.Customers.Where(customer => 
+                (customer.PhoneNumber.Any(char.IsDigit) &&   customer.PhoneNumber.Contains(customerInfo)) ||
+                customer.FirstName.Equals(customerInfo) ||
+                customer.LastName.Equals(customerInfo)
+            ).AsEnumerable();
+            return Task.FromResult(customers);
+        }
+
+        public async Task<bool> CheckInCustomer(int id)
+        {
+            if (!CustomerExists(id)) return false;
+
+            return true;
+        }
+
 
         public async Task<Customer> UpdateCustomer(int id, Customer customer)
         {
@@ -58,12 +80,20 @@ namespace BoulderPOS.API.Services
 
         public async Task<Customer> CreateCustomer(Customer customer)
         {
-            var created = _context.Customers.Add(customer);
+            if (_context.Customers.Any())
+            {
+                customer.Id = await _context.Customers.MaxAsync(p => p.Id) + 1;
+            }
+
+            var created = _context.Customers.Add(customer).Entity;
             await _context.SaveChangesAsync();
 
-            await _entriesService.CreateCustomerEntries(new CustomerEntries(customer.Id));
+            if (created.Entries == null)
+            {
+                created.Entries = await _entriesService.CreateCustomerEntries(new CustomerEntries(customer.Id));
+            }
 
-            return created.Entity;
+            return created;
         }
 
         public async Task<Customer> DeleteCustomer(int id)
@@ -77,7 +107,7 @@ namespace BoulderPOS.API.Services
 
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
-
+            
             return customer;
         }
 

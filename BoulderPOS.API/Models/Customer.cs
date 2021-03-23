@@ -39,5 +39,9 @@ namespace BoulderPOS.API.Models
         public virtual ICollection<ProductPayment> Orders { get; set; }
         public virtual CustomerSubscription Subscription { get; set; }
         public virtual CustomerEntries Entries { get; set; }
+
+        public Customer()
+        {
+        }
     }
 }

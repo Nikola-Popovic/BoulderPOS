@@ -26,6 +26,12 @@ namespace BoulderPOS.API.Services
             return await _context.ProductCategories.FindAsync(id);
         }
 
+        public Task<IEnumerable<Product>> GetProductsByCategory(int id)
+        {
+            var products = _context.Products.Where(product => product.CategoryId == id).AsEnumerable();
+            return Task.FromResult(products);
+        }
+
         public async Task<ProductCategory> UpdateProductCategory(int id, ProductCategory productCategory)
         {
             _context.Entry(productCategory).State = EntityState.Modified;
@@ -51,6 +57,10 @@ namespace BoulderPOS.API.Services
 
         public async Task<ProductCategory> CreateProductCategory(ProductCategory productCategory)
         {
+            if (_context.ProductCategories.Any())
+            {
+                productCategory.Id = await _context.ProductCategories.MaxAsync(p => p.Id) + 1;
+            }
             _context.ProductCategories.Add(productCategory);
             await _context.SaveChangesAsync();
             return productCategory;

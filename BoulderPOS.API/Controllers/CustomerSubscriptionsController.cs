@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BoulderPOS.API.Controllers.DTO;
 using Microsoft.AspNetCore.Mvc;
 using BoulderPOS.API.Models;
 using BoulderPOS.API.Services;
@@ -17,7 +18,7 @@ namespace BoulderPOS.API.Controllers
         }
 
         // GET: api/subscriptions/5
-        [HttpGet("{id}")]
+        [HttpGet("{customerId}")]
         public async Task<ActionResult<CustomerSubscription>> GetCustomerSubscription(int customerId)
         {
             var subscription = await _subscriptionService.GetCustomerSubscription(customerId);
@@ -30,11 +31,20 @@ namespace BoulderPOS.API.Controllers
             return Ok(subscription);
         }
 
+        // GET: api/subscriptions/5/isValid
+        [HttpGet("{customerId}/isValid")]
+        public async Task<ActionResult<bool>> GetCustomerSubscriptionIsValid(int customerId)
+        {
+            var subscription = await _subscriptionService.HasValidCustomerSubscription(customerId);
+
+            return Ok(subscription);
+        }
+
         // PUT: api/subscriptions/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomerSubscription(int customerId, CustomerSubscription customerSubscription)
+        [HttpPut("{customerId}")]
+        public async Task<ActionResult<CustomerSubscription>> PutCustomerSubscription(int customerId, CustomerSubscription customerSubscription)
         {
             var updated = await _subscriptionService.UpdateCustomerSubscription(customerId, customerSubscription);
 
@@ -49,13 +59,13 @@ namespace BoulderPOS.API.Controllers
 
 
         // POST: api/subscriptions/5/add
-        [HttpPost("{id}/add")]
-        public async Task<ActionResult<CustomerSubscription>> AddCustomerSubscription(int customerId, int timeInMonth)
+        // Its possible to add more granular time control in the future with timeInYears, timeInDays, etc.
+        [HttpPost("{customerId}/add")]
+        public async Task<ActionResult<CustomerSubscription>> AddCustomerSubscription(int customerId, [FromQuery] int timeInMonth)
         {
             var updated = await _subscriptionService.AddCustomerSubscription(customerId, timeInMonth); 
-            var deleted = await _subscriptionService.DeleteCustomerSubscription(customerId);
 
-            return deleted;
+            return updated;
         }
 
 
@@ -63,15 +73,15 @@ namespace BoulderPOS.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<CustomerSubscription>> PostCustomerSubscription(CustomerSubscription customerSubscription)
+        public async Task<ActionResult<CustomerSubscription>> PostCustomerSubscription(CustomerSubscriptionDto customerSubscriptionDto)
         {
-            var subscription = await _subscriptionService.CreateCustomerSubscription(customerSubscription);
+            var subscription = await _subscriptionService.CreateCustomerSubscription(customerSubscriptionDto.ToCustomerSubscription());
 
-            return CreatedAtAction("GetCustomerSubscription", new { id = subscription.Id }, subscription);
+            return CreatedAtAction("GetCustomerSubscription", new { customerId = subscription.CustomerId }, subscription);
         }
 
         // DELETE: api/subscriptions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{customerId}")]
         public async Task<ActionResult<CustomerSubscription>> DeleteCustomerSubscription(int customerId)
         {
             await _subscriptionService.DeleteCustomerSubscription(customerId);

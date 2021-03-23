@@ -1,4 +1,6 @@
-﻿using BoulderPOS.API.Models;
+﻿using System.Transactions;
+using BoulderPOS.API.Models;
+using BoulderPOS.API.Persistence.Builder;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoulderPOS.API.Persistence
@@ -16,5 +18,22 @@ namespace BoulderPOS.API.Persistence
         public DbSet<ProductPayment> ProductPayments { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductInventory> ProductInventory { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ConfigureProductModelBuilder();
+            modelBuilder.ConfigureCustomerModelBuilder();
+            modelBuilder.ConfigureSubscriptionModelBuilder();
+            modelBuilder.ConfigureEntriesModelBuilder();
+
+            modelBuilder.Entity<ProductInventory>().HasKey(c => c.ProductId);
+            modelBuilder.Entity<ProductPayment>()
+                .HasOne(a => a.Customer)
+                .WithMany(c => c.Orders)
+                .IsRequired(false)
+                .HasForeignKey(p => p.CustomerId);
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace BoulderPOS.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<ActionResult<Product>> PutProduct(int id, Product product)
         {
             if (id != product.Id)
             {
@@ -63,9 +63,9 @@ namespace BoulderPOS.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Product>> PostProduct(Product product, [FromQuery] bool createInventory = false)
         {
-            var created = await _productService.CreateProduct(product);
+            var created = await _productService.CreateProduct(product, createInventory);
 
             return CreatedAtAction("GetProduct", new { id = created.Id }, created);
         }

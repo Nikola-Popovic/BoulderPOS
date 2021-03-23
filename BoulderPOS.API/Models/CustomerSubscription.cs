@@ -7,9 +7,6 @@ namespace BoulderPOS.API.Models
 {
     public class CustomerSubscription
     {
-        [Key]
-        public int Id { get; set; }
-
         public int CustomerId { get; set; }
 
         [Column(TypeName = "date")]
@@ -22,6 +19,10 @@ namespace BoulderPOS.API.Models
 
         [JsonIgnore]
         public virtual Customer Customer { get; set; }
+
+        public CustomerSubscription()
+        {
+        }
 
         public CustomerSubscription(int customerId)
         {

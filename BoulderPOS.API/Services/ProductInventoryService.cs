@@ -22,9 +22,10 @@ namespace BoulderPOS.API.Services
             return await _context.ProductInventory.ToListAsync();
         }
 
-        public async Task<ProductInventory> GetProductInventory(int id)
+        public async Task<ProductInventory> GetProductInventory(int productId)
         {
-            return await _context.ProductInventory.FindAsync(id);
+            var inventory = await _context.ProductInventory.FirstAsync(inv => inv.ProductId == productId);
+            return inventory;
         }
 
         public async Task<ProductInventory> UpdateProductInventory(int id, ProductInventory productInventory)
@@ -50,16 +51,16 @@ namespace BoulderPOS.API.Services
             return productInventory;
         }
 
-        public async Task<ProductInventory> CreateProductInventory(ProductInventory product)
+        public async Task<ProductInventory> CreateProductInventory(ProductInventory inventory)
         {
-            var created = _context.ProductInventory.Add(product);
+            var created = _context.ProductInventory.Add(inventory);
             await _context.SaveChangesAsync();
             return created.Entity;
         }
 
-        public async Task<ProductInventory> DeleteProductInventory(int id)
+        public async Task<ProductInventory> DeleteProductInventory(int productId)
         {
-            var productInventory = await _context.ProductInventory.FindAsync(id);
+            var productInventory = await GetProductInventory(productId);
             if (productInventory == null)
             {
                 return null;
@@ -71,9 +72,9 @@ namespace BoulderPOS.API.Services
             return productInventory;
         }
 
-        public bool ProductInventoryExists(int id)
+        public bool ProductInventoryExists(int productId)
         {
-            return _context.ProductInventory.Any(e => e.Id == id);
+            return _context.ProductInventory.Any(e => e.ProductId == productId);
         }
     }
 }
