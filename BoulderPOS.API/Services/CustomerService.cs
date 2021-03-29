@@ -52,14 +52,11 @@ namespace BoulderPOS.API.Services
             if (!CustomerExists(id)) return false;
 
             if (await _subscriptionService.HasValidCustomerSubscription(id)) return true;
-
-            var entries = await _entriesService.GetCustomerEntries(id);
-            if (entries.UnlimitedEntries || entries.Quantity >= 1)
-            {
-                await _entriesService.TakeCustomerEntries(id, 1);
-                return true;
-            }
-            return false;
+            
+            var entries = await _entriesService.TakeCustomerEntries(id, 1);
+            
+            // Entries is null if entries is null or the amount of entries is insufficient
+            return entries != null;
         }
 
 

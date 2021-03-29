@@ -18,7 +18,8 @@ namespace BoulderPOS.API.Services
 
         public async Task<CustomerSubscription> GetCustomerSubscription(int customerId)
         {
-            var subscription = await _context.CustomerSubscriptions.FirstAsync(e => e.CustomerId == customerId);
+            
+            var subscription = await _context.CustomerSubscriptions.FirstOrDefaultAsync(e => e.CustomerId == customerId);
             return subscription;
         }
 
@@ -70,12 +71,12 @@ namespace BoulderPOS.API.Services
         {
             var subscription = await GetCustomerSubscription(customerId);
 
-            if (subscription.EndDate >= DateTime.Today)
+            if (subscription == null || subscription.EndDate < DateTime.Today)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         public async Task<CustomerSubscription> AddCustomerSubscription(int customerId, int timeInMonth)

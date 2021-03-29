@@ -89,6 +89,18 @@ namespace BoulderPOS.API.Controllers
             return CreatedAtAction("GetCustomer", new { id = createdCustomer.Id }, createdCustomer);
         }
 
+        // PUT: api/Customers/5/checkin
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}/checkin")]
+        public async Task<ActionResult<bool>> CheckinCustomer(int id)
+        {
+            var chekedIn = await _customerService.CheckInCustomer(id);
+
+            return Ok(chekedIn);
+        }
+
+
         // DELETE: api/Customers/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Customer>> DeleteCustomer(int id)

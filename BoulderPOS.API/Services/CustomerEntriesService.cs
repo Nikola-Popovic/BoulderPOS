@@ -16,7 +16,7 @@ namespace BoulderPOS.API.Services
 
         public async Task<CustomerEntries> GetCustomerEntries(int customerId)
         {
-            var entries = await _context.CustomerEntries.FirstAsync(entry => entry.CustomerId == customerId);
+            var entries = await _context.CustomerEntries.FirstOrDefaultAsync(entry => entry.CustomerId == customerId);
             return entries;
         }
 
@@ -61,7 +61,7 @@ namespace BoulderPOS.API.Services
 
             if (entries == null)
             {
-                return null;
+                return await CreateCustomerEntries(new CustomerEntries(customerId, quantity));
             }
 
             entries.Quantity += quantity;
