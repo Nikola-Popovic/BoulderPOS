@@ -1,5 +1,10 @@
+using System;
+using BoulderPOS.API.Persistence;
+using Castle.Core.Logging;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace BoulderPOS.API
 {
@@ -7,7 +12,23 @@ namespace BoulderPOS.API
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<ApplicationDbContext>();
+                var logger = services.GetRequiredService<ILogger<Program>>();
+
+                try
+                {
+                    DbInitializer.Initialize(context);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred during the database initialisation");
+                }
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

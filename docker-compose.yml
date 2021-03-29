@@ -6,6 +6,8 @@ services:
     build: 
       context: ./BoulderPOS.postgres
       dockerfile: Dockerfile
+    ports:
+      - 4032:4032
     restart: always
   boulder-api:
     container_name: boulder-api
