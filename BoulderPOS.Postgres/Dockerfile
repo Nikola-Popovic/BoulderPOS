@@ -6,7 +6,7 @@ ENV POSTGRES_PASSWORD patate123
 ENV POSTGRES_DB BoulderPOS
 
 # Expose the PostgreSQL port
-EXPOSE 5432
+EXPOSE 4032
 
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql/data"]

@@ -10,10 +10,6 @@ RUN ["dotnet", "restore"]
 COPY . .
 RUN dotnet build "BoulderPOS.API.csproj" -c Release -o /app/build
 
-## To run Ef migrations when starting Postgres
-RUN chmod +x ./script/databaseStartup.sh
-CMD /bin/bash ./script/databaseStartup.sh
-
 FROM build AS publish
 RUN dotnet publish -c Release -o /app/out
 
