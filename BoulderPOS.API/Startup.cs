@@ -1,4 +1,5 @@
 using System;
+using BoulderPOS.API.Middleware;
 using BoulderPOS.API.Persistence;
 using BoulderPOS.API.Services;
 using BoulderPOS.API.Util;
@@ -86,6 +87,8 @@ namespace BoulderPOS.API
             app.UseRouting();
             
             app.UseAuthorization();
+
+            app.UseRequestResponseLogging();
 
             app.UseEndpoints(endpoints =>
             {
