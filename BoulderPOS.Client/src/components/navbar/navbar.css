@@ -1,3 +1,21 @@
+a:link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    text-decoration: none;
+    color: #fff;
+    height: 100%;
+    font-weight: bold;
+    font-size: 20pt;
+    font-weight: bold;
+    font-size: 20pt;
+}
+
 .Nav {
     background: #000;
     height: 5vh;
@@ -7,15 +25,11 @@
 }
 
 .NavLink {
-    color: #fff;
     display: flex;
     align-items: center;
-    text-decoration: none;
     padding: 0 1rem;
     height: 100%;
     cursor:default;
-    font-weight: bold;
-    font-size: 20pt;
 }
 
 .EndSection {
