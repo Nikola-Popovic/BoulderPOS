@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BoulderPOS.API.Models;
@@ -30,21 +31,29 @@ namespace BoulderPOS.API.Services
             return await _context.Customers.FindAsync(id); ;
         }
 
-        public Task<IEnumerable<Customer>> GetCustomersByPhone(string phoneNumber)
+        public async Task<IEnumerable<Customer>> GetCustomersByPhone(string phoneNumber)
         {
+            if (String.IsNullOrEmpty(phoneNumber))
+            {
+                return await GetCustomers();
+            }
             var customers = _context.Customers.Where(customer => customer.PhoneNumber.Contains(phoneNumber)).AsEnumerable();
-            return Task.FromResult(customers);
+            return customers;
         }
 
         // Wouldn't be quite efficient but just in case it is desired
-        public Task<IEnumerable<Customer>> GetCustomersByCustomerInfo(string customerInfo)
+        public async Task<IEnumerable<Customer>> GetCustomersByCustomerInfo(string customerInfo)
         {
+            if (String.IsNullOrEmpty(customerInfo))
+            {
+                return await GetCustomers();
+            }
             var customers = _context.Customers.Where(customer => 
                 (customer.PhoneNumber.Any(char.IsDigit) &&   customer.PhoneNumber.Contains(customerInfo)) ||
                 customer.FirstName.Equals(customerInfo) ||
                 customer.LastName.Equals(customerInfo)
             ).AsEnumerable();
-            return Task.FromResult(customers);
+            return customers;
         }
 
         public async Task<bool> CheckInCustomer(int id)
