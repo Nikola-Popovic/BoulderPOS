@@ -1,60 +1,58 @@
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
   }
 *, *:before, *:after {
-box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 .parent {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 95vh;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;  
 }
 
 .checkin {
-    display: flex;
-    flex-direction: column;
-    border: solid blue;
-    width: 50vw;
-    height: 100%;
-
+  display: flex;
+  flex-direction: column;
+  border: solid blue;
+  width: 50vw;
+  height: 100%;
 }
 
 .searchBar {
-    background-image: url("https://cdn2.iconfinder.com/data/icons/font-awesome/1792/search-512.png");
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
-    background-size: 20px 20px;
-    width: 100%;
-    font-size: 20px;
-    padding: 12px 20px 12px 40px;
-    border: 1px solid #ddd;
-    margin-bottom: 12px;
-  }
+  background-image: url("https://cdn2.iconfinder.com/data/icons/font-awesome/1792/search-512.png");
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  width: 100%;
+  font-size: 20px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
   
 .scrollable {
-    overflow: auto;
+  overflow: auto;
 }
 
 .clientTable {
-border-collapse: collapse;
-width: 100%;
-border: 1px solid #ddd;
-font-size: 18px;
-
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
 }
 
 .clientTable th, .clientTable td {
-text-align: left;
-padding: 12px;
+  text-align: left;
+  padding: 12px;
 }
 
 .clientTable tr {
-background-color: #ffffff;
-border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
 }
 
 .clientTable tr.header, .clientTable tr:hover {
-background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
