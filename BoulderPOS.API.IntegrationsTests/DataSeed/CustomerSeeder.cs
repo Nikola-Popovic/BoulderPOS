@@ -8,6 +8,11 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
         public static CustomerEntries Customer1Entries => new CustomerEntries(Customer1.Id, 10) { Id = 1 };
         public static CustomerEntries Customer2Entries => new CustomerEntries(Customer2.Id, 5, true) { Id = 2 };
 
+        public static CustomerEntries CustomerWithNoEntriesEntries => new CustomerEntries(CustomerWithNoEntries.Id, 0) { Id = 3 };
+
+        public static CustomerEntries CustomerWithValidSubscriptionEntries =>
+            new CustomerEntries(CustomerWithValidSubscription.Id, 7, false) {Id = 4};
+
         public static Customer Customer1 => new Customer()
         {
             BirthDate = new DateTime(1996, 10, 29),
@@ -30,13 +35,24 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             PhoneNumber = "+13182916583"
         };
 
+        public static Customer CustomerWithNoEntries => new Customer()
+        {
+            BirthDate = DateTime.Now,
+            Email = "igor.pop@mail.com",
+            FirstName = "Igor",
+            LastName = "Pop",
+            Id = 3,
+            NewsletterSubscription = false,
+            PhoneNumber = "+19999999999"
+        };
+        
         public static Customer CustomerToDelete => new Customer()
         {
             BirthDate = DateTime.Now,
             Email = "test.useur@mail.com",
             FirstName = "Test",
             LastName = "Customer",
-            Id = 3,
+            Id = 4,
             NewsletterSubscription = false,
             PhoneNumber = "+1234567890"
         };
@@ -47,7 +63,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             Email = "Jean.Dessin@mail.com",
             FirstName = "Jean",
             LastName = "Dessin",
-            Id = 4,
+            Id = 5,
             NewsletterSubscription = false,
             PhoneNumber = "+18976543214"
         };
@@ -72,7 +88,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             Email = "Luigi.Ferrari@fast.itl",
             FirstName = "Luigi",
             LastName = "Ferrari",
-            Id = 5,
+            Id = 6,
             NewsletterSubscription = false,
             PhoneNumber = "+6324567812"
         };

@@ -172,6 +172,77 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         }
 
         [Fact]
+        public async Task CanCheckInCustomerWithSubscription()
+        {
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                
+                var httpResponse = await this._httpClient.PutAsync($"/api/customers/{CustomerSeeder.CustomerWithValidSubscription.Id}/checkin",
+                    new StringContent(""));
+
+                httpResponse.EnsureSuccessStatusCode();
+                Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+
+                var responseString = await httpResponse.Content.ReadAsStringAsync();
+                Assert.Equal("true", responseString);
+
+                // Make sure no entries were used
+                var entries = await context.CustomerEntries.FindAsync(CustomerSeeder.CustomerWithValidSubscriptionEntries.Id);
+                Assert.Equal(CustomerSeeder.CustomerWithValidSubscriptionEntries.Quantity, entries.Quantity);
+            }
+        }
+
+        [Fact]
+        public async Task CanCheckInCustomerWithEntries()
+        {
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+
+                var httpResponse = await this._httpClient.PutAsync($"/api/customers/{CustomerSeeder.Customer1.Id}/checkin",
+                    new StringContent(""));
+
+                httpResponse.EnsureSuccessStatusCode();
+                Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+
+                var responseString = await httpResponse.Content.ReadAsStringAsync();
+                Assert.Equal("true", responseString);
+
+                // Make sure only one entry was used
+                var entries = await context.CustomerEntries.FindAsync(CustomerSeeder.Customer1Entries.Id);
+                Assert.Equal((CustomerSeeder.Customer1Entries.Quantity - 1), entries.Quantity);
+            }
+        }
+
+        [Fact]
+        public async Task CheckinWithInvalidSubscriptionReturnsFalse()
+        {
+            var httpResponse = await this._httpClient.PutAsync($"/api/customers/{CustomerSeeder.CustomerWithInvalidSubscription.Id}/checkin",
+                new StringContent(""));
+
+            httpResponse.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+
+            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            Assert.Equal("false", responseString);
+        }
+
+        [Fact]
+        public async Task CheckinWithNoEntriesReturnsFalse()
+        {
+            var httpResponse = await this._httpClient.PutAsync($"/api/customers/{CustomerSeeder.CustomerWithNoEntries.Id}/checkin",
+                new StringContent(""));
+
+            httpResponse.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+
+            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            Assert.Equal("false", responseString);
+        }
+
+
+        [Fact]
         public async Task CanDeleteUser()
         {
             using (var scope = _factory.Services.CreateScope())

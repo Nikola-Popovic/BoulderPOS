@@ -1,6 +1,5 @@
 using System;
 using BoulderPOS.API.Persistence;
-using Castle.Core.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +24,7 @@ namespace BoulderPOS.API
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred during the database initialisation");
+                    logger.LogError(ex, "An error occurred during the database initialization");
                 }
             }
             host.Run();
@@ -33,6 +32,11 @@ namespace BoulderPOS.API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -27,6 +27,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
         {
             dbContext.Customers.Add(CustomerSeeder.Customer1);
             dbContext.Customers.Add(CustomerSeeder.Customer2);
+            dbContext.Customers.Add(CustomerSeeder.CustomerWithNoEntries);
             dbContext.Customers.Add(CustomerSeeder.CustomerToDelete);
             dbContext.Customers.Add(CustomerSeeder.CustomerWithValidSubscription);
             dbContext.Customers.Add(CustomerSeeder.CustomerWithInvalidSubscription);
@@ -36,6 +37,8 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
         {
             dbContext.CustomerEntries.Add(CustomerSeeder.Customer1Entries);
             dbContext.CustomerEntries.Add(CustomerSeeder.Customer2Entries);
+            dbContext.CustomerEntries.Add(CustomerSeeder.CustomerWithNoEntriesEntries);
+            dbContext.CustomerEntries.Add(CustomerSeeder.CustomerWithValidSubscriptionEntries);
             dbContext.SaveChanges();
         }
 
