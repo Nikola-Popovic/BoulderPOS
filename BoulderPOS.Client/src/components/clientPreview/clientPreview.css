@@ -1,0 +1,50 @@
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;  
+}
+
+.clientPanel {
+    display: grid;
+    height: calc(300px+15vh);
+    width: calc(300px+30vw);
+    grid-template-columns: 30% 35% 35%;
+    grid-template-rows: repeat(5, 20%);
+}
+
+.clientName {
+    grid-row: 1;
+    grid-column: 2/4;
+}
+
+.pictureFrame {
+    grid-row: 1/4;
+    grid-column: 1;
+    margin: 5px;
+    border: 1px solid lightgrey;
+}
+
+.informationPanel {
+    display: flex;
+    flex-direction: column;
+}
+
+.subscriptionPanel {
+    display: flex;
+    flex-direction: column;
+    grid-area: 3 / 2 / 5 / 3;
+}
+
+.entriesPanel {
+    display: flex;
+    flex-direction: column;
+    grid-area: 3 / 3 / 5 / 4;
+}
+
+.buttonPanel {
+    display: flex;
+    justify-content: flex-end;
+    grid-column: 3;
+    grid-row: 5;
+}
