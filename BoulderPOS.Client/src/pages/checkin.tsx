@@ -4,15 +4,22 @@ import { Customer } from '../data';
 import { CustomerService } from '../services/api'
 import { debounce } from 'lodash';
 import "./checkin.css";
-import { setFlagsFromString } from 'v8';
-import ActionSearch from 'material-ui/svg-icons/action/search';
+import {
+    useRouteMatch,
+    Route,
+    Link,
+    Switch,
+    useHistory
+} from "react-router-dom";
+import ClientPreview from '../components/clientPreview/clientPreview';
 
 export interface CheckInProps {
 
 }
 
 const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
-
+    let match = useRouteMatch();
+    const history = useHistory();
     const [customers, setCustomers] =  useState<Customer[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [query, setQuery] = useState<string>('');
@@ -33,14 +40,19 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
 
     const displayCustomers = () => {
         return <>
-            {customers.map((value : Customer) =>  <tr className="clientRow">
-                    <th>{value.id}</th>
-                    <th>{value.firstName}</th>
-                    <th>{value.lastName}</th>
-                    <th>{value.phoneNumber}</th>
+            {customers.map((value : Customer) =>  
+                <tr className="clientRow" onClick={() => handleRowClick(value.id)}>
+                        <th>{value.id}</th>
+                        <th>{value.firstName}</th>
+                        <th>{value.lastName}</th>
+                        <th>{value.phoneNumber}</th>
                 </tr>
             )}
         </>
+    }
+
+    const handleRowClick = (clientId : number) => {
+        history.push(`${match.url}/${clientId}`);
     }
 
     useEffect(() => {
@@ -49,30 +61,42 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
         debouncedSearch();
     }, [query])
 
-    return <> 
-        <div className="parent">
+    const displayCustomerTable = () => {
+        return <div className="parent">
             <div className="checkin">
-            <input className="searchBar" 
-                   type="text" 
-                   id="searchBar" 
-                   placeholder="Rechercher par # de telephone..."
-                   onChange={(e) => setQuery(e.target.value)}/>
+                <input className="searchBar"
+                    type="text"
+                    id="searchBar"
+                    placeholder="Rechercher par # de telephone..."
+                    onChange={(e) => setQuery(e.target.value)} />
 
-            {isLoading && <LinearProgress color='primary' />}
+                {isLoading && <LinearProgress color='primary' />}
 
-            <div className="scrollable">
-                <table className="clientTable">
-                    <tr className="header">
-                        <th>Id</th>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>No téléphone</th>
-                    </tr>
-                    {displayCustomers()}
-                </table>
-            </div>
+                <div className="scrollable">
+                    <table className="clientTable">
+                        <tr className="header">
+                            <th>Id</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>No téléphone</th>
+                        </tr>
+                        {displayCustomers()}
+                    </table>
+                </div>
             </div>
         </div>
+    }
+
+    return <> 
+        <Switch>
+            <Route path={`${match.path}/:clientId`}>
+                <ClientPreview />
+            </Route>
+            <Route path={match.path}>
+                { displayCustomerTable() }
+            </Route>
+        </Switch>
+        
     </>
 }
 
