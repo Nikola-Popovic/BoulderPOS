@@ -24,10 +24,10 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
 
     useEffect( () => {
         CustomerService.getCustomer(clientId).then(
+            // todo : fetch client image
             (customer) => setClient(customer.data)
         ).catch( e => {
-            // An error occured. Show notif. Send to Error API
-            // Send notification with notistack instead
+            // todo : Send to Error API
             enqueueSnackbar('An error occured while fetching the client.', {
                 variant: 'error',
             });
@@ -44,13 +44,12 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
                 });
             }
             else {
-                // Todo : success notifications
                 enqueueSnackbar('Successfully checked in !', {
                     variant: 'success',
                 });
             }
         }).catch((error) => {
-            // Send error to API
+            // todo : Send error to API
             enqueueSnackbar('An error occured during checkin.', {
                 variant: 'error',
             });
