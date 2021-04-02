@@ -10,6 +10,7 @@ import {
     Switch,
     useHistory
 } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 import ClientPreview from '../components/clientPreview/clientPreview';
 
 export interface CheckInProps {
@@ -19,6 +20,7 @@ export interface CheckInProps {
 const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
     let match = useRouteMatch();
     const history = useHistory();
+    const { enqueueSnackbar } = useSnackbar();
     const [customers, setCustomers] =  useState<Customer[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [query, setQuery] = useState<string>('');
@@ -33,6 +35,7 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
             }) 
         } catch (e) {
             // todo : send error to an api for server side logging
+            enqueueSnackbar('An error occured while fetching clients');
             console.error(e);
         }
     }

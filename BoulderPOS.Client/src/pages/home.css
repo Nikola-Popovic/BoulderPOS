@@ -1,0 +1,19 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh
+}
+
+.home button {
+    margin:2vh;
+    height: calc(30px + 3vh);
+    width: calc(120px + 6vw);
+}
+
+.home button a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}

@@ -6,7 +6,7 @@ import {
  } from "react-router-dom";
 import { CustomerService } from '../../services/api';
 import { Button } from '@material-ui/core';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { useSnackbar } from 'notistack';
 import './clientPreview.css';
 
 export interface ClientPreviewProps {
@@ -18,8 +18,8 @@ interface RouteParams {
 
 const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
     const [client, setClient] = useState<Customer | null>(null);
-    const [error, setError] = useState<string>('');
     const history = useHistory();
+    const { enqueueSnackbar } = useSnackbar();
     let { clientId } = useParams<RouteParams>();
 
     useEffect( () => {
@@ -28,7 +28,9 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
         ).catch( e => {
             // An error occured. Show notif. Send to Error API
             // Send notification with notistack instead
-            setError('An error occured while fetching the client.');
+            enqueueSnackbar('An error occured while fetching the client.', {
+                variant: 'error',
+            });
             console.error(e);
         });
     }, [])
@@ -37,15 +39,21 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
         let promise = CustomerService.checkinCustomer(clientId);
         promise.then((response) => {
             if (response.data === false) {
-                setError('Insufficient entries for checkin. Go to shop.')
+                enqueueSnackbar('Insufficient entries for checkin. Go to shop.', {
+                    variant: 'error',
+                });
             }
             else {
                 // Todo : success notifications
-                history.push('/');
+                enqueueSnackbar('Successfully checked in !', {
+                    variant: 'success',
+                });
             }
         }).catch((error) => {
             // Send error to API
-            setError('An error occured during checkin.')
+            enqueueSnackbar('An error occured during checkin.', {
+                variant: 'error',
+            });
             console.error(error);
         })
     }
@@ -91,10 +99,6 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
                     <Button onClick={() => handleCheckin()} color='primary' variant='contained'> Check-In </Button> 
                 </div>
             </div>
-            {error !== '' && <Alert severity="error"> 
-                <AlertTitle> Error </AlertTitle>
-                {error}
-            </Alert> }
         </div>
     )
 }

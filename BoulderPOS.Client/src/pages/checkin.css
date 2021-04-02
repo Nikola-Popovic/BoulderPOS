@@ -50,10 +50,19 @@ html {
 
 .clientTable tr {
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: ghostwhite;
   border-bottom: 1px solid #ddd;
 }
 
-.clientTable tr.header, .clientTable tr:hover {
-  background-color: #f1f1f1a1;
+.clientTable tr:nth-child(odd) {
+  background-color: gainsboro;
+}
+
+
+.clientTable tr:hover {
+  background-color: darkgray;
+}
+
+.clientTable tr:hover {
+  background-color: lightsteelblue;
 }
