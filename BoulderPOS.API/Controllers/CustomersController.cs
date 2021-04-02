@@ -95,9 +95,9 @@ namespace BoulderPOS.API.Controllers
         [HttpPut("{id}/checkin")]
         public async Task<ActionResult<bool>> CheckinCustomer(int id)
         {
-            var chekedIn = await _customerService.CheckInCustomer(id);
+            var checkedIn = await _customerService.CheckInCustomer(id);
 
-            return Ok(chekedIn);
+            return Ok(checkedIn);
         }
 
 

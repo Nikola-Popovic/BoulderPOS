@@ -7,7 +7,6 @@ import "./checkin.css";
 import {
     useRouteMatch,
     Route,
-    Link,
     Switch,
     useHistory
 } from "react-router-dom";
