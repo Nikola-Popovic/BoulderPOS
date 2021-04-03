@@ -1,20 +1,15 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Button } from '@material-ui/core';
+import NavigationButton from '../components/customUi/NavigationButton';
 import "./home.css"
 
 const Home = () => {
     return (
         <div className='home'>
-            <Button variant="outlined" style={{backgroundColor:'snow'}}>
-                    <NavLink to="/checkin">Check In</NavLink>
-            </Button>
-            <Button variant="outlined" style={{backgroundColor:'gainsboro'}}>
-                    <NavLink to="/shop">Magasin</NavLink>
-            </Button>
-            <Button variant="outlined" style={{backgroundColor:'silver'}}>
-                    <NavLink to="/administration">Administration</NavLink>
-            </Button>
+            <NavigationButton text='Check In' route='/checkin' style={{backgroundColor:'snow'}} />
+            <NavigationButton text='Magasin' route='/shop' style={{backgroundColor:'gainsboro'}} />
+            <NavigationButton text='Administration' route='/administration' style={{backgroundColor:'silver'}} />
         </div>
     )
 }

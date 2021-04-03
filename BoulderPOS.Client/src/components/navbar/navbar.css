@@ -18,8 +18,9 @@ a:link {
 
 .Nav {
     background: #000;
-    height: 5vh;
+    height: calc(50px + 2vh);
     display: flex;
+    padding-left: 10vw;
     justify-content: space-between;
     padding: 0.5rem ;
 }
@@ -35,6 +36,7 @@ a:link {
 .EndSection {
     display: flex;
     align-items: center;
+    padding-right: 5vw;
     margin-right: 24px;
 }
 

@@ -13,7 +13,11 @@ import CreateCategoryForm from './components/administration/newCategory/CreateCa
 function App() {
   return (
     <Router>
-      <SnackbarProvider maxSnack={2}>
+      <SnackbarProvider maxSnack={2}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}>
         <NavBar/>
         <Switch>
           <Route path='/' exact component={Home}/>

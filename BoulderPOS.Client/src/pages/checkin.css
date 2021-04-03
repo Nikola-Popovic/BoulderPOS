@@ -58,11 +58,10 @@ html {
   background-color: gainsboro;
 }
 
-
-.clientTable tr:hover {
-  background-color: darkgray;
-}
-
 .clientTable tr:hover {
   background-color: lightsteelblue;
+}
+
+.clientTable tr.header {
+  background-color: darkgray;
 }
