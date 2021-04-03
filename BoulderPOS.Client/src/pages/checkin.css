@@ -15,8 +15,7 @@ html {
 .checkin {
   display: flex;
   flex-direction: column;
-  border: solid blue;
-  width: 50vw;
+  width: calc(250px + 40vw);
   height: 100%;
 }
 
@@ -30,6 +29,7 @@ html {
   padding: 12px 20px 12px 40px;
   border: 1px solid #ddd;
   margin-bottom: 12px;
+  margin-top: 3vh;
 }
   
 .scrollable {
@@ -49,10 +49,20 @@ html {
 }
 
 .clientTable tr {
-  background-color: #ffffff;
+  cursor: pointer;
+  background-color: ghostwhite;
   border-bottom: 1px solid #ddd;
 }
 
-.clientTable tr.header, .clientTable tr:hover {
-  background-color: #f1f1f1;
+.clientTable tr:nth-child(odd) {
+  background-color: gainsboro;
+}
+
+
+.clientTable tr:hover {
+  background-color: darkgray;
+}
+
+.clientTable tr:hover {
+  background-color: lightsteelblue;
 }

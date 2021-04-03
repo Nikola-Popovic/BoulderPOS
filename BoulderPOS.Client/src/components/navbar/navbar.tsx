@@ -8,7 +8,9 @@ const NavBar = () => {
     return (
         <>
             <div className="Nav">
-                <span className="NavLink" >Logo</span>
+                <a href="/">
+                    <span className="logo" >Logo</span>
+                </a>
 
                 <div className="EndSection">
                     <span className="NavLink" style={{cursor:"pointer"}}>
@@ -19,14 +21,6 @@ const NavBar = () => {
                         height="40"
                         style={{filter: "invert(100%)"}}/>                    
                     </span>
-                    <NavLink className="NavLink" style={{cursor:"pointer"}} to="/">
-                        <img 
-                        src={home} 
-                        alt="Home" 
-                        width="35" 
-                        height="35"
-                        style={{filter: "invert(100%)"}}/>                    
-                    </NavLink>
                 </div>
             </div>
         </>
