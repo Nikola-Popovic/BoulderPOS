@@ -1,0 +1,35 @@
+.adminPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+}
+
+.actionButtons{
+    display: flex;
+    flex-direction: column;
+}
+
+.actionButtons button{
+    margin:1vh;
+    height: calc(30px + 3vh);
+    width: calc(120px + 6vw);
+    color: white;
+    font-weight: bold;
+}
+
+.loginPanel {
+    display: flex;
+    flex-direction: column;
+    width: calc(150px + 15%);
+}
+
+.loginButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    margin-top: 2vh;
+}

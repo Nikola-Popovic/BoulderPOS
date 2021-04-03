@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class CreateProductForm extends Component {
+export class CreateProductForm extends Component {
 
     getDataList() {
 return (    
@@ -38,5 +38,3 @@ getForm() {
         )
     }
 }
-
-export default CreateProductForm

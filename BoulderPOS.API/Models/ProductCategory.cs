@@ -13,8 +13,8 @@ namespace BoulderPOS.API.Models
         [Column(TypeName = "varchar(30)")]
         public string Name { get; set; }
 
-        [Column(TypeName = "varchar")]
-        public string CategoryIconPath { get; set; }
+        [Column(TypeName = "varchar(30)")]
+        public string IconName { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
 

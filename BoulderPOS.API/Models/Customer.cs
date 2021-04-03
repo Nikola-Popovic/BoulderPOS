@@ -31,7 +31,7 @@ namespace BoulderPOS.API.Models
         public bool NewsletterSubscription { get; set; }
 
         [Column(TypeName = "varchar")]
-        public string PicturePath { get; set; }
+        public string Picture { get; set; }
 
         [Column(TypeName = "bytea")]
         public string PicturePreviewPath { get; set; }

@@ -56,7 +56,7 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("varchar(16)")
                         .HasColumnName("phoneNumber");
 
-                    b.Property<string>("PicturePath")
+                    b.Property<string>("Picture")
                         .HasColumnType("varchar")
                         .HasColumnName("picturePath");
 
@@ -162,7 +162,7 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("CategoryIconPath")
+                    b.Property<string>("IconName")
                         .HasColumnType("varchar")
                         .HasColumnName("categoryIconPath");
 
