@@ -13,7 +13,8 @@ import {
 } from '@material-ui/core';
 import { 
     CreateCategoryForm,
-    CreateProductForm
+    CreateProductForm,
+    CategoriesPage
 } from '../components/administration';
 
 const Administration = () => {
@@ -37,7 +38,7 @@ const Administration = () => {
     const diplayAdminActions = () => {
         return <div className='actionButtons'>
             <NavigationButton text='Add a new product' route={`${match.url}/addproduct`} style={{backgroundColor:'mediumseagreen'}}/>
-            <NavigationButton text='Add a new category' route={`${match.url}/addproductcategory`} style={{backgroundColor:'orange'}}/>
+            <NavigationButton text='Categories' route={`${match.url}/categories`} style={{backgroundColor:'orange'}}/>
         </div>
     }
 
@@ -51,14 +52,14 @@ const Administration = () => {
     return (
         <div className='adminPanel'>
             <Switch>
-                <Route exact path={`${match.path}/actions`}>
+                <Route path={`${match.path}/actions`}>
                     { diplayAdminActions() }
                 </Route>
-                <Route exact path={`${match.path}/addproduct`}>
-                    <CreateProductForm />
+                <Route path={`${match.path}/categories`}>
+                    <CategoriesPage />
                 </Route>
-                <Route exact path={`${match.path}/addproductcategory`}>
-                    <CreateCategoryForm />
+                <Route path={`${match.path}/addproduct`}>
+                    <CreateProductForm />
                 </Route>
                 <Route path={`${match.path}`}>
                     { displayLoginPanel() }

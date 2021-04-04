@@ -1,0 +1,67 @@
+.categoriesPage {
+    margin-top: 3vh;
+    width: calc(350px + 25vw);
+}
+
+.categoriesPage h1{
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.scrollable {
+    overflow: auto;
+}
+
+.categoriesTable {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 1.3em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgb(0 0 0 / 15%);
+}
+
+.categoriesTable, td, tr, th {
+    border: 0px
+}
+
+.categoriesTable thead tr {
+    background-color: #009879;
+    color: white;
+    text-align: left;
+}
+
+.categoriesTable th,
+.categoriesTable td {
+    padding: 12px 15px;
+}
+
+.categoriesTable tbody tr {
+    border-bottom: 1px solid #dddddd
+}
+
+.categoriesTable tbody tr:nth-of-type(odd) {
+    background-color: #ffffff;
+}
+
+.categoriesTable tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.categoriesTable tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.categoriesTable tbody tr button {
+    width: calc(20px + 1vw)
+}
+
+.buttonPanel {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.buttonPanel button {
+    width : calc(100px + 4vw);
+    color: white;
+}

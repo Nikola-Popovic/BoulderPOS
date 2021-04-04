@@ -1,7 +1,7 @@
 .categoryForm {
     display: flex;
     flex-direction: column;
-    width: calc(150px + 15%);
+    align-items: center;
 }
 
 .categoryButtons {
@@ -13,9 +13,14 @@
     margin-top: 2vh;
 }
 
+.categoryField {
+    width: 65%
+}
+
 .categoryButtons button{
     width: calc(60px + 3vw);
     height: calc(30px + 2vh);
+    width: 60%;
 }
 
 

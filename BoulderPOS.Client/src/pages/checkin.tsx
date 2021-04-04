@@ -41,16 +41,16 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
     }
 
     const displayCustomers = () => {
-        return <>
+        return <tbody>
             {customers.map((value : Customer) =>  
                 <tr className="clientRow" onClick={() => handleRowClick(value.id)}>
-                        <th>{value.id}</th>
-                        <th>{value.firstName}</th>
-                        <th>{value.lastName}</th>
-                        <th>{value.phoneNumber}</th>
+                        <td>{value.id}</td>
+                        <td>{value.firstName}</td>
+                        <td>{value.lastName}</td>
+                        <td>{value.phoneNumber}</td>
                 </tr>
             )}
-        </>
+        </tbody>
     }
 
     const handleRowClick = (clientId : number) => {
@@ -76,12 +76,14 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
 
                 <div className="scrollable">
                     <table className="clientTable">
-                        <tr className="header">
-                            <th>Id</th>
-                            <th>Prénom</th>
-                            <th>Nom</th>
-                            <th>No téléphone</th>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Prénom</th>
+                                <th>Nom</th>
+                                <th>No téléphone</th>
+                            </tr>
+                        </thead>
                         {displayCustomers()}
                     </table>
                 </div>

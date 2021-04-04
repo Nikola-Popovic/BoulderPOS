@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Customer } from '../../data';
 import { 
     useParams, 
@@ -94,7 +94,7 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
                     }
                 </div>
                 <div className="buttonPanel">
-                    <Button onClick={() => handleShop()} color='primary' variant='outlined'> Shop </Button>
+                    <Button onClick={() => handleShop()} variant='contained' style={{backgroundColor:'#d8a416'}}> Shop </Button>
                     <Button onClick={() => handleCheckin()} color='primary' variant='contained'> Check-In </Button> 
                 </div>
             </div>
