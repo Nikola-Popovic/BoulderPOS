@@ -4,7 +4,7 @@ import { IconPicker } from '../../icons/IconPicker';
 import {
     useHistory
 } from 'react-router-dom';
-import "./CreateCategoryForm.css";
+import "./CategoryForm.css";
 import { useSnackbar } from 'notistack';
 import { CategoryService } from '../../../services/api';
 
