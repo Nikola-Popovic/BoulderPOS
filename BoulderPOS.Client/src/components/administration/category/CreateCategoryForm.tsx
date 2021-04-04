@@ -1,5 +1,5 @@
-import { Button, TextField } from '@material-ui/core'
-import React, { useState } from 'react'
+import { Button, TextField } from '@material-ui/core';
+import React, { useState } from 'react';
 import { IconPicker } from '../../icons/IconPicker';
 import {
     useHistory
@@ -8,7 +8,10 @@ import "./CreateCategoryForm.css";
 import { useSnackbar } from 'notistack';
 import { CategoryService } from '../../../services/api';
 
-export const CreateCategoryForm = () => {
+export interface CreateCategoryFormProps {
+}
+
+export const CreateCategoryForm = (props : CreateCategoryFormProps) => {
     const history = useHistory();
     const [categoryName, setCategory] = useState<string>('');
     const [iconName, setCategoryIcon] = useState<string>('');
@@ -28,8 +31,8 @@ export const CreateCategoryForm = () => {
     }
     return (
         <form className='categoryForm' onSubmit={(event) => handleSubmit(event)}>
-            <h1>Nouvelle catégorie</h1>
-            <TextField label='Nom de la catégorie' type='text' onChange={(event) => setCategory(event.target.value)}/>
+            <h1> Nouvelle catégorie </h1>
+            <TextField className='categoryField' label='Nom de la catégorie' type='text' onChange={(event) => setCategory(event.target.value)}/>
             <IconPicker value={iconName} onChange={(value) => setCategoryIcon(value)} cName='categoryPicker'/>
             <div className='categoryButtons'>
                 <Button variant='contained' color='secondary' onClick={() => history.goBack()}>
