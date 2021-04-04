@@ -71,7 +71,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         [Fact]
         public async Task CanCreateCategory()
         {
-            var category = new ProductCategory() {Name = "Beverage", CategoryIconPath = ""};
+            var category = new ProductCategory() {Name = "Beverage", IconName = ""};
             var categoryString = JsonConvert.SerializeObject(category);
             var httpResponse = await this._httpClient.PostAsync(CategoriesApiPath,
                 Util.JsonStringContent(categoryString));
@@ -92,7 +92,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             var appDb = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
             var toUpdate = ProductSeeder.FoodCategory;
-            toUpdate.CategoryIconPath = "/img/icon2";
+            toUpdate.IconName = "/img/icon2";
 
             var categoryString = JsonConvert.SerializeObject(toUpdate);
             var httpResponse = await this._httpClient.PutAsync($"{CategoriesApiPath}/{toUpdate.Id}",
@@ -104,11 +104,11 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             var updated = JsonConvert.DeserializeObject<ProductCategory>(responseString);
 
             Assert.NotNull(updated);
-            Assert.Equal(toUpdate.CategoryIconPath, updated.CategoryIconPath);
+            Assert.Equal(toUpdate.IconName, updated.IconName);
 
             var updatedInDb = await appDb.ProductCategories.FindAsync(toUpdate.Id);
 
-            Assert.Equal(toUpdate.CategoryIconPath, updatedInDb.CategoryIconPath);
+            Assert.Equal(toUpdate.IconName, updatedInDb.IconName);
         }
 
         [Fact]

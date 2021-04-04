@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BoulderPOS.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210309202212_RemoveComputedFields")]
-    partial class RemoveComputedFields
+    [Migration("20210403200546_Rename-Pictures")]
+    partial class RenamePictures
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,7 +58,7 @@ namespace BoulderPOS.API.Migrations
 
                     b.Property<string>("Picture")
                         .HasColumnType("varchar")
-                        .HasColumnName("picturePath");
+                        .HasColumnName("picture");
 
                     b.Property<byte[]>("PicturePreviewPath")
                         .HasColumnType("bytea")
@@ -102,19 +102,13 @@ namespace BoulderPOS.API.Migrations
 
             modelBuilder.Entity("BoulderPOS.API.Models.CustomerSubscription", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("CustomerId")
                         .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnName("customerId");
 
                     b.Property<bool>("AutoRenewal")
                         .HasColumnType("boolean")
                         .HasColumnName("autoRenewal");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("integer")
-                        .HasColumnName("customerId");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("date")
@@ -124,12 +118,8 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("date")
                         .HasColumnName("startDate");
 
-                    b.HasKey("Id")
+                    b.HasKey("CustomerId")
                         .HasName("pK_customerSubscriptions");
-
-                    b.HasIndex("CustomerId")
-                        .IsUnique()
-                        .HasDatabaseName("iX_customerSubscriptions_customerId");
 
                     b.ToTable("customerSubscriptions");
                 });
@@ -173,8 +163,8 @@ namespace BoulderPOS.API.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("IconName")
-                        .HasColumnType("varchar")
-                        .HasColumnName("categoryIconPath");
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("iconName");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -189,11 +179,9 @@ namespace BoulderPOS.API.Migrations
 
             modelBuilder.Entity("BoulderPOS.API.Models.ProductInventory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ProductId")
                         .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnName("productId");
 
                     b.Property<int>("InStoreQuantity")
                         .HasColumnType("integer")
@@ -203,19 +191,12 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("orderedQuantity");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer")
-                        .HasColumnName("productId");
-
                     b.Property<int>("SuretyQuantity")
                         .HasColumnType("integer")
                         .HasColumnName("suretyQuantity");
 
-                    b.HasKey("Id")
+                    b.HasKey("ProductId")
                         .HasName("pK_productInventory");
-
-                    b.HasIndex("ProductId")
-                        .HasDatabaseName("iX_productInventory_productId");
 
                     b.ToTable("productInventory");
                 });
@@ -228,13 +209,17 @@ namespace BoulderPOS.API.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("integer")
                         .HasColumnName("customerId");
 
                     b.Property<bool>("IsRefunded")
                         .HasColumnType("boolean")
                         .HasColumnName("isRefunded");
+
+                    b.Property<DateTime>("ProcessedDateTime")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("processedDateTime");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer")
@@ -243,6 +228,10 @@ namespace BoulderPOS.API.Migrations
                     b.Property<decimal>("SellingPrice")
                         .HasColumnType("decimal(8, 2)")
                         .HasColumnName("sellingPrice");
+
+                    b.Property<DateTime>("UpdatedDateTime")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updatedDateTime");
 
                     b.HasKey("Id")
                         .HasName("pK_productPayments");
@@ -295,8 +284,8 @@ namespace BoulderPOS.API.Migrations
             modelBuilder.Entity("BoulderPOS.API.Models.ProductInventory", b =>
                 {
                     b.HasOne("BoulderPOS.API.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
+                        .WithOne("Inventory")
+                        .HasForeignKey("BoulderPOS.API.Models.ProductInventory", "ProductId")
                         .HasConstraintName("fK_productInventory_products_productId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -309,9 +298,7 @@ namespace BoulderPOS.API.Migrations
                     b.HasOne("BoulderPOS.API.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .HasConstraintName("fK_productPayments_customers_customerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("fK_productPayments_customers_customerId");
 
                     b.HasOne("BoulderPOS.API.Models.Product", "Product")
                         .WithMany("Orders")
@@ -320,9 +307,9 @@ namespace BoulderPOS.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
-
                     b.Navigation("Customer");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BoulderPOS.API.Models.Customer", b =>
@@ -336,6 +323,8 @@ namespace BoulderPOS.API.Migrations
 
             modelBuilder.Entity("BoulderPOS.API.Models.Product", b =>
                 {
+                    b.Navigation("Inventory");
+
                     b.Navigation("Orders");
                 });
 

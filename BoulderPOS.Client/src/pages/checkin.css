@@ -39,29 +39,45 @@ html {
 .clientTable {
   border-collapse: collapse;
   width: 100%;
-  border: 1px solid #ddd;
-  font-size: 18px;
+  font-size: 1.1em;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgb(0 0 0 / 15%);
 }
 
-.clientTable th, .clientTable td {
+.clientTable thead tr {
+  background-color: #009879;
+  color: white;
   text-align: left;
-  padding: 12px;
 }
 
-.clientTable tr {
+.clientTable th, 
+.clientTable td {
+  padding: 12px 15px;
+}
+
+.clientTable, td, tr, th {
+  border: 0px
+}
+
+.clientTable tbody tr {
   cursor: pointer;
-  background-color: ghostwhite;
-  border-bottom: 1px solid #ddd;
+  background-color: #f3f3f3;
+  border-bottom: 1px solid #dddddd;
 }
 
-.clientTable tr:nth-child(odd) {
-  background-color: gainsboro;
+.clientTable tbody tr td {
+  text-align: left;
 }
 
-.clientTable tr:hover {
-  background-color: lightsteelblue;
+.clientTable tbody tr:nth-child(odd) {
+  background-color: #ffffff;
 }
 
-.clientTable tr.header {
-  background-color: darkgray;
+.clientTable tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.clientTable tbody tr:hover {
+  font-weight: bold;
+  color: #009879;
 }

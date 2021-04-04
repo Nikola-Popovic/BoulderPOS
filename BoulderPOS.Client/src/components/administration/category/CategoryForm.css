@@ -1,0 +1,28 @@
+.categoryForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.categoryButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    margin-top: 2vh;
+}
+
+.categoryField {
+    width: 65%
+}
+
+.categoryButtons button{
+    width: calc(80px + 5vw);
+    height: calc(30px + 2vh);
+}
+
+
+.categoryPicker {
+    width: 100%
+}

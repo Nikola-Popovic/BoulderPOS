@@ -1,0 +1,24 @@
+.productForm {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.productsButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    margin-top: 2vh;
+}
+
+.productForm div {
+    margin-bottom: 8px;
+    width: 100%
+}
+
+.productsButton button{
+    width: calc(80px + 5vw);
+    height: calc(30px + 2vh);
+}

@@ -18,7 +18,7 @@ interface INavigationButtonProps {
 interface INavigationButtonState {
 }
 
-function NavigationButton( props : INavigationButtonProps & ButtonProps) {
+const NavigationButton = ( props : INavigationButtonProps & ButtonProps) => {
     const history = useHistory();
 
     const _handleClick = () => {
@@ -33,4 +33,4 @@ function NavigationButton( props : INavigationButtonProps & ButtonProps) {
             </Button>
     );
 }
-export default NavigationButton;
+export { NavigationButton };

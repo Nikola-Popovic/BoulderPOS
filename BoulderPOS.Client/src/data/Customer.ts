@@ -8,7 +8,7 @@ export interface Customer {
     email : string,
     phoneNumber : string,
     birthDate: Date,
-    picturePath : string,
+    picture : string,
     entries : CustomerEntries | null,
     subscription : CustomerSubscription | null
 }

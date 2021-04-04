@@ -1,13 +1,11 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import './navbar.css';
 import history from "../../assets/history1.png"
-import home from "../../assets/home.png"
+import './navbar.css';
 
 const NavBar = () => {
     return (
         <>
-            <div className="Nav">
+            <div className={true ? "Nav" : "NavBlack"}>
                 <a href="/">
                     <span className="logo" >Logo</span>
                 </a>
