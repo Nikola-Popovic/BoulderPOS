@@ -82,7 +82,7 @@ const UpdateProduct = (props : UpdateProductProps) => {
                     <InputLabel id="category-select-label"> Catégorie </InputLabel>
                     <Select labelId="category-select-label" 
                             id="category-select"
-                            value={product.category.name}
+                            value={product.categoryId}
                             onChange={(event) => setProduct( {
                                 ...product,
                                 categoryId: event.target.value as number
