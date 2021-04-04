@@ -70,13 +70,13 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
                 </div>
                 <div className="informationPanel">
                     <div><strong>Email</strong>: {client?.email} </div>
-                    <div><strong>Birthdate</strong>: {client?.birthDate} </div>
+                    <div><strong>Date d'anniversaire</strong>: {client?.birthDate} </div>
                 </div>
                 <div className="informationPanel">
                     <div><strong>Phone#</strong>: {client?.phoneNumber} </div>
                 </div>
                 <div className="subscriptionPanel"> 
-                    <div><strong>Subscription: </strong></div>
+                    <div><strong>Abonnement: </strong></div>
                     {client?.subscription === null? <div> No subscription </div>
                     : <div>
                         <div>Start date: {client?.subscription.startDate}</div>
@@ -85,7 +85,7 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
                     }
                 </div>
                 <div className="entriesPanel"> 
-                    <div><strong>Entries: </strong></div>
+                    <div><strong>Entrées: </strong></div>
                     {client?.entries === null? <div> No entries </div>
                     : <div>
                         <div>Quantity: {client?.entries.quantity}</div>
@@ -94,7 +94,7 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
                     }
                 </div>
                 <div className="buttonPanel">
-                    <Button onClick={() => handleShop()} variant='contained' style={{backgroundColor:'#d8a416'}}> Shop </Button>
+                    <Button onClick={() => handleShop()} variant='contained' style={{backgroundColor:'#d8a416'}}> Magasin </Button>
                     <Button onClick={() => handleCheckin()} color='primary' variant='contained'> Check-In </Button> 
                 </div>
             </div>

@@ -5,16 +5,15 @@ import {
     Route,
     useHistory
 } from 'react-router-dom'
-import NavigationButton from '../components/customUi/NavigationButton';
+import { NavigationButton } from '../components/customUi';
 import "./administration.css";
 import { 
     Button,
     TextField
 } from '@material-ui/core';
-import { 
-    CreateCategoryForm,
-    CreateProductForm,
-    CategoriesPage
+import {
+    CategoriesPage,
+    ProductsPage
 } from '../components/administration';
 
 const Administration = () => {
@@ -37,8 +36,8 @@ const Administration = () => {
 
     const diplayAdminActions = () => {
         return <div className='actionButtons'>
-            <NavigationButton text='Add a new product' route={`${match.url}/addproduct`} style={{backgroundColor:'mediumseagreen'}}/>
-            <NavigationButton text='Categories' route={`${match.url}/categories`} style={{backgroundColor:'orange'}}/>
+            <NavigationButton text='Produits' route={`${match.url}/products`} style={{backgroundColor:'mediumseagreen'}}/>
+            <NavigationButton text='Catégories' route={`${match.url}/categories`} style={{backgroundColor:'orange'}}/>
         </div>
     }
 
@@ -58,8 +57,8 @@ const Administration = () => {
                 <Route path={`${match.path}/categories`}>
                     <CategoriesPage />
                 </Route>
-                <Route path={`${match.path}/addproduct`}>
-                    <CreateProductForm />
+                <Route path={`${match.path}/products`}>
+                    <ProductsPage />
                 </Route>
                 <Route path={`${match.path}`}>
                     { displayLoginPanel() }

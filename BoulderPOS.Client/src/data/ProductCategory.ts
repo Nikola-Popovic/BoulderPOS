@@ -8,6 +8,5 @@ export interface CategoryToCreate {
 export interface ProductCategory {
     id : number,
     name : string,
-    iconName : string,
-    products : Product[] | null
+    iconName : string
 }

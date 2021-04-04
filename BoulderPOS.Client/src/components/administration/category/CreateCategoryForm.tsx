@@ -9,6 +9,7 @@ import { useSnackbar } from 'notistack';
 import { CategoryService } from '../../../services/api';
 
 export interface CreateCategoryFormProps {
+    onCreate? : () => void;
 }
 
 export const CreateCategoryForm = (props : CreateCategoryFormProps) => {
@@ -22,6 +23,7 @@ export const CreateCategoryForm = (props : CreateCategoryFormProps) => {
         let promise = CategoryService.postCategory({name : categoryName, iconName : iconName});
         promise.then( (response) => {
             enqueueSnackbar('Category created.', { variant : 'success'});
+            if (props.onCreate !== undefined) { props.onCreate(); }
             history.goBack();
         }).catch( (error) => {
             // Send error to api
@@ -29,6 +31,7 @@ export const CreateCategoryForm = (props : CreateCategoryFormProps) => {
             console.error(error);
         })
     }
+    
     return (
         <form className='categoryForm' onSubmit={(event) => handleSubmit(event)}>
             <h1> Nouvelle catégorie </h1>

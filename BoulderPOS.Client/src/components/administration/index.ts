@@ -1,3 +1,4 @@
 export * from './category/CreateCategoryForm';
-export * from './newProduct/CreateProductForm';
+export * from './product/CreateProductForm';
 export * from './categories';
+export * from './products';

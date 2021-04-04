@@ -14,7 +14,11 @@ interface RouteParams {
     categoryId : string
 }
 
-const UpdateCategory : React.FunctionComponent = () => {
+interface UpdateCategoryProps {
+    onUpdate? : () => void;
+}
+
+const UpdateCategory : React.FunctionComponent<UpdateCategoryProps> = (props : UpdateCategoryProps) => {
     const [category, setCategory] = useState<ProductCategory | null>(null);
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
@@ -39,6 +43,7 @@ const UpdateCategory : React.FunctionComponent = () => {
         let promise = CategoryService.updateCategory(category);
         promise.then( (response) => {
             enqueueSnackbar('Category updated.', { variant : 'success'});
+            if (props.onUpdate !== undefined) { props.onUpdate(); }
         }).catch( (error) => {
             // Send error to api
             enqueueSnackbar('An error occured during the creationn.', { variant : 'error'})

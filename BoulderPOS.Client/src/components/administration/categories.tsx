@@ -5,8 +5,8 @@ import { CategoryService } from '../../services/api';
 import { useSnackbar } from 'notistack';
 import "./categories.css";
 import { Button, LinearProgress } from '@material-ui/core';
-import NavigationButton from '../customUi/NavigationButton';
-import { DeleteCategoryDialog, UpdateCategory, CreateCategoryForm } from "./category";
+import { NavigationButton, DeleteDialog } from '../customUi';
+import { UpdateCategory, CreateCategoryForm } from "./category";
 
 const CategoriesPage = () => {
     const [categories, setCategories] = useState<ProductCategory[]>([]);
@@ -15,12 +15,12 @@ const CategoriesPage = () => {
     const { enqueueSnackbar } = useSnackbar();
     const [selectedCategory, setSelected] = useState<number>(-1);
     const [openDelete, setOpenDelete] = useState(false);
-    const [isDeleted, setIsDeleted] = useState(false);
+    const [shouldRefresh, setShouldRefresh] = useState(false);
     const match = useRouteMatch();
 
     useEffect(() => {
         setLoading(true);
-        setIsDeleted(false);
+        setShouldRefresh(false);
         let promise = CategoryService.getCategories();
         promise.then((response) => {
             setLoading(false);
@@ -29,14 +29,14 @@ const CategoriesPage = () => {
             enqueueSnackbar('An error occured while fetching categories', {variant:'error'});
             console.error(error);
         })
-    }, [isDeleted])
+    }, [shouldRefresh])
 
     const displayCategories = () => {
         return  <tbody> {categories.map((category) => 
                 <tr className="category">
                     <td>{category.name}</td>
                     <td><i className={`${category.iconName}`}/> </td>
-                    <td><Button variant='outlined' color='secondary' onClick={() => openDeleteCategory(category.id)}> Delete </Button></td>
+                    <td style={{textAlign:'end'}}><Button variant='outlined' color='secondary' onClick={() => openDeleteCategory(category.id)}> Delete </Button></td>
                     <td><Button variant='outlined' color='primary' onClick={() => editCategory(category.id)}> Edit </Button></td>
                 </tr>
             )}</tbody>
@@ -51,7 +51,7 @@ const CategoriesPage = () => {
         let promise = CategoryService.deleteCategory(selectedCategory);
         promise.then(() => {
             enqueueSnackbar('Category deleted successfully', {variant:'success'});
-            setIsDeleted(true);
+            setShouldRefresh(true);
             setOpenDelete(false);
         }).catch((error) => {
             console.error(error);
@@ -78,7 +78,10 @@ const CategoriesPage = () => {
                     {displayCategories()}
                 </table>
             </div>
-            <DeleteCategoryDialog open={openDelete} handleClose={() => setOpenDelete(false)} handleConfirm={()=> deleteCategory()}/>
+            <DeleteDialog open={openDelete} 
+                            handleClose={() => setOpenDelete(false)} 
+                            handleConfirm={()=> deleteCategory()}
+                            title='Êtes vous sûr de vouloir supprimer la catégorie?'/>
             {isLoading && <LinearProgress color='primary' />}
             <div className="buttonPanel">
                 <Button variant='contained' color='secondary' onClick={() => history.goBack()}>
@@ -92,10 +95,10 @@ const CategoriesPage = () => {
     return <div className="categoriesPage">
         <Switch>
             <Route exact path={`${match.path}/addproductcategory`}>
-                <CreateCategoryForm />
+                <CreateCategoryForm onCreate={() => setShouldRefresh(true)}/>
             </Route>
             <Route path={`${match.path}/:categoryId`}>
-                <UpdateCategory />
+                <UpdateCategory onUpdate={() => setShouldRefresh(true)}/>
             </Route>
             <Route path={match.path}>
                 { displayCategoriesPage() }

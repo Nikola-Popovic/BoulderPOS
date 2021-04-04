@@ -21,7 +21,6 @@ namespace BoulderPOS.API.Models
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
-        [JsonIgnore]
         public virtual ProductCategory Category { get; set; }
 
         [JsonIgnore]
