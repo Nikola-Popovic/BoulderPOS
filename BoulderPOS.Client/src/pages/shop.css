@@ -1,0 +1,14 @@
+.shopPage {
+    height: 100%;
+}
+
+
+.shopContext {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 95vh;
+    width: 65%;
+    float: left;
+    background-color: whitesmoke;
+}

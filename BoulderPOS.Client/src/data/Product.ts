@@ -13,3 +13,7 @@ export interface ProductToCreate {
     price : number,
     categoryId : string
 }
+
+export function toCurrency(num: number) {
+    return (Math.round(num*Math.pow(10,2))/Math.pow(10,2)).toFixed(2)
+}

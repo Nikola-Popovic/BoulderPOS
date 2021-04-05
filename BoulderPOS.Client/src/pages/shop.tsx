@@ -1,237 +1,97 @@
-import { Component } from 'react'
-import AvailableProducts from '../components/shop/availableProducts/availableProducts';
-import Bill from '../components/shop/bill/bill';
-import { ItemCategory } from '../data/ItemCategory';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router';
+import { ProductsPanel, CategoriesPanel, Bill } from '../components/shop';
 import { PaymentMethod } from '../data/PaymentMethod';
-import { BillItem, ShopItem } from '../data/ShopItem';
+import { useSnackbar } from 'notistack';
+import { Product, ProductCategory, ProductInCart } from '../data';
+import { CategoryService } from '../services/api';
+import "./shop.css";
 
-class Shop extends Component<{},{cart: BillItem[], selectedCategory: ItemCategory}> {
-    constructor(props:any) {
-        super(props);
-        this.state = {
-            cart: [],
-            selectedCategory: CATEGORIES[0],
-        }
-        console.log("Initialized Shop!")
-    }
+interface RouteParams {
+    clientId : string
+}
 
-    onShopItemClick(item: ShopItem) {
-        let tempCart = this.state.cart;
-        if(tempCart.find(a => a.id === item.id ) === undefined) {
-            tempCart.push(
-                {
-                    id: item.id,
-                    price: item.price,
-                    name: item.name,
-                    categoryId: item.categoryId,
-                    quantity: 1
-                });
-        }
-        else {
-            let i = tempCart.findIndex(a => a.id === item.id)
-            tempCart[i].quantity++;
-        }
-        if(tempCart !== undefined){
-            this.setState({
-                cart: tempCart
+interface ShopProps {
+
+}
+
+const Shop = (props : ShopProps) => {
+    const [categories, setCategories] = useState<ProductCategory[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<number>();
+    let { clientId } = useParams<RouteParams>();
+    const [ cart, setCart ] = useState<ProductInCart[]>([]);
+    const { enqueueSnackbar } = useSnackbar();
+
+    useEffect(() => {
+        let promise = CategoryService.getCategories();
+        promise.then((response) => { 
+            setCategories(response.data);
+            setSelectedCategory(response.data[0]?.id);
+        }).catch((error) => {
+            enqueueSnackbar('Could not fetch categories', {variant:'error'})
+            console.error(error);
+        })
+    }, []);
+
+    useEffect(() => {
+        if (selectedCategory !== undefined) {
+            let promise = CategoryService.getProductsByCategory(selectedCategory);
+            promise.then((response) => setProducts(response.data))
+            .catch((error) => {
+                enqueueSnackbar('Could not fetch products', {variant:'error'})
+                console.error(error);
             })
         }
-        return item;
+    }, [selectedCategory]);
+
+    /**
+     * 
+    useEffect(() => {
+    }, [cart])
+    
+    */
+    const handleShopProductClick = (product : Product) => {
+        let tempCart = cart;
+        if(tempCart.find(a => a.id == product.id) === undefined) {
+            tempCart.push(
+                {
+                    id : product.id,
+                    price: product.price,
+                    name: product.name,
+                    categoryId: product.categoryId,
+                    category: product.category,
+                    quantity: 1
+                }
+            );
+        } else {
+            let i = tempCart.findIndex(a => a.id === product.id);
+            tempCart[i].quantity += 1;
+        }
+        setCart(tempCart);
     }
 
-    onCategoryClick(category: ItemCategory) {
-        console.log("Clicked category " + category.name + "!");
-        console.log("current category: "+this.state.selectedCategory)
-        this.setState({
-            selectedCategory: category
-        })
-        return category
-    }
-
-    onPaymentConfirm(method: PaymentMethod) {
+    const onPaymentConfirm = (method: PaymentMethod) => { 
         if (window.confirm('Has the payment been completed?')) {
             // Save transaction in database
             // Remove # of items from inventory
             // Add money amount to day total for stats
             console.log('Transaction was saved in the database.');
-            this.setState({
-                cart: []
-            });
+            setCart([]);
           } else {
-            console.log('Transaction was not saved in the database.');
           }
     }
+    
+    return <div className="shopPage">
+        <Bill items={cart} 
+            onPaymentConfirm={(method: PaymentMethod) => onPaymentConfirm(method)}/>
+        <div className="shopContext">
+            <CategoriesPanel categories={categories} onCategoryClick={(categoryId) => setSelectedCategory(categoryId)}/>
+            <ProductsPanel products={products} onItemClick={(product) => handleShopProductClick(product)}/>
+        </div>
+    </div>
 
-    render() {
-        return (
-            <div style={{height:"100%"}}>
-                <Bill items={this.state.cart} onPaymentConfirm={(method: PaymentMethod) => this.onPaymentConfirm(method)}/>
-                <AvailableProducts categories={CATEGORIES} items={ITEMS} onItemClick={(item: ShopItem) => this.onShopItemClick(item)} onCategoryClick={(category: ItemCategory) => this.onCategoryClick(category)} selectedCategory={this.state.selectedCategory}/>
-            </div>
-        )
-    }
+    
 }
 
-const CATEGORIES = [
-    {
-        id: 1,
-        name:"Breuvage"
-    },
-    {
-        id: 2,
-        name:"Nourriture"
-    },
-    {
-        id: 3,
-        name:"Merch"
-    },
-    {
-        id: 4,
-        name:"Entrée"
-    },
-    {
-        id: 5,
-        name:"Abonnement"
-    },
-    {
-        id: 6,
-        name:"Équipement"
-    },
-    {
-        id: 7,
-        name:"Promotions"
-    },
-
-]
-
-const ITEMS = [
-    {
-        id: 1,
-        name:"Patate frite",
-        price: 2.99,
-        categoryId: 2,
-    },
-    {
-        id: 1123,
-        name:"ITEM AVEC UN TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES TRES LONG NOM",
-        price: 1.00,
-        categoryId: 2,
-    },
-    {
-        id: 2,
-        name:"Grilled Cheese",
-        price: 3.99,
-        categoryId: 2,
-    },
-    {
-        id: 3,
-        name:"Ramen",
-        price: 6.99,
-        categoryId: 2,
-    },
-    {
-        id: 4,
-        name:"Crudités",
-        price: 2.99,
-        categoryId: 2,
-    },
-    {
-        id: 5,
-        name:"Sandwich",
-        price: 4.99,
-        categoryId: 2,
-    },
-    {
-        id: 6,
-        name:"Salade de fruits",
-        price: 2.99,
-        categoryId: 2,
-    },
-    {
-        id: 7,
-        name:"Chips",
-        price: 1.99,
-        categoryId: 2,
-    },
-    {
-        id: 8,
-        name:"Fleurs Comestibles",
-        price: 2.99,
-        categoryId: 2,
-    },
-    {
-        id: 9,
-        name:"Bouteille d'eau",
-        price: 0.99,
-        categoryId: 1,
-    },
-    {
-        id: 10,
-        name:"Gatorade",
-        price: 2.99,
-        categoryId: 1,
-    },
-    {
-        id: 11,
-        name:"Casquette BB",
-        price: 19.99,
-        categoryId: 3,
-    },
-    {
-        id: 12,
-        name:"Hoodie BB",
-        price: 49.99,
-        categoryId: 3,
-    },
-    {
-        id: 13,
-        name:"Entrée journalière",
-        price: 5.66,
-        categoryId: 4,
-    },
-    {
-        id: 14,
-        name:"Abonnement annuel",
-        price: 300.00,
-        categoryId: 5,
-    },
-    {
-        id: 15,
-        name:"Chaussons Sportiva ",
-        price: 219.95,
-        categoryId: 6,
-    },
-    {
-        id: 16,
-        name:"2 pour 1 fête des mères ",
-        price: 2.83,
-        categoryId: 7,
-    },
-    {
-        id: 17,
-        name:"rabais paques 25%",
-        price: 4.25,
-        categoryId: 7,
-    },
-    {
-        id: 18,
-        name:"forfait fete enfants",
-        price: 75,
-        categoryId: 7,
-    },
-    {
-        id: 19,
-        name:"carte cadeau 50$",
-        price: 50,
-        categoryId: 7,
-    },
-    {
-        id: 20,
-        name:"sirop gratis fete des patriotes",
-        price: 0,
-        categoryId: 7,
-    },
-]
-
-
-export default Shop
+export default Shop;
