@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, Switch, Route, useRouteMatch } from 'react-router-dom';
-import { Product } from '../../data';
+import { Product, toCurrency } from '../../data';
 import { useSnackbar } from 'notistack';
 import "./products.css";
 import { Button, LinearProgress } from '@material-ui/core';
@@ -35,7 +35,7 @@ const ProductsPage = () => {
         return  <tbody> {products.map((product) => 
                 <tr>
                     <td>{product.name}</td>
-                    <td>{`${product.price}`}</td>
+                    <td>{`${toCurrency(product.price)}`}</td>
                     <td>{`${product.category?.name}`}</td>
                     <td style={{textAlign:'end'}}><Button variant='outlined' color='secondary' onClick={() => openDeleteProduct(product.id)}> Delete </Button></td>
                     <td><Button variant='outlined' color='primary' onClick={() => editProduct(product.id)}> Edit </Button></td>
@@ -67,7 +67,7 @@ const ProductsPage = () => {
     const displayProductsPage = () => {
         return <>
             <h1> Produits </h1>
-            <div className="scrollable">
+            <div className="productScrollable">
                 <table className="productsTable">
                     <thead>
                         <tr>
@@ -87,7 +87,7 @@ const ProductsPage = () => {
                 title='Êtes vous sûr de vouloir supprimer le produit'
             />
             {isLoading && <LinearProgress color='primary' />}
-            <div className="buttonPanel">
+            <div className="productsButtonPanel">
                 <Button variant='contained' color='secondary' onClick={() => history.goBack()}>
                     Retour arrière
                 </Button>

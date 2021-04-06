@@ -1,0 +1,19 @@
+.shopCategoriesSection {
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    justify-content: space-evenly;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.shopCategory {
+    background-color: lightgray;
+    height: calc(50px + 4vh);
+    width: calc(60px + 2vw);
+    border-radius: 5px;
+}
+
+.selectedCategory {
+    background-color: lightsteelblue;
+}

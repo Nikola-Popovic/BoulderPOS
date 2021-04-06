@@ -74,7 +74,7 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
 
                 {isLoading && <LinearProgress color='primary' />}
 
-                <div className="scrollable">
+                <div className="clientScroll">
                     <table className="clientTable">
                         <thead>
                             <tr>

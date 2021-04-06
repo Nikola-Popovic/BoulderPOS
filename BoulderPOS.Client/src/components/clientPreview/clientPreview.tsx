@@ -64,15 +64,15 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
     return (
         <div className="parent">
             <div className="clientPanel" >
-                <div className="pictureFrame"> Img </div>
-                <div className="clientName"> 
+                <div className="clientPanelPictureFrame"> Img </div>
+                <div className="clientPanelClientName"> 
                     <h2> {client?.firstName} {client?.lastName} </h2>  
                 </div>
-                <div className="informationPanel">
+                <div className="clientPanelInformationn">
                     <div><strong>Email</strong>: {client?.email} </div>
                     <div><strong>Date d'anniversaire</strong>: {client?.birthDate} </div>
                 </div>
-                <div className="informationPanel">
+                <div className="clientPanelInformationn">
                     <div><strong>Phone#</strong>: {client?.phoneNumber} </div>
                 </div>
                 <div className="subscriptionPanel"> 
@@ -93,7 +93,7 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
                     </div>
                     }
                 </div>
-                <div className="buttonPanel">
+                <div className="clientPanelButtons">
                     <Button onClick={() => handleShop()} variant='contained' style={{backgroundColor:'#d8a416'}}> Magasin </Button>
                     <Button onClick={() => handleCheckin()} color='primary' variant='contained'> Check-In </Button> 
                 </div>

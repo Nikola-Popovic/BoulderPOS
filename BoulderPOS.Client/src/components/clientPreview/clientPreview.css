@@ -14,19 +14,19 @@
     grid-template-rows: repeat(5, 20%);
 }
 
-.clientName {
+.clientPanelClientName {
     grid-row: 1;
     grid-column: 2/4;
 }
 
-.pictureFrame {
+.clientPanelPictureFrame {
     grid-row: 1/4;
     grid-column: 1;
     margin: 5px;
     border: 1px solid lightgrey;
 }
 
-.informationPanel {
+.clientPanelInformationn {
     display: flex;
     flex-direction: column;
 }
@@ -43,15 +43,16 @@
     grid-area: 3 / 3 / 5 / 4;
 }
 
-.buttonPanel {
+.clientPanelButtons {
     display: flex;
     justify-content: flex-end;
     grid-column: 2/4;
     grid-row: 5;
 }
 
-.buttonPanel button {
+.clientPanelButtons button {
     margin: 10px;
+    color: white;
     height: 50px;
     width: calc(100px + 3vmin);
 }
