@@ -19,7 +19,7 @@ const Shop = (props : ShopProps) => {
     const [categories, setCategories] = useState<ProductCategory[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<number>();
-    const [ cart, setCart ] = useState<ProductInCart[]>([]);
+    let [ cart, setCart ] = useState<ProductInCart[]>([]);
     const [ billRefresh, setBillRefresh] = useState(false);
     let { clientId } = useParams<RouteParams>();
     const [client, setClient] = useState<Customer | undefined>();
@@ -56,15 +56,10 @@ const Shop = (props : ShopProps) => {
             })
         }
     }, [selectedCategory]);
-
-    useEffect( () => {
-        setBillRefresh(true);
-    }, [cart]);
     
     const handleShopProductClick = (product : Product) => {
-        let tempCart = cart;
-        if(tempCart.find(a => a.id == product.id) === undefined) {
-            tempCart.push(
+        if(cart.find(a => a.id == product.id) === undefined) {
+            cart.push(
                 {
                     id : product.id,
                     price: product.price,
@@ -75,10 +70,10 @@ const Shop = (props : ShopProps) => {
                 }
             );
         } else {
-            let i = tempCart.findIndex(a => a.id === product.id);
-            tempCart[i].quantity += 1;
+            let i = cart.findIndex(a => a.id === product.id);
+            cart[i].quantity += 1;
         }
-        setCart(tempCart);
+        setBillRefresh(true);
     }
 
     const onPaymentConfirm = (method: PaymentMethod) => { 

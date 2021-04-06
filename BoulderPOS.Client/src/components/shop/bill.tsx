@@ -15,26 +15,20 @@ export interface BillProps {
 }
 
 const Bill = (props : BillProps) => {
-
-    const [cart, setCart] = useState<ProductInCart[]>([]);
     const [subTotal, setSubtotal] = useState<number>(0);
 
     useEffect(() => {
-        setCart(props.items);
+        setSubtotal(evaluateSubtotal());
         props.setBillRefresh(false);
     }, [props.items, props.billRefresh]);
 
-    useEffect(() => {
-        setSubtotal(evaluateSubtotal());
-    }, [cart])
-
     const evaluateSubtotal = () =>{
-        const priceList = cart.map(a => a.price * a.quantity)
+        const priceList = props.items.map(a => a.price * a.quantity)
         return priceList.reduce((a, b) => a + b, 0)
     }
 
     const makeBillTable = () => {
-        return cart.map((item) => <tr>
+        return props.items.map((item) => <tr>
             <td>{item.name}</td>
             <td>{item.quantity}</td>
             <td>{toCurrency(item.price * item.quantity)}</td>
