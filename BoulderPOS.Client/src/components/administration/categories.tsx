@@ -66,7 +66,7 @@ const CategoriesPage = () => {
     const displayCategoriesPage = () => {
         return <>
             <h1> Catégories </h1>
-            <div className="scrollable">
+            <div className="categoriesScrollable">
                 <table className="categoriesTable">
                     <thead>
                         <tr>
@@ -83,7 +83,7 @@ const CategoriesPage = () => {
                             handleConfirm={()=> deleteCategory()}
                             title='Êtes vous sûr de vouloir supprimer la catégorie?'/>
             {isLoading && <LinearProgress color='primary' />}
-            <div className="buttonPanel">
+            <div className="categoriesButtonPanel">
                 <Button variant='contained' color='secondary' onClick={() => history.goBack()}>
                     Retour arrière
                 </Button>

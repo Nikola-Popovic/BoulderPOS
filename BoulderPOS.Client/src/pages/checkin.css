@@ -32,7 +32,7 @@ html {
   margin-top: 3vh;
 }
   
-.scrollable {
+.clientScroll {
   overflow: auto;
 }
 
