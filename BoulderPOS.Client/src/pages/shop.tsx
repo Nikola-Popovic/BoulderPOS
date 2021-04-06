@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router';
+import React, { useEffect, useState } from 'react'
+import { useParams, useHistory } from 'react-router';
 import { ProductsPanel, CategoriesPanel, Bill } from '../components/shop';
 import { PaymentMethod } from '../data/PaymentMethod';
 import { useSnackbar } from 'notistack';
@@ -17,6 +17,7 @@ interface ShopProps {
 
 const Shop = (props : ShopProps) => {
     const [categories, setCategories] = useState<ProductCategory[]>([]);
+    const history = useHistory();
     const [products, setProducts] = useState<Product[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<number>();
     let [ cart, setCart ] = useState<ProductInCart[]>([]);
@@ -83,6 +84,7 @@ const Shop = (props : ShopProps) => {
             // Add money amount to day total for stats
             console.log('Transaction was saved in the database.');
             setCart([]);
+            history.push('/');
           } else {
           }
     }

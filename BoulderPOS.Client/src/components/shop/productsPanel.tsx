@@ -10,11 +10,11 @@ interface ProductsPanelProps {
 const ProductsPanel = (props: ProductsPanelProps ) => {
 
     const listProducts = () => {
-        return <>{ props.products.map((product) => 
+        return  props.products.map((product) => 
             <button className="shopItem" onClick={() => props.onItemClick(product)}>
                 {product.name} <br/> <br/>{toCurrency(product.price)}
             </button>
-        )}</>
+        )
     }
 
     return <div className="shopItemsSection">

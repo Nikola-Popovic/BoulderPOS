@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProductCategory } from '../../data';
 import './categoriesPanel.css';
 
@@ -9,17 +9,23 @@ interface CategoriesPanelProps {
 
 const CategoriesPanel = (props : CategoriesPanelProps) => {
     
-    let selectedCategories : number;
+    const [selectedCategory, setSelected] = useState<Number>(1);
 
     const handleClick = (categoryId : number) => {
+        setSelected(categoryId);
         props.onCategoryClick(categoryId);
-        selectedCategories = categoryId;
     }
+
+    useEffect(() => {
+        if (props.categories[0] !== undefined) {
+            setSelected(props.categories[0].id);
+        }
+    }, [props.categories])
 
     const listCategories = () => {
         return <>
             { props.categories.map((category) => 
-                <button className={selectedCategories === category.id ? "selectedCategory" : "shopCategory"} 
+                <button className={selectedCategory === category.id ? "shopCategory selectedCategory" : "shopCategory"} 
                 onClick={() => handleClick(category.id)}>
                     <i className={`${category.iconName} fa-2x`} />
                 </button>

@@ -26,6 +26,7 @@
 }
 
 .productsTable thead tr {
+    border-radius: 10px;
     background-color: #009879;
     color: white;
     text-align: left;
@@ -49,6 +50,7 @@
 }
 
 .productsTable tbody tr:last-of-type {
+    border-radius: 10px;
     border-bottom: 2px solid #009879;
 }
 

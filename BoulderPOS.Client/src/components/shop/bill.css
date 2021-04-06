@@ -43,31 +43,51 @@
 
 .billTable {
   width: 90%;
+  border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
   margin-top: 50px;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgb(0 0 0 / 15%);
 }
 
 .billTable, th, td {
-  border: 1px solid black;
+  border: 0px;
+  text-align: left;
   margin-bottom: auto;
 }
 
-.billTable, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+.billTable thead tr {
+  border-radius: 10px;
+  background-color: #4c5353;
+  color: white;
 }
 
-.billTable th {
-  text-align: left;
+.billTable th, 
+.billTable td {
+  padding: 12px 15px;
 }
 
-.billTable tbody>tr>:nth-child(3) {
+.billTable tr>:nth-child(3) {
   text-align: right;
 }
 
-.billTable  tr:nth-child(odd) {
-  background-color: #bbbbbb;
+.billTable tbody tr {
+  border-bottom: 1px solid #dddddd
+}
+
+.billTable tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.billTable tbody tr:nth-child(even) {
+  background-color: #f3f3f3;
+}
+
+.productsTable tbody tr:last-of-type {
+  border-radius: 10px;
+  border-bottom: 2px solid #4c5353;
 }
 
 .bottomSection {
