@@ -8,7 +8,7 @@
     text-align: center;
 }
 
-.scrollable {
+.productScrollable {
     overflow: auto;
 }
 
@@ -56,13 +56,16 @@
     width: calc(20px + 1vw)
 }
 
-.buttonPanel {
+.productsButtonPanel {
     display:flex;
     flex-direction: row;
+    margin-top: 5px;
     justify-content: flex-end;
 }
 
-.buttonPanel button {
+.productsButtonPanel button {
+    height: 50px;
+    margin-left: 5px;
     width : calc(100px + 4vw);
     color: white;
 }
