@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         private readonly HttpClient _httpClient;
         private readonly CustomWebApplicationFactory<Startup> _factory;
         private const string CategoriesApiPath = "/api/categories";
+        private const string SubscriptionCategory = "Subscription";
+        private const string EntriesCategory = "Entries";
 
         public ProductCategoriesControllerIntegrationTests(CustomWebApplicationFactory<Startup> factory)
         {
@@ -25,7 +28,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         }
 
         [Fact]
-        public async Task CanGetCategories()
+        public async Task CanGetOrderedCategories()
         {
             var httpResponse = await _httpClient.GetAsync(CategoriesApiPath);
 
@@ -33,10 +36,32 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
 
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
             var categories = JsonConvert.DeserializeObject<IEnumerable<ProductCategory>>(stringResponse);
-
+            Assert.NotEmpty(categories);
             Assert.Contains(categories, category => category.Name == ProductSeeder.FoodCategory.Name);
-            Assert.Contains(categories, category => category.Name == ProductSeeder.EquipmentCategory.Name);
+
+
+            var categoriesList = categories.ToList();
+            // Make sure they are in ascending order
+            Assert.Equal(ProductSeeder.EquipmentCategory.Id, categoriesList[0].Id);
+            var categoryToDeleteIndex = categoriesList.FindIndex(category => category.Id == ProductSeeder.CategoryToDelete.Id);
+            var categoryFoodIndex = categoriesList.FindIndex(category => category.Id == ProductSeeder.FoodCategory.Id);
+            Assert.True(categoryFoodIndex < categoryToDeleteIndex);
         }
+
+        [Fact]
+        public async Task CanGetSeedDataCategories()
+        {
+            var httpResponse = await _httpClient.GetAsync(CategoriesApiPath);
+            httpResponse.EnsureSuccessStatusCode();
+
+            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            var categories = JsonConvert.DeserializeObject<IEnumerable<ProductCategory>>(stringResponse);
+
+            Assert.Contains(categories, category => category.Name == EntriesCategory);
+            Assert.Contains(categories, category => category.Name == SubscriptionCategory);
+        }
+
+        // Todo : Test Update Categories
 
         [Fact]
         public async Task CanGetCategoryById()

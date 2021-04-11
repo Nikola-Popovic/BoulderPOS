@@ -70,14 +70,14 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
 
         public static CustomerSubscription ValidSubscription => new CustomerSubscription()
         {
-            CustomerId = 4,
+            CustomerId = 5,
             StartDate = DateTime.Today,
             EndDate = DateTime.Today.AddDays(30)
         };
 
         public static CustomerSubscription InvalidSubscription => new CustomerSubscription()
         {
-            CustomerId = 5,
+            CustomerId = 6,
             StartDate = DateTime.Today.Subtract(TimeSpan.FromDays(33)),
             EndDate = DateTime.Today.Subtract(TimeSpan.FromDays(3))
         };

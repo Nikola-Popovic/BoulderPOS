@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoulderPOS.API.Models;
@@ -18,7 +19,8 @@ namespace BoulderPOS.API.Services
 
         public async Task<IEnumerable<ProductCategory>> GetProductCategories()
         {
-            return await _context.ProductCategories.ToListAsync();
+            var categoryByOrder = _context.ProductCategories.OrderBy(category => category.Order);
+            return await categoryByOrder.ToListAsync();
         }
 
         public async Task<ProductCategory> GetProductCategory(int id)
@@ -55,11 +57,21 @@ namespace BoulderPOS.API.Services
             return productCategory;
         }
 
+        public async Task UpdateProductCategories(ProductCategory[] productCategories)
+        {
+            
+            foreach (var productCategory in productCategories)
+            {
+                await UpdateProductCategory(productCategory.Id, productCategory);
+            }
+        }
+
         public async Task<ProductCategory> CreateProductCategory(ProductCategory productCategory)
         {
             if (_context.ProductCategories.Any())
             {
                 productCategory.Id = await _context.ProductCategories.MaxAsync(p => p.Id) + 1;
+                productCategory.Order = await _context.ProductCategories.MaxAsync(p => p.Order) + 1;
             }
             _context.ProductCategories.Add(productCategory);
             await _context.SaveChangesAsync();
@@ -70,6 +82,11 @@ namespace BoulderPOS.API.Services
         {
             var productCategory = await _context.ProductCategories.FindAsync(id);
             if(productCategory == null) {
+                return null;
+            }
+            // See if this is completely necessary
+            if (productCategory.IsEntries || productCategory.IsSubscription )
+            {
                 return null;
             }
             _context.ProductCategories.Remove(productCategory);

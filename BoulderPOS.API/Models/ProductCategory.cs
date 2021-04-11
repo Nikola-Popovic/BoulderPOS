@@ -17,6 +17,12 @@ namespace BoulderPOS.API.Models
         [Column(TypeName = "varchar(30)")]
         public string IconName { get; set; }
 
+        public int Order { get; set; }
+
+        public bool IsSubscription { get; set; } = false;
+
+        public bool IsEntries { get; set; } = false;
+
         [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
 

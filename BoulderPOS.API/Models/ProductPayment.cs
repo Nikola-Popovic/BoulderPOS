@@ -17,6 +17,8 @@ namespace BoulderPOS.API.Models
 
         public bool IsRefunded { get; set; }
 
+        public int Quantity { get; set; }
+
         [Column(TypeName = "decimal(8, 2)")]
         public decimal SellingPrice { get; set; }
 
