@@ -152,5 +152,22 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
 
             Assert.NotEqual(ProductSeeder.CategoryToDelete, deletedInBd);
         }
+
+        [Fact]
+        public async Task CannotDeleteEntriesCategory()
+        {
+            using var scope = _factory.Services.CreateScope();
+            var appDb = scope.ServiceProvider.GetService<ApplicationDbContext>();
+
+            var httpResponse = await this._httpClient.DeleteAsync($"{CategoriesApiPath}/{ProductSeeder.EntriesCategory.Id}");
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
+
+            var presentIndDb = await appDb.ProductCategories.FirstOrDefaultAsync(category => category.Id == ProductSeeder.EntriesCategory.Id);
+
+            Assert.Equal(ProductSeeder.EntriesCategory.IconName, presentIndDb.IconName);
+        }
     }
 }
