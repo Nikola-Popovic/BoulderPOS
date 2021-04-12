@@ -35,6 +35,7 @@ const UpdateProduct = (props : UpdateProductProps) => {
         promise.then( (response) => {
             enqueueSnackbar('Product updated.', { variant : 'success'});
             if (props.onUpdate !== undefined) { props.onUpdate(); }
+            history.goBack();
         }).catch( (error) => {
             // Send error to api
             enqueueSnackbar('An error occured during the update.', { variant : 'error'})
@@ -78,6 +79,16 @@ const UpdateProduct = (props : UpdateProductProps) => {
                             ...product,
                             price : parseFloat(event.target.value)
                         })}/>
+                { (product.category?.isSubscription || product.category?.isEntries) && 
+                <TextField className='quantityField' 
+                    label={product.category?.isSubscription ? "Durée en mois" : 'Quantité'} 
+                    type='number' 
+                    value={product.quantity}
+                    onChange={(event) => setProduct({
+                        ...product,
+                        quantity : parseInt(event.target.value)
+                    })}/>
+                }
                 <FormControl>
                     <InputLabel id="category-select-label"> Catégorie </InputLabel>
                     <Select labelId="category-select-label" 

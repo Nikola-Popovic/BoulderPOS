@@ -8,5 +8,8 @@ export interface CategoryToCreate {
 export interface ProductCategory {
     id : number,
     name : string,
-    iconName : string
+    iconName : string,
+    order : number,
+    isEntries : boolean,
+    isSubscription : boolean
 }

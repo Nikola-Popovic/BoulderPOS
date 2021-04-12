@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BoulderPOS.API.IntegrationsTests.DataSeed;
 using BoulderPOS.API.Models;
 using BoulderPOS.API.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
@@ -109,6 +110,59 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             // Assert default value is false
             Assert.Equal(paymentToCreate.SellingPrice, createdPayment.SellingPrice);
             Assert.False(createdPayment.IsRefunded);
+        }
+
+        [Fact]
+        public async Task EntriesPaymentAddsEntriesToCustomer()
+        {
+            var scope = _factory.Services.CreateScope();
+            await using var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            var paymentToCreate = new ProductPayment()
+            {
+                CustomerId = CustomerSeeder.Customer1.Id,
+                Product = ProductSeeder.EntriesProduct,
+                Quantity = 1
+            };
+
+            var objString = JsonConvert.SerializeObject(paymentToCreate);
+            var httpResponse = await _httpClient.PostAsync(ProductPaymentApiPath, Util.JsonStringContent(objString));
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            var createdPayment = JsonConvert.DeserializeObject<ProductPayment>(responseString);
+            Assert.NotNull(createdPayment);
+
+            var entries = await dbContext.CustomerEntries.FindAsync(CustomerSeeder.Customer1.Id);
+            var expectedQty = CustomerSeeder.Customer1Entries.Quantity + ProductSeeder.EntriesProduct.Quantity;
+            Assert.Equal(expectedQty, entries.Quantity);
+        }
+
+        [Fact]
+        public async Task SubscriptionPaymentAddsTimeToCustomerSubscription()
+        {
+            var scope = _factory.Services.CreateScope();
+            await using var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            var paymentToCreate = new ProductPayment()
+            {
+                CustomerId = CustomerSeeder.CustomerWithValidSubscription.Id,
+                Product = ProductSeeder.SubscriptionProduct,
+                Quantity = 1
+            };
+
+            var objString = JsonConvert.SerializeObject(paymentToCreate);
+            var httpResponse = await _httpClient.PostAsync(ProductPaymentApiPath, Util.JsonStringContent(objString));
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            var createdPayment = JsonConvert.DeserializeObject<ProductPayment>(responseString);
+            Assert.NotNull(createdPayment);
+
+            var subscription = await dbContext.CustomerSubscriptions.FirstOrDefaultAsync(c => c.CustomerId == CustomerSeeder.CustomerWithValidSubscription.Id);
+
+            var expectedTime = CustomerSeeder.ValidSubscription.EndDate.AddMonths((int) ProductSeeder.SubscriptionProduct.Quantity);
+            Assert.Equal(expectedTime, subscription.EndDate);
         }
     }
 }

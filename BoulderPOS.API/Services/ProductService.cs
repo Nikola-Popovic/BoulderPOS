@@ -19,9 +19,10 @@ namespace BoulderPOS.API.Services
             _inventoryService = inventoryService;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<Product>> GetAvailableProducts()
         {
-            return await _context.Products.ToListAsync();
+            var availableProducts = _context.Products.Where(p => p.IsAvailable);
+            return await availableProducts.ToListAsync();
         }
 
         public async Task<Product> GetProduct(int id)
@@ -60,8 +61,8 @@ namespace BoulderPOS.API.Services
                 return;
             }
 
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            product.IsAvailable = false;
+            var updated = await UpdateProduct(id, product);
         }
 
         public async Task<Product> CreateProduct(Product product, bool createInventory)

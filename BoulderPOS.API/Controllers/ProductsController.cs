@@ -21,7 +21,7 @@ namespace BoulderPOS.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return Ok(await _productService.GetProducts());
+            return Ok(await _productService.GetAvailableProducts());
         }
 
         // GET: api/Products/5

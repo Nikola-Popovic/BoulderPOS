@@ -73,6 +73,16 @@ namespace BoulderPOS.API.Controllers
             return Ok(updated);
         }
 
+        // PUT: api/categories/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("updateOrder")]
+        public async Task<IActionResult> UpdateCategoriesOrder(ProductCategory[] productCategories)
+        {
+            await _categoryService.UpdateProductCategories(productCategories);
+            return NoContent();
+        }
+
         // POST: api/categories
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

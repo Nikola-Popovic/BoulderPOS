@@ -8,12 +8,9 @@
     text-align: center;
 }
 
-.categoriesScrollable {
-    overflow: auto;
-}
-
 .categoriesTable {
     border-collapse: collapse;
+    table-layout: auto;
     width: 100%;
     font-size: 1.3em;
     font-family: sans-serif;
@@ -35,8 +32,26 @@
     padding: 12px 15px;
 }
 
+.categoriesTable thead tr th:nth-child(1),
+.categoriesTable tbody tr td:nth-child(1)  {
+    width : 45%
+}
+
+.categoriesTable thead tr th:nth-child(2),
+.categoriesTable tbody tr td:nth-child(2)  {
+    width : 10%
+}
+
+.categoriesTable thead tr th:nth-child(3) {
+    text-align: center;
+}
+
 .categoriesTable tbody tr {
     border-bottom: 1px solid #dddddd
+}
+
+.categoriesTable tbody tr td {
+    display:"table-cell";
 }
 
 .categoriesTable tbody tr:nth-of-type(odd) {

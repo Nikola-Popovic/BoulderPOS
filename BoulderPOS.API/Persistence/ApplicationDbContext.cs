@@ -23,6 +23,7 @@ namespace BoulderPOS.API.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.AddInitialDataSeed();
             modelBuilder.ConfigureProductModelBuilder();
             modelBuilder.ConfigureCustomerModelBuilder();
             modelBuilder.ConfigureSubscriptionModelBuilder();
