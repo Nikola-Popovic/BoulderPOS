@@ -20,6 +20,7 @@ const getRowStyle = (isDragging : boolean, draggableStyle : any) => ({
 const CategoriesPage = () => {
     const [categories, setCategories] = useState<ProductCategory[]>([]);
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [isDirty, setDirty] = useState<boolean>(false);
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const [selectedCategory, setSelected] = useState<number>(-1);
@@ -50,7 +51,7 @@ const CategoriesPage = () => {
             result.source.index,
             result.destination.index
         )
-
+        setDirty(true);
         setCategories(items);
     }
 
@@ -60,7 +61,7 @@ const CategoriesPage = () => {
         result.splice(endIndex, 0, removed);
       
         return result;
-      };
+    };
 
     const displayCategories = () => {
         return  <Droppable droppableId="droppable"> 
@@ -79,15 +80,15 @@ const CategoriesPage = () => {
                                         provided.draggableProps.style
                                     )}
                                 >
-                                    <td style={{width:"35%", display:"table-cell"}}>{category.name}</td>
-                                    <td style={{width:"15%", display:"table-cell"}}><i className={`${category.iconName}`}/> </td>
-                                    <td style={{textAlign:'end', width:"25%", display:"table-cell"}}>
+                                    <td>{category.name}</td>
+                                    <td><i className={`${category.iconName}`}/> </td>
+                                    <td style={{textAlign:'end'}}>
                                         <Button variant='outlined' 
                                         color='secondary' 
                                         onClick={() => openDeleteCategory(category.id)}
                                         disabled={category.isSubscription || category.isEntries}> Delete </Button>
                                     </td>
-                                    <td style={{textAlign:'end', width:"25%", display:"table-cell"}}>
+                                    <td>
                                         <Button variant='outlined' color='primary' onClick={() => editCategory(category.id)}> Edit </Button>
                                     </td>
                                 </tr>
@@ -113,6 +114,24 @@ const CategoriesPage = () => {
         }).catch((error) => {
             console.error(error);
             enqueueSnackbar('An error occured while deleting category', {variant:'error'});
+        });
+    }
+
+    const handleSaveChanges = () => {
+        const categoryReordered = categories.map((category, index) => (
+            {
+                ...category, 
+                order: index
+        }));
+        let promise = CategoryService.updateCategories(categoryReordered);
+        setLoading(true);
+        promise.then(() => {
+            enqueueSnackbar('Categories updateed successfully', {variant:'success'});
+            setLoading(false);
+            setDirty(false);
+        }).catch((error) => {
+            console.error(error);
+            enqueueSnackbar('An error occured while updating categories', {variant:'error'});
         });
     }
 
@@ -143,12 +162,19 @@ const CategoriesPage = () => {
                             handleClose={() => setOpenDelete(false)} 
                             handleConfirm={()=> deleteCategory()}
                             title='Êtes vous sûr de vouloir supprimer la catégorie?'/>
-            {isLoading && <LinearProgress color='primary' />}
+            {isLoading && <LinearProgress color='primary' style={{margin:"5px"}} />}
+            <NavigationButton
+                style={{margin: "5px", color: "#ffffff", backgroundColor: "#0E489D"}}
+                text='Ajouter une catégorie' 
+                route={`${match.url}/addproductcategory`} 
+                variant='contained'/>
             <div className="categoriesButtonPanel">
                 <Button variant='contained' color='secondary' onClick={() => history.goBack()}>
                     Retour arrière
                 </Button>
-                <NavigationButton text='Ajouter une catégorie' route={`${match.url}/addproductcategory`} variant='contained' style={{backgroundColor:'#003598'}}/>
+                <Button variant='contained' onClick={() => handleSaveChanges()} disabled={!isDirty} style={{backgroundColor:"#007961"}}>
+                    Sauvegarder les changements
+                </Button>
             </div>
         </>
     } 

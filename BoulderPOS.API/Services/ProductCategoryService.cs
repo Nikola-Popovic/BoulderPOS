@@ -59,7 +59,8 @@ namespace BoulderPOS.API.Services
 
         public async Task UpdateProductCategories(ProductCategory[] productCategories)
         {
-            
+            // To improve efficency, a where prepared statement could be used and
+            // an array of {categoryId, order}s could be sent instead of full objects
             foreach (var productCategory in productCategories)
             {
                 await UpdateProductCategory(productCategory.Id, productCategory);

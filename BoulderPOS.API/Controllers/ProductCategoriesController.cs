@@ -79,7 +79,6 @@ namespace BoulderPOS.API.Controllers
         [HttpPut("updateOrder")]
         public async Task<IActionResult> UpdateCategoriesOrder(ProductCategory[] productCategories)
         {
-
             await _categoryService.UpdateProductCategories(productCategories);
             return NoContent();
         }
