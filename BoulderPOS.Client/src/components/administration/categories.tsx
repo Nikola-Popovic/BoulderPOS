@@ -7,6 +7,15 @@ import "./categories.css";
 import { Button, LinearProgress } from '@material-ui/core';
 import { NavigationButton, DeleteDialog } from '../customUi';
 import { UpdateCategory, CreateCategoryForm } from "./category";
+import { DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';
+
+const getRowStyle = (isDragging : boolean, draggableStyle : any) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: "none",
+    display: "table-row",
+    // styles we need to apply on draggables
+    ...draggableStyle
+  });
 
 const CategoriesPage = () => {
     const [categories, setCategories] = useState<ProductCategory[]>([]);
@@ -31,15 +40,63 @@ const CategoriesPage = () => {
         })
     }, [shouldRefresh])
 
+    const handleDragEnd = (result : DropResult) => {
+        if (!result.destination) {
+            return;
+        }
+
+        const items = reorder(
+            categories, 
+            result.source.index,
+            result.destination.index
+        )
+
+        setCategories(items);
+    }
+
+    const reorder = (list : ProductCategory[], startIndex : number, endIndex :number) => {
+        const result = Array.from(list);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+      
+        return result;
+      };
+
     const displayCategories = () => {
-        return  <tbody> {categories.map((category) => 
-                <tr className="category">
-                    <td>{category.name}</td>
-                    <td><i className={`${category.iconName}`}/> </td>
-                    <td style={{textAlign:'end'}}><Button variant='outlined' color='secondary' onClick={() => openDeleteCategory(category.id)}> Delete </Button></td>
-                    <td><Button variant='outlined' color='primary' onClick={() => editCategory(category.id)}> Edit </Button></td>
-                </tr>
-            )}</tbody>
+        return  <Droppable droppableId="droppable"> 
+                    {(provided, snapshot) => (
+                    <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                        {categories.map((category, index) => (
+                            <Draggable key={category.id} draggableId={`cat${category.id}`} index={index}>
+                            {(provided, snapshot) => (
+                                <tr
+                                    className="category"
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    style={getRowStyle(
+                                        snapshot.isDragging,
+                                        provided.draggableProps.style
+                                    )}
+                                >
+                                    <td style={{width:"35%", display:"table-cell"}}>{category.name}</td>
+                                    <td style={{width:"15%", display:"table-cell"}}><i className={`${category.iconName}`}/> </td>
+                                    <td style={{textAlign:'end', width:"25%", display:"table-cell"}}>
+                                        <Button variant='outlined' 
+                                        color='secondary' 
+                                        onClick={() => openDeleteCategory(category.id)}
+                                        disabled={category.isSubscription || category.isEntries}> Delete </Button>
+                                    </td>
+                                    <td style={{textAlign:'end', width:"25%", display:"table-cell"}}>
+                                        <Button variant='outlined' color='primary' onClick={() => editCategory(category.id)}> Edit </Button>
+                                    </td>
+                                </tr>
+                            )}
+                            </Draggable>
+                        ))}
+                    </tbody>
+                    )}
+            </Droppable> 
     }
 
     const openDeleteCategory = (id : number) => {
@@ -75,7 +132,11 @@ const CategoriesPage = () => {
                             <th colSpan={2}>Actions</th>
                         </tr>
                     </thead>
-                    {displayCategories()}
+                    <DragDropContext
+                        onDragEnd={(result) => handleDragEnd(result)}
+                    > 
+                        {displayCategories()}
+                    </DragDropContext>
                 </table>
             </div>
             <DeleteDialog open={openDelete} 

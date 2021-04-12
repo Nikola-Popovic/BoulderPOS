@@ -5,13 +5,15 @@ export interface Product {
     name : string,
     price : number,
     category : ProductCategory,
+    quantity : number,
+    durationInMonth? : number,
     categoryId : number
 }
 
 export interface ProductToCreate {
     name : string,
     price : number,
-    categoryId : string
+    categoryId : number
 }
 
 export function toCurrency(num: number) {

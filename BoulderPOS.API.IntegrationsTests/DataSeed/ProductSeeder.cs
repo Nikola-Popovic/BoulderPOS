@@ -43,7 +43,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
         {
             Id = 6,
             CategoryId = SubscriptionCategoryId,
-            DurationInMonths = 1,
+            Quantity = 1,
             Name = "Subscription 1 month",
             Price = new decimal(80.0)
         };

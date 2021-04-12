@@ -102,7 +102,7 @@ namespace BoulderPOS.API.Services
                 }
 
                 // Customers would very rarely buy multiple subscriptions
-                var subscriptionTimeToAdd = productPayment.Quantity * (int)product.DurationInMonths;
+                var subscriptionTimeToAdd = productPayment.Quantity * (int)product.Quantity;
                 await _subscriptionService.AddCustomerSubscription((int) productPayment.CustomerId,
                     subscriptionTimeToAdd);
             }

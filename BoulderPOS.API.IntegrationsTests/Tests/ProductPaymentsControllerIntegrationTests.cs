@@ -161,7 +161,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
 
             var subscription = await dbContext.CustomerSubscriptions.FirstOrDefaultAsync(c => c.CustomerId == CustomerSeeder.CustomerWithValidSubscription.Id);
 
-            var expectedTime = CustomerSeeder.ValidSubscription.EndDate.AddMonths((int) ProductSeeder.SubscriptionProduct.DurationInMonths);
+            var expectedTime = CustomerSeeder.ValidSubscription.EndDate.AddMonths((int) ProductSeeder.SubscriptionProduct.Quantity);
             Assert.Equal(expectedTime, subscription.EndDate);
         }
     }

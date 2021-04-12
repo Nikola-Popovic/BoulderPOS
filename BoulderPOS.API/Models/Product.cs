@@ -18,9 +18,7 @@ namespace BoulderPOS.API.Models
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Price { get; set; }
 
-        // For Subscriptions
-        public int? DurationInMonths { get; set; }
-
+        // For Subscription it represents a duration
         public int Quantity { get; set; } = 1;
 
         [ForeignKey("Category")]
