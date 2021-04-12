@@ -58,6 +58,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             dbContext.Products.Add(ProductSeeder.ProductWithoutInventory);
             dbContext.Products.Add(ProductSeeder.EntriesProduct);
             dbContext.Products.Add(ProductSeeder.SubscriptionProduct);
+            dbContext.Products.Add(ProductSeeder.UnavailableProduct);
             AddProductInventory(dbContext);
         }
 

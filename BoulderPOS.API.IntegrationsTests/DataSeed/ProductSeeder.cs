@@ -48,6 +48,15 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             Price = new decimal(80.0)
         };
 
+        public static Product UnavailableProduct => new Product()
+        {
+            Id = 7,
+            CategoryId = FoodCategory.Id,
+            Quantity = 1,
+            Name = "Old Crackers",
+            Price = new decimal(80.0),
+            IsAvailable = false
+        };
         public static ProductInventory Product1Inventory => new ProductInventory()
             {InStoreQuantity = 5, OrderedQuantity = 10, SuretyQuantity = 9, ProductId = Product1Food.Id};
 

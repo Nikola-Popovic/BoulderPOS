@@ -21,6 +21,8 @@ namespace BoulderPOS.API.Models
         // For Subscription it represents a duration
         public int Quantity { get; set; } = 1;
 
+        public bool IsAvailable { get; set; } = true;
+
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
 

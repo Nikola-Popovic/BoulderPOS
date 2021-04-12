@@ -6,7 +6,7 @@ namespace BoulderPOS.API.Services
 {
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetProducts();
+        Task<IEnumerable<Product>> GetAvailableProducts();
         Task<Product> GetProduct(int id);
         Task<Product> UpdateProduct(int id, Product product);
         Task DeleteProduct(int id);

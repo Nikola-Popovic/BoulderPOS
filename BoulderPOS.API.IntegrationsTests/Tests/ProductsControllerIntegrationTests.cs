@@ -38,6 +38,8 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             Assert.NotEmpty(products);
             Assert.Contains(products, product => product.Name == ProductSeeder.Product1Food.Name);
             Assert.Contains(products, product => product.Name == ProductSeeder.Product2Equipment.Name);
+            // Cannot get unavailable products
+            Assert.DoesNotContain(products, p => p.IsAvailable = false);
         }
 
         [Fact]
@@ -146,7 +148,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
 
             var deletedInBd = await appDb.Products.FirstOrDefaultAsync(p => p.Id == ProductSeeder.ProductToRemove.Id);
 
-            Assert.NotEqual(ProductSeeder.ProductToRemove, deletedInBd);
+            Assert.False(deletedInBd.IsAvailable);
         }
         // When a product is deleted the inventory is also deleted
     }
