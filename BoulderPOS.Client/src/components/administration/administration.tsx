@@ -5,7 +5,7 @@ import {
     Route,
     useHistory
 } from 'react-router-dom'
-import { NavigationButton } from '../components/customUi';
+import { NavigationButton } from '../customUi';
 import "./administration.css";
 import { 
     Button,
@@ -14,7 +14,7 @@ import {
 import {
     CategoriesPage,
     ProductsPage
-} from '../components/administration';
+} from './';
 
 const Administration = () => {
     let match = useRouteMatch();
@@ -68,4 +68,4 @@ const Administration = () => {
     )
 }
 
-export default Administration
+export { Administration };

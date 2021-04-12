@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ProductCategory } from '../../data';
-import './categoriesPanel.css';
+import './CategoriesPanel.css';
 
 interface CategoriesPanelProps { 
     categories: ProductCategory[],

@@ -1,7 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { Button } from '@material-ui/core';
-import { NavigationButton } from '../components/customUi';
+import { NavigationButton } from './customUi';
 import "./home.css"
 
 const Home = () => {

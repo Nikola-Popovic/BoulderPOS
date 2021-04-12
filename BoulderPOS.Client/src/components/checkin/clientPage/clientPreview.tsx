@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Customer } from '../../data';
+import { Customer } from '../../../data';
 import { 
     useParams, 
     useHistory
  } from "react-router-dom";
-import { CustomerService } from '../../services/api';
+import { CustomerService } from '../../../services/api';
 import { Button } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import './clientPreview.css';

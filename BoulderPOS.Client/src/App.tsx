@@ -3,10 +3,10 @@ import './App.css';
 import NavBar from './components/navbar/navbar';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
-import Home from './pages/home';
-import Shop from './pages/shop';
-import CheckIn from './pages/checkin';
-import Administration from './pages/administration';
+import Home from './components/home';
+import { Shop } from './components/shop';
+import { CheckIn } from './components/checkin/checkin';
+import { Administration } from './components/administration/administration';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Product, toCurrency } from '../../data';
-import './productsPanel.css';
+import './ProductsPanel.css';
 
 interface ProductsPanelProps { 
     products: Product[], 

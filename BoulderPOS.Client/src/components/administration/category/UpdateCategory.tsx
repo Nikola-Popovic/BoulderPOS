@@ -8,7 +8,7 @@ import { ProductCategory } from "../../../data";
 import { useSnackbar } from 'notistack';
 import { CategoryService } from '../../../services/api';
 import { Button, TextField } from '@material-ui/core';
-import { IconPicker } from '../../icons/IconPicker';
+import { IconPicker } from '../../customUi/icons/IconPicker';
 
 interface RouteParams {
     categoryId : string

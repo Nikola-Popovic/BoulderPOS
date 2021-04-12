@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router';
-import { ProductsPanel, CategoriesPanel, Bill } from '../components/shop';
-import { PaymentMethod } from '../data/PaymentMethod';
+import { ProductsPanel, CategoriesPanel, Bill } from './';
+import { PaymentMethod } from '../../data/PaymentMethod';
 import { useSnackbar } from 'notistack';
-import { Customer, Product, ProductCategory, ProductInCart } from '../data';
-import { CategoryService, CustomerService } from '../services/api';
-import "./shop.css";
+import { Customer, Product, ProductCategory, ProductInCart } from '../../data';
+import { CategoryService, CustomerService } from '../../services/api';
+import "./Shop.css";
 
 interface RouteParams {
     clientId : string
@@ -101,4 +101,4 @@ const Shop = (props : ShopProps) => {
     
 }
 
-export default Shop;
+export { Shop };

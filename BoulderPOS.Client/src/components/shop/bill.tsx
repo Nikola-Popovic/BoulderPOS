@@ -1,7 +1,7 @@
 import React, {  useEffect, useState } from 'react'
 import { PaymentMethod } from '../../data/PaymentMethod';
 import { Customer, ProductInCart, toCurrency} from '../../data';
-import './bill.css';
+import './Bill.css';
 
 const TPS = 0.05;
 const TVQ = 0.09975 ;

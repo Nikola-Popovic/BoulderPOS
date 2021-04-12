@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, Switch, Route, useRouteMatch } from 'react-router-dom';
-import { Product, ProductCategory, toCurrency } from '../../data';
+import { Product, ProductCategory, toCurrency } from '../../../data';
 import { useSnackbar } from 'notistack';
-import "./products.css";
+import "./ProductsPage.css";
 import { Button, FormControl, InputLabel, MenuItem, LinearProgress, Select } from '@material-ui/core';
-import { NavigationButton, DeleteDialog } from '../customUi';
-import { ProductService } from '../../services/api/Product';
-import { CreateProductForm, UpdateProduct } from './product';
-import { CategoryService } from '../../services/api';
+import { NavigationButton, DeleteDialog } from '../../customUi';
+import { ProductService } from '../../../services/api/Product';
+import { CreateProductForm, UpdateProduct } from '.';
+import { CategoryService } from '../../../services/api';
 
 const ProductsPage = () => {
     const [allProducts, setAllProducts] = useState<Product[]>([]);

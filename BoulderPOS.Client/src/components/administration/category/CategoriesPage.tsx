@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, Switch, Route, useRouteMatch } from 'react-router-dom';
-import { ProductCategory } from '../../data';
-import { CategoryService } from '../../services/api';
+import { ProductCategory } from '../../../data';
+import { CategoryService } from '../../../services/api';
 import { useSnackbar } from 'notistack';
-import "./categories.css";
+import "./CategoriesPage.css";
 import { Button, LinearProgress } from '@material-ui/core';
-import { NavigationButton, DeleteDialog } from '../customUi';
-import { UpdateCategory, CreateCategoryForm } from "./category";
+import { NavigationButton, DeleteDialog } from '../../customUi';
+import { UpdateCategory, CreateCategoryForm } from ".";
 import { DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';
 
 const getRowStyle = (isDragging : boolean, draggableStyle : any) => ({

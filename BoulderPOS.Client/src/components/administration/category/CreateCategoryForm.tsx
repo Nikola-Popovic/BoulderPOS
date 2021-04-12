@@ -1,6 +1,6 @@
 import { Button, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { IconPicker } from '../../icons/IconPicker';
+import { IconPicker } from '../../customUi/icons/IconPicker';
 import {
     useHistory
 } from 'react-router-dom';

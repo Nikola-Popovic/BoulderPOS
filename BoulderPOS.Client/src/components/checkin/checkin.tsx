@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LinearProgress } from '@material-ui/core';
-import { Customer } from '../data';
-import { CustomerService } from '../services/api'
+import { Customer } from '../../data';
+import { CustomerService } from '../../services/api'
 import { debounce } from 'lodash';
 import "./checkin.css";
 import {
@@ -11,7 +11,7 @@ import {
     useHistory
 } from "react-router-dom";
 import { useSnackbar } from 'notistack';
-import ClientPreview from '../components/clientPreview/clientPreview';
+import ClientPreview from './clientPage/clientPreview';
 
 export interface CheckInProps {
 
@@ -104,4 +104,4 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
     </>
 }
 
-export default CheckIn;
+export { CheckIn };
