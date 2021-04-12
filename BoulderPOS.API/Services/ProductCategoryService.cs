@@ -30,7 +30,7 @@ namespace BoulderPOS.API.Services
 
         public Task<IEnumerable<Product>> GetProductsByCategory(int id)
         {
-            var products = _context.Products.Where(product => product.CategoryId == id).AsEnumerable();
+            var products = _context.Products.Where(product => product.CategoryId == id && product.IsAvailable).AsEnumerable();
             return Task.FromResult(products);
         }
 

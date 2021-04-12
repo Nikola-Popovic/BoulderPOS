@@ -8,6 +8,11 @@
     text-align: center;
 }
 
+.categorySelector {
+    width: calc(200px + 3vw);
+    margin: 10px;
+}
+
 .productsTable {
     border-collapse: collapse;
     width: 100%;
@@ -34,21 +39,17 @@
     text-align: left;
 }
 
-.productsTable thead tr th:nth-child(1),
-.productsTable tbody tr td:nth-child(1)  {
+.productsTable thead tr th:first-child,
+.productsTable tbody tr td:first-child  {
     width : 40%
 }
 
 .productsTable thead tr th:nth-child(2),
-.productsTable tbody tr td:nth-child(2)  {
-    width : 15%
-}
-
+.productsTable tbody tr td:nth-child(2),
 .productsTable thead tr th:nth-child(3),
 .productsTable tbody tr td:nth-child(3)  {
     width : 15%
 }
-
 
 .productsTable thead tr {
     border-radius: 10px;

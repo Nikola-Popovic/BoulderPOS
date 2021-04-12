@@ -90,7 +90,9 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             var responseString = await httpResponse.Content.ReadAsStringAsync();
             var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(responseString);
 
-            Assert.Contains(products, category => category.Name == ProductSeeder.Product1Food.Name);
+            Assert.Contains(products, product => product.Name == ProductSeeder.Product1Food.Name);
+            // Cannot get unavailable products
+            Assert.DoesNotContain(products, product => product.Name == ProductSeeder.UnavailableProduct.Name);
         }
 
         [Fact]

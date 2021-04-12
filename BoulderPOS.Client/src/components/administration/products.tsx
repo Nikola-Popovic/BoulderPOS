@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, Switch, Route, useRouteMatch } from 'react-router-dom';
-import { Product, toCurrency } from '../../data';
+import { Product, ProductCategory, toCurrency } from '../../data';
 import { useSnackbar } from 'notistack';
 import "./products.css";
-import { Button, LinearProgress } from '@material-ui/core';
+import { Button, FormControl, InputLabel, MenuItem, LinearProgress, Select } from '@material-ui/core';
 import { NavigationButton, DeleteDialog } from '../customUi';
 import { ProductService } from '../../services/api/Product';
 import { CreateProductForm, UpdateProduct } from './product';
+import { CategoryService } from '../../services/api';
 
 const ProductsPage = () => {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [allProducts, setAllProducts] = useState<Product[]>([]);
+    const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [categories, setCategories] = useState<ProductCategory[]>([]);
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const [selectedProduct, setSelected] = useState<number>(-1);
@@ -18,13 +21,25 @@ const ProductsPage = () => {
     const [shouldRefresh, setShouldRefresh] = useState(false);
     const match = useRouteMatch();
 
+    // Get categories
+    useEffect(() => {
+        let promise = CategoryService.getCategories();
+        promise.then((response) => setCategories(response.data))
+            .catch(error => {
+                enqueueSnackbar('An error occured while fetching categories', {variant:'error'});
+                console.error(error);
+        });
+    }, [])
+
+    // Get products
     useEffect(() => {
         setLoading(true);
         setShouldRefresh(false);
         let promise = ProductService.getProducts();
         promise.then((response) => {
             setLoading(false);
-            setProducts(response.data);
+            setAllProducts(response.data);
+            setDisplayedProducts(response.data);
         }).catch(error => {
             enqueueSnackbar('An error occured while fetching products', {variant:'error'});
             console.error(error);
@@ -32,7 +47,7 @@ const ProductsPage = () => {
     }, [shouldRefresh])
 
     const displayProducts = () => {
-        return  <tbody> {products.map((product) => 
+        return  <tbody> {displayedProducts.map((product) => 
                 <tr>
                     <td>{product.name}</td>
                     <td>{`${toCurrency(product.price)}`}</td>
@@ -64,9 +79,33 @@ const ProductsPage = () => {
         history.push(`${match.url}/${id}`);
     }
 
+    const handleSelectedCategory = (selectedCategory : number | undefined) => {
+        const products = selectedCategory == undefined ? allProducts 
+            : allProducts.filter(p => p.categoryId == selectedCategory);
+        setDisplayedProducts(products);
+    }
+
+    const displayCategoryFilter = () => {
+        return <FormControl className="categorySelector">
+            <InputLabel id="category-select-label">Filtrer par catégorie</InputLabel>
+            <Select labelId="category-select-label" 
+                    id="category-select"
+                    onChange={(event) => handleSelectedCategory(event.target.value as number)}>
+                    <MenuItem value={undefined}>
+                        <strong> Effacer la selection <i className={`fas fa-times-circle`}/></strong>
+                    </MenuItem>
+                    {categories.map(category => <MenuItem value={category.id}>
+                        {category.name}
+                    </MenuItem>)}
+            </Select>
+        </FormControl> 
+    }
     const displayProductsPage = () => {
         return <>
             <h1> Produits </h1>
+            <div className="categorySelector">
+                {displayCategoryFilter()}
+            </div>
             <table className="productsTable">
                 <thead>
                     <tr>
