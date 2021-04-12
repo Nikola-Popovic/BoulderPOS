@@ -67,19 +67,17 @@ const ProductsPage = () => {
     const displayProductsPage = () => {
         return <>
             <h1> Produits </h1>
-            <div className="productScrollable">
-                <table className="productsTable">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prix</th>
-                            <th>Catégorie</th>
-                            <th colSpan={2}>Actions</th>
-                        </tr>
-                    </thead>
-                    {displayProducts()}
-                </table>
-            </div>
+            <table className="productsTable">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Catégorie</th>
+                        <th colSpan={2}>Actions</th>
+                    </tr>
+                </thead>
+                {displayProducts()}
+            </table>
             <DeleteDialog 
                 open={openDelete} 
                 handleClose={() => setOpenDelete(false)} 

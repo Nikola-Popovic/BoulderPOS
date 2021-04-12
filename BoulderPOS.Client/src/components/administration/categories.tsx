@@ -142,7 +142,7 @@ const CategoriesPage = () => {
     const displayCategoriesPage = () => {
         return <>
             <h1> Catégories </h1>
-            <div className="categoriesScrollable">
+            <div>
                 <table className="categoriesTable">
                     <thead>
                         <tr>
