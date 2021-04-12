@@ -80,11 +80,14 @@ const CreateProductForm = (props : CreateProductFormProps) => {
                 label="Prix du produit"
                 onChange={(event) => setProductPrice(event.target.value)}
             />
-            <TextField className='quantityField' 
-                label={category?.isSubscription ? "Durée en mois" : 'Quantité'} 
-                type='number' 
-                value={productQty}
-                onChange={(event) => setProductQty(parseInt(event.target.value))}/>
+            {
+                (category?.isSubscription || category?.isEntries) && 
+                <TextField className='quantityField' 
+                    label={category?.isSubscription ? "Durée en mois" : 'Quantité'} 
+                    type='number' 
+                    value={productQty}
+                    onChange={(event) => setProductQty(parseInt(event.target.value))}/>
+            }
             {getCategoresSelect()}
             <div className='productsButton'>
                 <Button variant='contained' color='secondary' onClick={() => history.goBack()}>
