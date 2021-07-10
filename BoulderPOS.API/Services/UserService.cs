@@ -19,20 +19,22 @@ namespace BoulderPOS.API.Services
         Task<User> Authenticate(string username, string password);
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUserById(int id);
-        Task<User> CreateUser(CreateUserDto createUserDto);
+        Task<User> CreateUser(LoginInfoRequest createUserRequest);
+        Task AddUserRole(AddRoleRequest roleRequest);
         Task DeleteUser(int id);
         // Update user password
-        // Update user roles
     }
 
     public class UserService : IUserService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly IRoleService _roleService;
         private readonly IOptions<AuthSettings> _options;
 
-        public UserService(ApplicationDbContext context, IOptions<AuthSettings> authSettings)
+        public UserService(ApplicationDbContext dbContext,IRoleService roleService, IOptions<AuthSettings> authSettings)
         {
-            _context = context;
+            _dbContext = dbContext;
+            _roleService = roleService;
             _options = authSettings;
         }
 
@@ -43,7 +45,7 @@ namespace BoulderPOS.API.Services
                 return null;
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             if (user == null || !await VerifyPasswordHash(user, password)) 
             {
@@ -53,34 +55,52 @@ namespace BoulderPOS.API.Services
             return user;
         }
 
-        public async Task<User> CreateUser(CreateUserDto userDto)
+        public async Task<User> CreateUser(LoginInfoRequest userRequest)
         {
-            var user = await GetUserByUsername(userDto.UserName);
+            var user = await GetUserByUsername(userRequest.UserName);
             if (user != null)
             {
                 throw new Exception("User already exists");
             }
 
-            CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            CreatePasswordHash(userRequest.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
 
 
             var newUser = new User()
             {
-                UserName = userDto.UserName,
+                UserName = userRequest.UserName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
             };
 
-            if (_context.ProductPayments.Any())
+            if (_dbContext.ProductPayments.Any())
             {
-                var newId = await _context.Users.MaxAsync(p => p.Id) + 1;
+                var newId = await _dbContext.Users.MaxAsync(p => p.Id) + 1;
                 newUser.Id = newId;
             }
 
-            var created = await _context.AddAsync(newUser);
-            await _context.SaveChangesAsync();
+            var created = await _dbContext.AddAsync(newUser);
+            await _dbContext.SaveChangesAsync();
             return created.Entity;
+        }
+
+        public async Task AddUserRole(AddRoleRequest roleRequest)
+        {
+            var user = await this.GetUserById(roleRequest.UserId);
+            var role = await _roleService.GetRoleBydId(roleRequest.RoleId);
+            if (user == null || role == null)
+            {
+                throw new ArgumentException("User or role doesn't exist");
+            }
+
+            var userRole = new UserRole()
+            {
+                RoleId = roleRequest.RoleId,
+                UserId = roleRequest.UserId
+            };
+            await _dbContext.UserRoles.AddAsync(userRole);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteUser(int id)
@@ -92,22 +112,22 @@ namespace BoulderPOS.API.Services
             }
 
             user.Enabled = false;
-            await _context.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<User> GetUserById(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<User> GetUserByUsername(string username)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            return await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
         }
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return await _context.Users.Where(x => x.Enabled).ToListAsync();
+            return await _dbContext.Users.Where(x => x.Enabled).ToListAsync();
         }
 
 
