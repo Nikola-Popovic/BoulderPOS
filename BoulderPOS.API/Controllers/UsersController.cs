@@ -11,6 +11,7 @@ using BoulderPOS.API.Models.DTO;
 using BoulderPOS.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,7 +31,7 @@ namespace BoulderPOS.API.Controllers
             _authOptions = authOptions;
         }
 
-        [HttpPost]
+        [HttpPost("auth")]
         [Produces(typeof(User))]
         [AllowAnonymous]
         public async Task<IActionResult> AuthenticateUser(LoginInfoRequest request)
@@ -68,7 +69,7 @@ namespace BoulderPOS.API.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("register")]
         [Produces(typeof(User))]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser(LoginInfoRequest request)

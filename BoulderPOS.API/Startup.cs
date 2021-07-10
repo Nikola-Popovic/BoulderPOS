@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using BoulderPOS.API.Configuration;
@@ -55,7 +56,7 @@ namespace BoulderPOS.API
                         {
                             var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
                             var userId = int.Parse(context.Principal.Identity.Name);
-                            var user = userService.GetUserById(userId);
+                            var user =   userService.GetUserById(userId).Result;
                             if (user == null)
                             {
                                 // return unauthorized if user no longer exists
@@ -109,6 +110,30 @@ namespace BoulderPOS.API
                 {
                     Version = "Alpha",
                     Title = "BoulderPOS API"
+                });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Name = "Auhorization",
+                    In = ParameterLocation.Header,
+                    Scheme = "Bearer"
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "http"
+                            },
+                            Scheme = "bearer",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
                 });
             });
 
