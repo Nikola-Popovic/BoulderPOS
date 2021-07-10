@@ -72,8 +72,8 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
 
         private static void AddPayments(ApplicationDbContext dbContext)
         {
-            dbContext.ProductPayments.Add(PaymentSeeder.WalkinFoodPayment);
-            dbContext.ProductPayments.Add(PaymentSeeder.Customer1Payment);
+            dbContext.BillProducts.Add(PaymentSeeder.WalkinBillProduct);
+            dbContext.BillProducts.Add(PaymentSeeder.Customer1BillProduct);
             dbContext.SaveChanges();
         }
 

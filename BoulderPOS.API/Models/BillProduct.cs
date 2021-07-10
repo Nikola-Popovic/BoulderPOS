@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace BoulderPOS.API.Models
 {
-    public class ProductPayment
+    public class BillProduct
     {
         [Key]
         public int Id { get; set; }
@@ -33,7 +33,7 @@ namespace BoulderPOS.API.Models
 
         public virtual Product Product { get; set; }
 
-        public ProductPayment()
+        public BillProduct()
         {
         }
     }

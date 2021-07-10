@@ -32,7 +32,7 @@ namespace BoulderPOS.API.Models
         public virtual ProductInventory Inventory { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<ProductPayment> Orders { get; set; }
+        public virtual ICollection<BillProduct> Orders { get; set; }
 
         public Product()
         {

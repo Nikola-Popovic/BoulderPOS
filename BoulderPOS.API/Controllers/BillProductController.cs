@@ -6,29 +6,29 @@ using BoulderPOS.API.Services;
 
 namespace BoulderPOS.API.Controllers
 {
-    [Route("api/payments")]
+    [Route("api/billProducts")]
     [ApiController]
-    public class ProductPaymentsController : ControllerBase
+    public class BillProductController : ControllerBase
     {
-        private readonly IProductPaymentService _paymentService;
+        private readonly IBillProductService _paymentService;
 
-        public ProductPaymentsController(IProductPaymentService paymentService)
+        public BillProductController(IBillProductService paymentService)
         {
             _paymentService = paymentService;
         }
 
         // GET: api/payments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductPayment>>> GetProductPayments()
+        public async Task<ActionResult<IEnumerable<BillProduct>>> GetProductPayments()
         {
-            return Ok(await _paymentService.GetLatestProductPayments());
+            return Ok(await _paymentService.GetLatestBillProducts());
         }
 
         // GET: api/payments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductPayment>> GetProductPayment(int id)
+        public async Task<ActionResult<BillProduct>> GetProductPayment(int id)
         {
-            var productPayment = await _paymentService.GetProductPayment(id);
+            var productPayment = await _paymentService.GetBillProduct(id);
 
             if (productPayment == null)
             {
@@ -42,14 +42,14 @@ namespace BoulderPOS.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductPayment(int id, ProductPayment productPayment)
+        public async Task<IActionResult> PutProductPayment(int id, BillProduct productPayment)
         {
             if (id != productPayment.Id)
             {
                 return BadRequest();
             }
 
-            var updated = await _paymentService.UpdateProductPayment(id, productPayment);
+            var updated = await _paymentService.UpdateBillProduct(id, productPayment);
 
             if (updated == null)
             {
@@ -63,18 +63,18 @@ namespace BoulderPOS.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ProductPayment>> PostProductPayment(ProductPayment productPayment)
+        public async Task<ActionResult<BillProduct>> PostProductPayment(BillProduct productPayment)
         {
-            var created = await _paymentService.CreateProductPayment(productPayment);
+            var created = await _paymentService.CreateBillProduct(productPayment);
 
             return CreatedAtAction("GetProductPayment", new { id = created.Id }, created);
         }
 
         // DELETE: api/payments/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ProductPayment>> DeleteProductPayment(int id)
+        public async Task<ActionResult<BillProduct>> DeleteProductPayment(int id)
         {
-            await _paymentService.DeleteProductPayment(id);
+            await _paymentService.DeleteBillProduct(id);
 
             return NoContent();
         }

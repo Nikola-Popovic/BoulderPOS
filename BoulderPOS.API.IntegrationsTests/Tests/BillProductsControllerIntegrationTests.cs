@@ -13,14 +13,14 @@ using Xunit;
 
 namespace BoulderPOS.API.IntegrationsTests.Tests
 {
-    public class ProductPaymentsControllerIntegrationTests :
+    public class BillProductsControllerIntegrationTests :
         IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
         private readonly CustomWebApplicationFactory<Startup> _factory;
-        private const string ProductPaymentApiPath = "/api/payments";
+        private const string BillProductsApiPath = "/api/billProducts";
 
-        public ProductPaymentsControllerIntegrationTests(CustomWebApplicationFactory<Startup> factory)
+        public BillProductsControllerIntegrationTests(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
             _httpClient = factory.CreateClient();
@@ -29,31 +29,31 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         [Fact]
         public async Task CanGetLatestProductPayments()
         {
-            var httpResponse = await _httpClient.GetAsync(ProductPaymentApiPath);
+            var httpResponse = await _httpClient.GetAsync(BillProductsApiPath);
 
             httpResponse.EnsureSuccessStatusCode();
 
             var responseString = await httpResponse.Content.ReadAsStringAsync();
 
-            var payments = JsonConvert.DeserializeObject<IEnumerable<ProductPayment>>(responseString);
+            var payments = JsonConvert.DeserializeObject<IEnumerable<BillProduct>>(responseString);
 
             Assert.NotEmpty(payments);
             // Make sure the payments are in date order
             var paymentList = payments.ToList();
-            Assert.NotEqual(paymentList[0].ProductId, PaymentSeeder.WalkinFoodPayment.ProductId);
-            Assert.Equal(paymentList[0].Id, PaymentSeeder.Customer1Payment.Id);
+            Assert.NotEqual(paymentList[0].ProductId, PaymentSeeder.WalkinBillProduct.ProductId);
+            Assert.Equal(paymentList[0].Id, PaymentSeeder.Customer1BillProduct.Id);
         }
 
         [Fact]
         public async Task CanGetProductPaymentById()
         {
-            var httpResponse = await _httpClient.GetAsync($"{ProductPaymentApiPath}/{PaymentSeeder.Customer1Payment.Id}");
+            var httpResponse = await _httpClient.GetAsync($"{BillProductsApiPath}/{PaymentSeeder.Customer1BillProduct.Id}");
 
             httpResponse.EnsureSuccessStatusCode();
 
             var responseString = await httpResponse.Content.ReadAsStringAsync();
 
-            var payment = JsonConvert.DeserializeObject<ProductPayment>(responseString);
+            var payment = JsonConvert.DeserializeObject<BillProduct>(responseString);
 
             Assert.NotNull(payment);
             Assert.Equal(CustomerSeeder.Customer1.Id, payment.CustomerId);
@@ -62,17 +62,17 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         [Fact]
         public async Task CanUpdateProductPayment()
         {
-            var toUpdate = PaymentSeeder.Customer1Payment;
+            var toUpdate = PaymentSeeder.Customer1BillProduct;
             toUpdate.IsRefunded = true;
 
             var stringObj = JsonConvert.SerializeObject(toUpdate);
             var httpResponse = await _httpClient.PutAsync(
-                $"{ProductPaymentApiPath}/{PaymentSeeder.Customer1Payment.Id}", Util.JsonStringContent(stringObj));
+                $"{BillProductsApiPath}/{PaymentSeeder.Customer1BillProduct.Id}", Util.JsonStringContent(stringObj));
 
             httpResponse.EnsureSuccessStatusCode();
 
             var responseString = await httpResponse.Content.ReadAsStringAsync();
-            var updatedObj = JsonConvert.DeserializeObject<ProductPayment>(responseString);
+            var updatedObj = JsonConvert.DeserializeObject<BillProduct>(responseString);
 
             Assert.NotNull(updatedObj);
             Assert.Equal(toUpdate.IsRefunded, updatedObj.IsRefunded);
@@ -82,7 +82,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             using var scope = _factory.Services.CreateScope();
             var appDb = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-            var updatedInDb = await appDb.ProductPayments.FindAsync(PaymentSeeder.Customer1Payment.Id);
+            var updatedInDb = await appDb.BillProducts.FindAsync(PaymentSeeder.Customer1BillProduct.Id);
             
             Assert.Equal(toUpdate.IsRefunded, updatedInDb.IsRefunded);
         }
@@ -90,7 +90,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         [Fact]
         public async Task CanCreateProductPayment()
         {
-            var paymentToCreate = new ProductPayment()
+            var paymentToCreate = new BillProduct()
             {
                 CustomerId = CustomerSeeder.Customer2.Id,
                 ProductId = ProductSeeder.Product1Food.Id,
@@ -99,12 +99,12 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             };
 
             var objString = JsonConvert.SerializeObject(paymentToCreate);
-            var httpResponse = await _httpClient.PostAsync(ProductPaymentApiPath, Util.JsonStringContent(objString));
+            var httpResponse = await _httpClient.PostAsync(BillProductsApiPath, Util.JsonStringContent(objString));
 
             httpResponse.EnsureSuccessStatusCode();
 
             var responseString = await httpResponse.Content.ReadAsStringAsync();
-            var createdPayment = JsonConvert.DeserializeObject<ProductPayment>(responseString);
+            var createdPayment = JsonConvert.DeserializeObject<BillProduct>(responseString);
 
             Assert.NotNull(createdPayment);
             // Assert default value is false
@@ -117,7 +117,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         {
             var scope = _factory.Services.CreateScope();
             await using var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-            var paymentToCreate = new ProductPayment()
+            var paymentToCreate = new BillProduct()
             {
                 CustomerId = CustomerSeeder.Customer1.Id,
                 Product = ProductSeeder.EntriesProduct,
@@ -125,12 +125,12 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             };
 
             var objString = JsonConvert.SerializeObject(paymentToCreate);
-            var httpResponse = await _httpClient.PostAsync(ProductPaymentApiPath, Util.JsonStringContent(objString));
+            var httpResponse = await _httpClient.PostAsync(BillProductsApiPath, Util.JsonStringContent(objString));
 
             httpResponse.EnsureSuccessStatusCode();
 
             var responseString = await httpResponse.Content.ReadAsStringAsync();
-            var createdPayment = JsonConvert.DeserializeObject<ProductPayment>(responseString);
+            var createdPayment = JsonConvert.DeserializeObject<BillProduct>(responseString);
             Assert.NotNull(createdPayment);
 
             var entries = await dbContext.CustomerEntries.FindAsync(CustomerSeeder.Customer1.Id);
@@ -143,7 +143,7 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
         {
             var scope = _factory.Services.CreateScope();
             await using var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-            var paymentToCreate = new ProductPayment()
+            var paymentToCreate = new BillProduct()
             {
                 CustomerId = CustomerSeeder.CustomerWithValidSubscription.Id,
                 Product = ProductSeeder.SubscriptionProduct,
@@ -151,12 +151,12 @@ namespace BoulderPOS.API.IntegrationsTests.Tests
             };
 
             var objString = JsonConvert.SerializeObject(paymentToCreate);
-            var httpResponse = await _httpClient.PostAsync(ProductPaymentApiPath, Util.JsonStringContent(objString));
+            var httpResponse = await _httpClient.PostAsync(BillProductsApiPath, Util.JsonStringContent(objString));
 
             httpResponse.EnsureSuccessStatusCode();
 
             var responseString = await httpResponse.Content.ReadAsStringAsync();
-            var createdPayment = JsonConvert.DeserializeObject<ProductPayment>(responseString);
+            var createdPayment = JsonConvert.DeserializeObject<BillProduct>(responseString);
             Assert.NotNull(createdPayment);
 
             var subscription = await dbContext.CustomerSubscriptions.FirstOrDefaultAsync(c => c.CustomerId == CustomerSeeder.CustomerWithValidSubscription.Id);

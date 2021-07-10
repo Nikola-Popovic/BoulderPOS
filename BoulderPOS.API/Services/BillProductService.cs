@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoulderPOS.API.Services
 {
-    public class ProductPaymentService : IProductPaymentService
+    public class BillProductService : IBillProductService
     {
         private readonly ApplicationDbContext _context;
         private readonly ICustomerSubscriptionService _subscriptionService;
         private readonly ICustomerEntriesService _entriesService;
         private readonly IProductCategoryService _categoryService;
 
-        public ProductPaymentService(ApplicationDbContext context, 
+        public BillProductService(ApplicationDbContext context, 
             ICustomerEntriesService entriesService, 
             ICustomerSubscriptionService subscriptionService,
             IProductCategoryService categoryService)
@@ -27,18 +27,18 @@ namespace BoulderPOS.API.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<ProductPayment>> GetLatestProductPayments()
+        public async Task<IEnumerable<BillProduct>> GetLatestBillProducts()
         {
-            var paymentsByDate = _context.ProductPayments.OrderByDescending(payment => payment.ProcessedDateTime);
+            var paymentsByDate = _context.BillProducts.OrderByDescending(payment => payment.ProcessedDateTime);
             return await paymentsByDate.ToListAsync();
         }
 
-        public async Task<ProductPayment> GetProductPayment(int id)
+        public async Task<BillProduct> GetBillProduct(int id)
         {
-            return await _context.ProductPayments.FindAsync(id);
+            return await _context.BillProducts.FindAsync(id);
         }
 
-        public async Task<ProductPayment> UpdateProductPayment(int id, ProductPayment productPayment)
+        public async Task<BillProduct> UpdateBillProduct(int id, BillProduct productPayment)
         {
             productPayment.UpdatedDateTime = DateTime.Now;
             _context.Entry(productPayment).State = EntityState.Modified;
@@ -50,7 +50,7 @@ namespace BoulderPOS.API.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductPaymentExists(id))
+                if (!BillProductExists(id))
                 {
                     return null;
                 }
@@ -63,11 +63,11 @@ namespace BoulderPOS.API.Services
             return productPayment;
         }
 
-        public async Task<ProductPayment> CreateProductPayment(ProductPayment productPayment)
+        public async Task<BillProduct> CreateBillProduct(BillProduct productPayment)
         {
-            if (_context.ProductPayments.Any())
+            if (_context.BillProducts.Any())
             {
-                productPayment.Id = await _context.ProductPayments.MaxAsync(p => p.Id) + 1;
+                productPayment.Id = await _context.BillProducts.MaxAsync(p => p.Id) + 1;
             }
             productPayment.ProcessedDateTime = DateTime.Now;
             productPayment.UpdatedDateTime = DateTime.Now;
@@ -87,12 +87,12 @@ namespace BoulderPOS.API.Services
             if (await IfProductIsEntriesAddEntries(productPayment, product, productCategory)) return null;
             if (await IfProductIsSubscriptionAddTime(productPayment, product, productCategory)) return null;
 
-            var created = _context.ProductPayments.Add(productPayment);
+            var created = _context.BillProducts.Add(productPayment);
             await _context.SaveChangesAsync();
             return created.Entity;
         }
 
-        private async Task<bool> IfProductIsSubscriptionAddTime(ProductPayment productPayment, Product product, ProductCategory productCategory)
+        private async Task<bool> IfProductIsSubscriptionAddTime(BillProduct productPayment, Product product, ProductCategory productCategory)
         {
             if (productCategory?.IsSubscription == true)
             {
@@ -110,7 +110,7 @@ namespace BoulderPOS.API.Services
             return false;
         }
 
-        private async Task<bool> IfProductIsEntriesAddEntries(ProductPayment productPayment, Product product, ProductCategory productCategory)
+        private async Task<bool> IfProductIsEntriesAddEntries(BillProduct productPayment, Product product, ProductCategory productCategory)
         {
             if (productCategory?.IsEntries == true)
             {
@@ -127,22 +127,22 @@ namespace BoulderPOS.API.Services
         }
         
 
-        public async Task<ProductPayment> DeleteProductPayment(int id)
+        public async Task<BillProduct> DeleteBillProduct(int id)
         {
-            var productPayment = await _context.ProductPayments.FindAsync(id);
+            var productPayment = await _context.BillProducts.FindAsync(id);
             if (productPayment == null)
             {
                 return null;
             }
 
-            _context.ProductPayments.Remove(productPayment);
+            _context.BillProducts.Remove(productPayment);
             await _context.SaveChangesAsync();
             return productPayment;
         }
 
-        public bool ProductPaymentExists(int id)
+        public bool BillProductExists(int id)
         {
-            return _context.ProductPayments.Any(e => e.Id == id);
+            return _context.BillProducts.Any(e => e.Id == id);
         }
     }
 }

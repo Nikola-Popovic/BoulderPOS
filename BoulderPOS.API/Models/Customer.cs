@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace BoulderPOS.API.Models
 {
@@ -36,7 +37,9 @@ namespace BoulderPOS.API.Models
         [Column(TypeName = "bytea")]
         public string PicturePreviewPath { get; set; }
 
-        public virtual ICollection<ProductPayment> Orders { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<BillProduct> BillProducts { get; set; }
+        public virtual ICollection<Bill> Bills { get; set; }
         public virtual CustomerSubscription Subscription { get; set; }
         public virtual CustomerEntries Entries { get; set; }
 

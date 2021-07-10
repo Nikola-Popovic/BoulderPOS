@@ -104,7 +104,8 @@ namespace BoulderPOS.API
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductInventoryService, ProductInventoryService>();
-            services.AddTransient<IProductPaymentService, ProductPaymentService>();
+            services.AddTransient<IBillProductService, BillProductService>();
+            services.AddTransient<IBillService, BillService>();
         }
     }
 }
