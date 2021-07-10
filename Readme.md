@@ -5,6 +5,8 @@
 ### Configuration
 The project uses Linux containers if you are on windows make sure to install WSL (Windows Subsystem for Linux) and to have Docker configured with WSL.
 
+[Enabling WSL on Windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+
 ### Run the project
 At the root folder, run `docker-compose up`.
 This command will start the postgres database, the api, the reverse proxy and the frontend applications.

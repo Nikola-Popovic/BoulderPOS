@@ -1,4 +1,5 @@
 using System;
+using BoulderPOS.API.Configuration;
 using BoulderPOS.API.Middleware;
 using BoulderPOS.API.Persistence;
 using BoulderPOS.API.Services;
@@ -30,6 +31,8 @@ namespace BoulderPOS.API
         {
             services.AddControllers();
 
+            services.AddOptions();
+            services.Configure<AuthSettings>(Configuration.GetSection(nameof(AuthSettings)));
             // Cross Origin Resource Sharing
             services.AddCors(options =>
                 {
@@ -105,6 +108,7 @@ namespace BoulderPOS.API
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductInventoryService, ProductInventoryService>();
             services.AddTransient<IProductPaymentService, ProductPaymentService>();
+            services.AddTransient<IUserService, UserService>();
         }
     }
 }

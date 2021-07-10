@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using BoulderPOS.API.Controllers.DTO;
 using BoulderPOS.API.IntegrationsTests.DataSeed;
 using BoulderPOS.API.Models;
+using BoulderPOS.API.Models.DTO;
 using BoulderPOS.API.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

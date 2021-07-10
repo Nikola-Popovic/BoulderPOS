@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Globalization;
-using BoulderPOS.API.Models;
 
-namespace BoulderPOS.API.Controllers.DTO
+namespace BoulderPOS.API.Models.DTO
 {
     public static class CustomerSubscriptionDtoMapper
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using BoulderPOS.API.Controllers.DTO;
 using Microsoft.AspNetCore.Mvc;
 using BoulderPOS.API.Models;
+using BoulderPOS.API.Models.DTO;
 using BoulderPOS.API.Services;
 
 namespace BoulderPOS.API.Controllers

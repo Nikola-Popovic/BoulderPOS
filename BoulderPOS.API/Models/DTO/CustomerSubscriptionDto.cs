@@ -1,4 +1,4 @@
-﻿namespace BoulderPOS.API.Controllers.DTO
+﻿namespace BoulderPOS.API.Models.DTO
 {
     public class CustomerSubscriptionDto
     {

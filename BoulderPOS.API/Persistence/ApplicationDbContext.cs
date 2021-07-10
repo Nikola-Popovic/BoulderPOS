@@ -18,6 +18,9 @@ namespace BoulderPOS.API.Persistence
         public DbSet<ProductPayment> ProductPayments { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductInventory> ProductInventory { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +31,7 @@ namespace BoulderPOS.API.Persistence
             modelBuilder.ConfigureCustomerModelBuilder();
             modelBuilder.ConfigureSubscriptionModelBuilder();
             modelBuilder.ConfigureEntriesModelBuilder();
+            modelBuilder.ConfigureUserIdentityModelBuilder();
 
             modelBuilder.Entity<ProductInventory>().HasKey(c => c.ProductId);
             modelBuilder.Entity<ProductPayment>()
