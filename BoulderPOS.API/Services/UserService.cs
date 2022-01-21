@@ -64,9 +64,7 @@ namespace BoulderPOS.API.Services
             }
 
             CreatePasswordHash(userRequest.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-
-
+            
             var newUser = new User()
             {
                 UserName = userRequest.UserName,

@@ -72,6 +72,8 @@ namespace BoulderPOS.API
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(key),
                         ValidateIssuer = false,
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true,
                         ValidateAudience = false
                     };
                 });
