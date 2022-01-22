@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import {
     useHistory
 } from 'react-router-dom';
@@ -28,7 +28,7 @@ const CreateProductForm = (props : CreateProductFormProps) => {
             enqueueSnackbar('Category must be defined.', { variant : 'warning'});
             return;
         }
-        let promise = ProductService.postProduct({   
+        const promise = ProductService.postProduct({   
             name : productName, 
             price : parseFloat(productPrice),
             categoryId : category.id
@@ -45,7 +45,7 @@ const CreateProductForm = (props : CreateProductFormProps) => {
     }
 
     useEffect(() => {
-        let promise = CategoryService.getCategories();
+        const promise = CategoryService.getCategories();
         promise.then((response) => setCategories(response.data))
             .catch((error) => {
                 console.error(error);
@@ -62,8 +62,8 @@ const CreateProductForm = (props : CreateProductFormProps) => {
                 <InputLabel id="category-select-label"> Catégorie </InputLabel>
                 <Select labelId="category-select-label" 
                         id="category-select"
-                        onChange={(event) => setCategory(getCategory(event.target.value as number))}>
-                        {categories.map(category => <MenuItem value={category.id}>
+                        onChange={(event : any) => setCategory(getCategory(event.target.value as number))}>
+                        {categories.map(category => <MenuItem key={category.id} value={category.id}>
                             {category.name}
                         </MenuItem>)}
                 </Select>
@@ -75,7 +75,7 @@ const CreateProductForm = (props : CreateProductFormProps) => {
             <TextField className='categoryField' 
                 label='Nom du produit' 
                 type='text' 
-                onChange={(event) => setProductName(event.target.value)}/>
+                onChange={(event : any) => setProductName(event.target.value)}/>
             <CurrencyInput
                 label="Prix du produit"
                 onChange={(event) => setProductPrice(event.target.value)}
@@ -86,7 +86,7 @@ const CreateProductForm = (props : CreateProductFormProps) => {
                     label={category?.isSubscription ? "Durée en mois" : 'Quantité'} 
                     type='number' 
                     value={productQty}
-                    onChange={(event) => setProductQty(parseInt(event.target.value))}/>
+                    onChange={(event : any) => setProductQty(parseInt(event.target.value))}/>
             }
             {getCategoresSelect()}
             <div className='productsButton'>

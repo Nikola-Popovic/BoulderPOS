@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { post, get } from '../../helper/axios';
+import { post } from '../../helper/axios';
 import { NewCustomer, CreatedCustomer } from '../../payload';
 
 export const CustomerService = {

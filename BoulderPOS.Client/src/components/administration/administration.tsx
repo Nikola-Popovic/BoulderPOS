@@ -10,15 +10,15 @@ import "./administration.css";
 import { 
     Button,
     TextField
-} from '@material-ui/core';
+} from '@mui/material';
 import {
     CategoriesPage,
     ProductsPage
 } from './';
 
 const Administration = () => {
-    let match = useRouteMatch();
-    let history = useHistory();
+    const match = useRouteMatch();
+    const history = useHistory();
 
     
     const displayLoginPanel = () => {

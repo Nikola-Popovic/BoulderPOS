@@ -1,4 +1,4 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { IconPicker } from '../../customUi/icons/IconPicker';
 import {
@@ -20,7 +20,7 @@ export const CreateCategoryForm = (props : CreateCategoryFormProps) => {
 
     const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        let promise = CategoryService.postCategory({name : categoryName, iconName : iconName});
+        const promise = CategoryService.postCategory({name : categoryName, iconName : iconName});
         promise.then( (response) => {
             enqueueSnackbar('Category created.', { variant : 'success'});
             if (props.onCreate !== undefined) { props.onCreate(); }
@@ -36,7 +36,7 @@ export const CreateCategoryForm = (props : CreateCategoryFormProps) => {
         <form className='categoryForm' onSubmit={(event) => handleSubmit(event)}>
             <h1> Nouvelle catégorie </h1>
             <TextField className='categoryField' label='Nom de la catégorie' type='text' onChange={(event) => setCategory(event.target.value)}/>
-            <IconPicker value={iconName} onChange={(value) => setCategoryIcon(value)} cName='categoryPicker'/>
+            <IconPicker value={iconName} onChange={(value : string) => setCategoryIcon(value)} cName='categoryPicker'/>
             <div className='categoryButtons'>
                 <Button variant='contained' color='secondary' onClick={() => history.goBack()}>
                     Annuler

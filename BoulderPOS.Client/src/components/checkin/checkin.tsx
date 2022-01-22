@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress } from '@mui/material';
 import { Customer } from '../../data';
 import { CustomerService } from '../../services/api'
 import { debounce } from 'lodash';
@@ -13,12 +13,9 @@ import {
 import { useSnackbar } from 'notistack';
 import ClientPreview from './clientPage/clientPreview';
 
-export interface CheckInProps {
 
-}
-
-const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
-    let match = useRouteMatch();
+const CheckIn = () => {
+    const match = useRouteMatch();
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const [customers, setCustomers] =  useState<Customer[]>([]);
@@ -26,7 +23,7 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
     const [query, setQuery] = useState<string>('');
 
     const search = () => {
-        let promise = CustomerService.getCustomers(query);
+        const promise = CustomerService.getCustomers(query);
 
         try {
             promise.then((response) => {
@@ -43,7 +40,7 @@ const CheckIn : React.FunctionComponent<CheckInProps> = (props) => {
     const displayCustomers = () => {
         return <tbody>
             {customers.map((value : Customer) =>  
-                <tr className="clientRow" onClick={() => handleRowClick(value.id)}>
+                <tr key={value.id} className="clientRow" onClick={() => handleRowClick(value.id)}>
                         <td>{value.id}</td>
                         <td>{value.firstName}</td>
                         <td>{value.lastName}</td>

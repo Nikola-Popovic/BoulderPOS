@@ -6,10 +6,10 @@ import {
     LinearProgress,
     Grid,
     FormGroup
-  } from '@material-ui/core';
+  } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import { TextField, Checkbox } from 'formik-material-ui';
+import { TextField, Checkbox } from 'formik-mui';
 import * as Yup from 'yup';
 import { NewCustomer } from '../payload';
 import { CustomerService } from '../services/api';
@@ -42,17 +42,18 @@ function Signup() {
     
     const handleFormSubmit = (values : NewCustomer, formikHelpers : FormikHelpers<NewCustomer>) => {
         console.log(`Submitting : ${values}`)
-        let promise = CustomerService.postNewCustomer(values);
+        const promise = CustomerService.postNewCustomer(values);
         promise.then( _response => {
             formikHelpers.setSubmitting(false);
             // Notify success
-            enqueueSnackbar('Sign up successful !', {
+            enqueueSnackbar(`Sign up successful. Thank you ${_response.data.FirstName} !`, {
                 variant: 'success',
             });
             history.push('/');
         }).catch( error => {
             formikHelpers.setSubmitting(false);
             // Notify alert
+            console.log(error);
             enqueueSnackbar('An error occured. Please try again in a moment.', {
                 variant: 'error',
             });
@@ -63,7 +64,7 @@ function Signup() {
         <Grid
             container
             direction='column'
-            justify='center'
+            justifyContent='center'
             alignItems='center'
         >
             <h2> Signup </h2>
@@ -107,7 +108,7 @@ function Signup() {
                 
             </Formik>
         </Grid>
-    </>
+    </>;
 }
 
 export default Signup;

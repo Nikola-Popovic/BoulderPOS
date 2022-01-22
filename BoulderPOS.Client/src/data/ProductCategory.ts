@@ -1,5 +1,3 @@
-import { Product } from "./Product";
-
 export interface CategoryToCreate {
     name : string,
     iconName : string

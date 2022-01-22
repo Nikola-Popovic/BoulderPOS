@@ -1,5 +1,5 @@
 export type CreatedCustomer = {
-    Id : Number,
+    Id : number,
     Created : Date,
     Updated : Date,
     FirstName : string,

@@ -4,7 +4,7 @@ import { ProductCategory } from '../../../data';
 import { CategoryService } from '../../../services/api';
 import { useSnackbar } from 'notistack';
 import "./CategoriesPage.css";
-import { Button, LinearProgress } from '@material-ui/core';
+import { Button, LinearProgress } from '@mui/material';
 import { NavigationButton, DeleteDialog } from '../../customUi';
 import { UpdateCategory, CreateCategoryForm } from ".";
 import { DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';
@@ -31,7 +31,7 @@ const CategoriesPage = () => {
     useEffect(() => {
         setLoading(true);
         setShouldRefresh(false);
-        let promise = CategoryService.getCategories();
+        const promise = CategoryService.getCategories();
         promise.then((response) => {
             setLoading(false);
             setCategories(response.data);
@@ -106,7 +106,7 @@ const CategoriesPage = () => {
     }
 
     const deleteCategory = () => {
-        let promise = CategoryService.deleteCategory(selectedCategory);
+        const promise = CategoryService.deleteCategory(selectedCategory);
         promise.then(() => {
             enqueueSnackbar('Category deleted successfully', {variant:'success'});
             setShouldRefresh(true);
@@ -123,7 +123,7 @@ const CategoriesPage = () => {
                 ...category, 
                 order: index
         }));
-        let promise = CategoryService.updateCategories(categoryReordered);
+        const promise = CategoryService.updateCategories(categoryReordered);
         setLoading(true);
         promise.then(() => {
             enqueueSnackbar('Categories updateed successfully', {variant:'success'});

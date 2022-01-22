@@ -1,11 +1,11 @@
-import React from 'react'
-import history from "../../assets/history1.png"
+import React from 'react';
+import history from "../../assets/history1.png";
 import './navbar.css';
 
 const NavBar = () => {
     return (
         <>
-            <div className={true ? "Nav" : "NavBlack"}>
+            <div className="Nav">
                 <a href="/">
                     <span className="logo" >Logo</span>
                 </a>

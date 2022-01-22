@@ -5,22 +5,19 @@ import {
     useHistory
  } from "react-router-dom";
 import { CustomerService } from '../../../services/api';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import './clientPreview.css';
-
-export interface ClientPreviewProps {
-}
 
 interface RouteParams {
     clientId : string
 }
 
-const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
+const ClientPreview = () => {
     const [client, setClient] = useState<Customer | null>(null);
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
-    let { clientId } = useParams<RouteParams>();
+    const { clientId } = useParams<RouteParams>();
 
     useEffect( () => {
         CustomerService.getCustomer(clientId).then(
@@ -36,7 +33,7 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
     }, [])
 
     const handleCheckin = () => {
-        let promise = CustomerService.checkinCustomer(clientId);
+        const promise = CustomerService.checkinCustomer(clientId);
         promise.then((response) => {
             if (response.data === false) {
                 enqueueSnackbar('Insufficient entries for checkin. Go to shop.', {
@@ -70,7 +67,7 @@ const ClientPreview : React.FunctionComponent<ClientPreviewProps> = (props) => {
                 </div>
                 <div className="clientPanelInformationn">
                     <div><strong>Email</strong>: {client?.email} </div>
-                    <div><strong>Date d'anniversaire</strong>: {client?.birthDate} </div>
+                    <div><strong>Date d&apos;anniversaire</strong>: {client?.birthDate} </div>
                 </div>
                 <div className="clientPanelInformationn">
                     <div><strong>Phone#</strong>: {client?.phoneNumber} </div>

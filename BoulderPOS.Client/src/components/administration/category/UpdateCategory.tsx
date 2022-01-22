@@ -7,7 +7,7 @@ import {
 import { ProductCategory } from "../../../data";
 import { useSnackbar } from 'notistack';
 import { CategoryService } from '../../../services/api';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@mui/material';
 import { IconPicker } from '../../customUi/icons/IconPicker';
 
 interface RouteParams {
@@ -22,10 +22,10 @@ const UpdateCategory : React.FunctionComponent<UpdateCategoryProps> = (props : U
     const [category, setCategory] = useState<ProductCategory | null>(null);
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
-    let { categoryId } = useParams<RouteParams>();
+    const { categoryId } = useParams<RouteParams>();
 
     useEffect(() => {
-        let promise = CategoryService.getCategory(categoryId);
+        const promise = CategoryService.getCategory(categoryId);
         promise.then((response) => {
             setCategory(response.data);
         }).catch((error) => {
@@ -40,7 +40,7 @@ const UpdateCategory : React.FunctionComponent<UpdateCategoryProps> = (props : U
             enqueueSnackbar('An error occured, category is null', {variant : 'error'});
             return;
         }
-        let promise = CategoryService.updateCategory(category);
+        const promise = CategoryService.updateCategory(category);
         promise.then( (response) => {
             enqueueSnackbar('Category updated.', { variant : 'success'});
             if (props.onUpdate !== undefined) { props.onUpdate(); }
@@ -59,13 +59,13 @@ const UpdateCategory : React.FunctionComponent<UpdateCategoryProps> = (props : U
                     label='Nom de la catégorie' 
                     type='text' 
                     value={category.name}
-                    onChange={(event) => setCategory({
+                    onChange={(event : any) => setCategory({
                         ...category,
                         name: `${event.target.value}`,
                     })}/>
                 <IconPicker 
                     value={category.iconName} 
-                    onChange={(value) => setCategory({
+                    onChange={(value : string) => setCategory({
                         ...category,
                         iconName : value
                     })} 

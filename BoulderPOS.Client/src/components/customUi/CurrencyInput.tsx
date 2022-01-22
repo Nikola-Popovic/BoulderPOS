@@ -1,6 +1,9 @@
 import React from "react";
 import NumberFormat from "react-number-format";
-import {TextField, makeStyles} from "@material-ui/core";
+import { TextField } from "@mui/material";
+
+
+import makeStyles from '@mui/styles/makeStyles';
 
 
 interface CustomNumberFormatProps {
