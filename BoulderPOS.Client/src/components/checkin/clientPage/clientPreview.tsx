@@ -67,7 +67,7 @@ const ClientPreview = () => {
                 </div>
                 <div className="clientPanelInformationn">
                     <div><strong>Email</strong>: {client?.email} </div>
-                    <div><strong>Date d`&apos`anniversaire</strong>: {client?.birthDate} </div>
+                    <div><strong>Date d&apos;anniversaire</strong>: {client?.birthDate} </div>
                 </div>
                 <div className="clientPanelInformationn">
                     <div><strong>Phone#</strong>: {client?.phoneNumber} </div>

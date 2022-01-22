@@ -1,4 +1,5 @@
 import React from 'react';
+import history from "../../assets/history1.png";
 import './navbar.css';
 
 const NavBar = () => {
@@ -12,7 +13,7 @@ const NavBar = () => {
                 <div className="EndSection">
                     <span className="NavLink" style={{cursor:"pointer"}}>
                         <img 
-                        src="../../assets/history1.png"
+                        src={history}
                         alt="Undo" 
                         width="40" 
                         height="40"
