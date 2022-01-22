@@ -9,7 +9,7 @@ import {
   } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import { TextField, Checkbox } from 'formik-material-ui';
+import { TextField, Checkbox } from 'formik-mui';
 import * as Yup from 'yup';
 import { NewCustomer } from '../payload';
 import { CustomerService } from '../services/api';
