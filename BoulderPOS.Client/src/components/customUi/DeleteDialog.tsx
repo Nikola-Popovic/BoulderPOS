@@ -1,4 +1,6 @@
-import { Dialog, DialogContent, DialogTitle, makeStyles, Theme, createStyles, DialogActions, Button } from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle, Theme, DialogActions, Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import React from 'react';
 
 export interface DeleteDialogProps {

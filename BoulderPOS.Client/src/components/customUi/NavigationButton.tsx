@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
-import { Button, ButtonProps } from "@material-ui/core";
+import { Button, ButtonProps } from "@mui/material";
 
 
 interface INavigationButtonProps {

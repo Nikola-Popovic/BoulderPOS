@@ -4,7 +4,7 @@ import { ProductCategory } from '../../../data';
 import { CategoryService } from '../../../services/api';
 import { useSnackbar } from 'notistack';
 import "./CategoriesPage.css";
-import { Button, LinearProgress } from '@material-ui/core';
+import { Button, LinearProgress } from '@mui/material';
 import { NavigationButton, DeleteDialog } from '../../customUi';
 import { UpdateCategory, CreateCategoryForm } from ".";
 import { DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';

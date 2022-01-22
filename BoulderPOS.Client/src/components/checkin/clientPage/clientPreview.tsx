@@ -5,7 +5,7 @@ import {
     useHistory
  } from "react-router-dom";
 import { CustomerService } from '../../../services/api';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import './clientPreview.css';
 

@@ -10,7 +10,7 @@ import "./administration.css";
 import { 
     Button,
     TextField
-} from '@material-ui/core';
+} from '@mui/material';
 import {
     CategoriesPage,
     ProductsPage

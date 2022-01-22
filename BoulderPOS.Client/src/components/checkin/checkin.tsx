@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress } from '@mui/material';
 import { Customer } from '../../data';
 import { CustomerService } from '../../services/api'
 import { debounce } from 'lodash';

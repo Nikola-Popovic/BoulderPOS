@@ -6,7 +6,7 @@ import {
     LinearProgress,
     Grid,
     FormGroup
-  } from '@material-ui/core';
+  } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { TextField, Checkbox } from 'formik-material-ui';
@@ -64,7 +64,7 @@ function Signup() {
         <Grid
             container
             direction='column'
-            justify='center'
+            justifyContent='center'
             alignItems='center'
         >
             <h2> Signup </h2>
@@ -108,7 +108,7 @@ function Signup() {
                 
             </Formik>
         </Grid>
-    </>
+    </>;
 }
 
 export default Signup;

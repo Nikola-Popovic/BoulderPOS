@@ -3,7 +3,7 @@ import { useHistory, Switch, Route, useRouteMatch } from 'react-router-dom';
 import { Product, ProductCategory, toCurrency } from '../../../data';
 import { useSnackbar } from 'notistack';
 import "./ProductsPage.css";
-import { Button, FormControl, InputLabel, MenuItem, LinearProgress, Select } from '@material-ui/core';
+import { Button, FormControl, InputLabel, MenuItem, LinearProgress, Select } from '@mui/material';
 import { NavigationButton, DeleteDialog } from '../../customUi';
 import { ProductService } from '../../../services/api/Product';
 import { CreateProductForm, UpdateProduct } from '.';
