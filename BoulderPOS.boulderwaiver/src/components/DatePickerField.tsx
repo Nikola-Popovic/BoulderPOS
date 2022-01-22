@@ -1,22 +1,22 @@
 import React from 'react';
-import { useFormikContext } from 'formik';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns'
+import { useField, useFormikContext } from 'formik';
+import DateTimePicker from '@mui/lab/DateTimePicker';
+import TextField from '@mui/material/TextField';
 
 export type DatePickerProps = {
     name : string
 }
 
 export function DatePickerField( props : DatePickerProps ) {
-    const formik = useFormikContext();
-    const field = formik.getFieldProps(props.name);
+    const { setFieldValue } = useFormikContext();
+    const [ field ] = useField(props);
 
     return (
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DatePicker
-                value={field.value}
-                onChange={value => formik.setFieldValue(props.name, value)}
-            />
-        </MuiPickersUtilsProvider>
+        <DateTimePicker
+            {...props}
+            value={field.value}
+            onChange={value => setFieldValue(field.name, value)}
+            renderInput={(params) => <TextField {...params} />}
+        />
     );
 }

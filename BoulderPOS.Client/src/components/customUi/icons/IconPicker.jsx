@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import FontIconPicker from '@fonticonpicker/react-fonticonpicker';
 import '@fonticonpicker/react-fonticonpicker/dist/fonticonpicker.base-theme.react.css';
 import '@fonticonpicker/react-fonticonpicker/dist/fonticonpicker.material-theme.react.css';
-/* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
 
-IconPicker.PropTypes = {
+IconPicker.propTypes = {
     value: PropTypes.string,
     cName: PropTypes.string,
     onChange: PropTypes.func
