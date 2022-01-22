@@ -15,9 +15,6 @@ interface INavigationButtonProps {
     route : string,
 }
 
-interface INavigationButtonState {
-}
-
 function NavigationButton( props : INavigationButtonProps & ButtonProps) {
     const history = useHistory();
 

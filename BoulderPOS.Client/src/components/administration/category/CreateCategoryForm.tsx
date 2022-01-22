@@ -20,7 +20,7 @@ export const CreateCategoryForm = (props : CreateCategoryFormProps) => {
 
     const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        let promise = CategoryService.postCategory({name : categoryName, iconName : iconName});
+        const promise = CategoryService.postCategory({name : categoryName, iconName : iconName});
         promise.then( (response) => {
             enqueueSnackbar('Category created.', { variant : 'success'});
             if (props.onCreate !== undefined) { props.onCreate(); }

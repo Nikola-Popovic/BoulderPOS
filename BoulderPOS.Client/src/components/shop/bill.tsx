@@ -1,7 +1,7 @@
 import React, {  useEffect, useState } from 'react'
 import { PaymentMethod } from '../../data/PaymentMethod';
 import { Customer, ProductInCart, toCurrency} from '../../data';
-import './Bill.css';
+import './bill.css';
 
 const TPS = 0.05;
 const TVQ = 0.09975 ;
@@ -28,7 +28,8 @@ const Bill = (props : BillProps) => {
     }
 
     const makeBillTable = () => {
-        return props.items.map((item) => <tr>
+        return props.items.map((item) => 
+        <tr key={item.id}>
             <td>{item.name}</td>
             <td>{item.quantity}</td>
             <td>{toCurrency(item.price * item.quantity)}</td>

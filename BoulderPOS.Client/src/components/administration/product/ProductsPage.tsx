@@ -23,7 +23,7 @@ const ProductsPage = () => {
 
     // Get categories
     useEffect(() => {
-        let promise = CategoryService.getCategories();
+        const promise = CategoryService.getCategories();
         promise.then((response) => setCategories(response.data))
             .catch(error => {
                 enqueueSnackbar('An error occured while fetching categories', {variant:'error'});
@@ -35,7 +35,7 @@ const ProductsPage = () => {
     useEffect(() => {
         setLoading(true);
         setShouldRefresh(false);
-        let promise = ProductService.getProducts();
+        const promise = ProductService.getProducts();
         promise.then((response) => {
             setLoading(false);
             setAllProducts(response.data);
@@ -48,7 +48,7 @@ const ProductsPage = () => {
 
     const displayProducts = () => {
         return  <tbody> {displayedProducts.map((product) => 
-                <tr>
+                <tr key={product.id}>
                     <td>{product.name}</td>
                     <td>{`${toCurrency(product.price)}`}</td>
                     <td>{`${product.category?.name}`}</td>
@@ -64,7 +64,7 @@ const ProductsPage = () => {
     }
 
     const deleteCategory = () => {
-        let promise = ProductService.deleteProduct(selectedProduct);
+        const promise = ProductService.deleteProduct(selectedProduct);
         promise.then(() => {
             enqueueSnackbar('Product deleted successfully', {variant:'success'});
             setShouldRefresh(true);
@@ -90,11 +90,11 @@ const ProductsPage = () => {
             <InputLabel id="category-select-label">Filtrer par catégorie</InputLabel>
             <Select labelId="category-select-label" 
                     id="category-select"
-                    onChange={(event) => handleSelectedCategory(event.target.value as number)}>
+                    onChange={(event : any) => handleSelectedCategory(event.target.value as number)}>
                     <MenuItem value={undefined}>
                         <strong> Effacer la selection <i className={`fas fa-times-circle`}/></strong>
                     </MenuItem>
-                    {categories.map(category => <MenuItem value={category.id}>
+                    {categories.map(category => <MenuItem key={category.id} value={category.id}>
                         {category.name}
                     </MenuItem>)}
             </Select>

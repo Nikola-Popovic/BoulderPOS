@@ -42,17 +42,18 @@ function Signup() {
     
     const handleFormSubmit = (values : NewCustomer, formikHelpers : FormikHelpers<NewCustomer>) => {
         console.log(`Submitting : ${values}`)
-        let promise = CustomerService.postNewCustomer(values);
+        const promise = CustomerService.postNewCustomer(values);
         promise.then( _response => {
             formikHelpers.setSubmitting(false);
             // Notify success
-            enqueueSnackbar('Sign up successful !', {
+            enqueueSnackbar(`Sign up successful. Thank you ${_response.data.FirstName} !`, {
                 variant: 'success',
             });
             history.push('/');
         }).catch( error => {
             formikHelpers.setSubmitting(false);
             // Notify alert
+            console.log(error);
             enqueueSnackbar('An error occured. Please try again in a moment.', {
                 variant: 'error',
             });

@@ -13,7 +13,7 @@ const toString =  (url : ReturnType<typeof baseUrl>) => {
     return url.protocol + '//' + API_URL;
 }
 
-var baseUrl = (url : String) => ({
+const baseUrl = (url : string) => ({
     protocol : window.location.protocol,
     url : url
 })

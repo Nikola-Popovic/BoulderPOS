@@ -2,13 +2,10 @@ import React from 'react';
 import './Header.css';
 
 interface IHeaderProps {
-    title? : String
+    title? : string
 }
 
-interface IHeaderState {
-}
-
-export default class Header extends React.Component<IHeaderProps, IHeaderState>  {
+export default class Header extends React.Component<IHeaderProps>  {
     render()
     {
         const {title} = this.props;

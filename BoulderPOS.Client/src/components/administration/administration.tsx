@@ -17,8 +17,8 @@ import {
 } from './';
 
 const Administration = () => {
-    let match = useRouteMatch();
-    let history = useHistory();
+    const match = useRouteMatch();
+    const history = useHistory();
 
     
     const displayLoginPanel = () => {

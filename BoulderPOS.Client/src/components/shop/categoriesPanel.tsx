@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ProductCategory } from '../../data';
-import './CategoriesPanel.css';
+import './categoriesPanel.css';
 
 interface CategoriesPanelProps { 
     categories: ProductCategory[],
@@ -9,7 +9,7 @@ interface CategoriesPanelProps {
 
 const CategoriesPanel = (props : CategoriesPanelProps) => {
     
-    const [selectedCategory, setSelected] = useState<Number>(1);
+    const [selectedCategory, setSelected] = useState<number>(1);
 
     const handleClick = (categoryId : number) => {
         setSelected(categoryId);
@@ -25,7 +25,7 @@ const CategoriesPanel = (props : CategoriesPanelProps) => {
     const listCategories = () => {
         return <>
             { props.categories.map((category) => 
-                <button className={selectedCategory === category.id ? "shopCategory selectedCategory" : "shopCategory"} 
+                <button  key={category.id} className={selectedCategory === category.id ? "shopCategory selectedCategory" : "shopCategory"} 
                 onClick={() => handleClick(category.id)}>
                     <i className={`${category.iconName} fa-2x`} />
                 </button>

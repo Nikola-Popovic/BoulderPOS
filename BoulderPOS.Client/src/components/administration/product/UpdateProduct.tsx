@@ -31,7 +31,7 @@ const UpdateProduct = (props : UpdateProductProps) => {
             enqueueSnackbar('An error occured, product is null.', { variant : 'error'})
             return;
         }
-        let promise = ProductService.updateProduct(product);
+        const promise = ProductService.updateProduct(product);
         promise.then( (response) => {
             enqueueSnackbar('Product updated.', { variant : 'success'});
             if (props.onUpdate !== undefined) { props.onUpdate(); }
@@ -44,8 +44,8 @@ const UpdateProduct = (props : UpdateProductProps) => {
     }
 
     useEffect(() => {
-        let promise = CategoryService.getCategories();
-        let productPromise = ProductService.getProduct(productId);
+        const promise = CategoryService.getCategories();
+        const productPromise = ProductService.getProduct(productId);
         promise.then((response) => setCategories(response.data))
             .catch((error) => {
                 console.error(error);
@@ -66,7 +66,7 @@ const UpdateProduct = (props : UpdateProductProps) => {
                     label='Nom du produit' 
                     type='text'
                     value={product.name} 
-                    onChange={(event) => 
+                    onChange={(event: any) => 
                         setProduct({
                             ...product,
                             name : event.target.value
@@ -84,7 +84,7 @@ const UpdateProduct = (props : UpdateProductProps) => {
                     label={product.category?.isSubscription ? "Durée en mois" : 'Quantité'} 
                     type='number' 
                     value={product.quantity}
-                    onChange={(event) => setProduct({
+                    onChange={(event : any) => setProduct({
                         ...product,
                         quantity : parseInt(event.target.value)
                     })}/>
@@ -94,11 +94,11 @@ const UpdateProduct = (props : UpdateProductProps) => {
                     <Select labelId="category-select-label" 
                             id="category-select"
                             value={product.categoryId}
-                            onChange={(event) => setProduct( {
+                            onChange={(event: any) => setProduct( {
                                 ...product,
                                 categoryId: event.target.value as number
                             })}>
-                            {categories.map(category => <MenuItem value={category.id}>
+                            {categories.map(category => <MenuItem key={category.id} value={category.id}>
                                 {category.name}
                             </MenuItem>)}
                     </Select>

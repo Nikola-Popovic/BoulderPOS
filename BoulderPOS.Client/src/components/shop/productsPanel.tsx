@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Product, toCurrency } from '../../data';
-import './ProductsPanel.css';
+import './productsPanel.css';
 
 interface ProductsPanelProps { 
     products: Product[], 
@@ -11,8 +11,9 @@ const ProductsPanel = (props: ProductsPanelProps ) => {
 
     const listProducts = () => {
         return  props.products.map((product) => 
-            <button className="shopItem" onClick={() => props.onItemClick(product)}>
-                {product.name} <br/> <br/>{toCurrency(product.price)}
+            <button key={product.id} className="shopItem" onClick={() => props.onItemClick(product)}>
+                {product.name} <br/> <br/>
+                {toCurrency(product.price)}
             </button>
         )
     }

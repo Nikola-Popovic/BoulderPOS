@@ -1,4 +1,4 @@
-export * from './ProductsPanel';
-export * from './CategoriesPanel';
-export * from './Bill';
+export * from './productsPanel';
+export * from './categoriesPanel';
+export * from './bill';
 export * from './Shop';

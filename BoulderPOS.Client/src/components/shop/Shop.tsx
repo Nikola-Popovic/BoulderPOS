@@ -11,24 +11,20 @@ interface RouteParams {
     clientId : string
 }
 
-interface ShopProps {
-
-}
-
-const Shop = (props : ShopProps) => {
+const Shop = () => {
     const [categories, setCategories] = useState<ProductCategory[]>([]);
     const history = useHistory();
     const [products, setProducts] = useState<Product[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<number>();
-    let [ cart, setCart ] = useState<ProductInCart[]>([]);
+    const [ cart, setCart ] = useState<ProductInCart[]>([]);
     const [ billRefresh, setBillRefresh] = useState(false);
-    let { clientId } = useParams<RouteParams>();
+    const { clientId } = useParams<RouteParams>();
     const [client, setClient] = useState<Customer | undefined>();
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         // Categories
-        let promise = CategoryService.getCategories();
+        const promise = CategoryService.getCategories();
         promise.then((response) => { 
             setCategories(response.data);
             setSelectedCategory(response.data[0]?.id);
@@ -40,7 +36,7 @@ const Shop = (props : ShopProps) => {
 
     useEffect(() => {
         if (clientId === undefined) return;
-        let clientPromise = CustomerService.getCustomer(clientId);
+        const clientPromise = CustomerService.getCustomer(clientId);
         clientPromise.then((reponse) => setClient(reponse.data))
         .catch((error) => {
             console.error(error);
@@ -49,7 +45,7 @@ const Shop = (props : ShopProps) => {
 
     useEffect(() => {
         if (selectedCategory !== undefined) {
-            let promise = CategoryService.getProductsByCategory(selectedCategory);
+            const promise = CategoryService.getProductsByCategory(selectedCategory);
             promise.then((response) => setProducts(response.data))
             .catch((error) => {
                 enqueueSnackbar('Could not fetch products', {variant:'error'})
@@ -71,7 +67,7 @@ const Shop = (props : ShopProps) => {
                 }
             );
         } else {
-            let i = cart.findIndex(a => a.id === product.id);
+            const i = cart.findIndex(a => a.id === product.id);
             cart[i].quantity += 1;
         }
         setBillRefresh(true);
@@ -85,8 +81,7 @@ const Shop = (props : ShopProps) => {
             console.log('Transaction was saved in the database.');
             setCart([]);
             history.push('/');
-          } else {
-          }
+          } 
     }
     
     return <div className="shopPage">
