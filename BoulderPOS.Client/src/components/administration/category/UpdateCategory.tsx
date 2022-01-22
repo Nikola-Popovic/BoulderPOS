@@ -65,7 +65,7 @@ const UpdateCategory : React.FunctionComponent<UpdateCategoryProps> = (props : U
                     })}/>
                 <IconPicker 
                     value={category.iconName} 
-                    onChange={(value) => setCategory({
+                    onChange={(value : string) => setCategory({
                         ...category,
                         iconName : value
                     })} 

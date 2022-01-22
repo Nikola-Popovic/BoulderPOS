@@ -36,7 +36,7 @@ export const CreateCategoryForm = (props : CreateCategoryFormProps) => {
         <form className='categoryForm' onSubmit={(event) => handleSubmit(event)}>
             <h1> Nouvelle catégorie </h1>
             <TextField className='categoryField' label='Nom de la catégorie' type='text' onChange={(event) => setCategory(event.target.value)}/>
-            <IconPicker value={iconName} onChange={(value) => setCategoryIcon(value)} cName='categoryPicker'/>
+            <IconPicker value={iconName} onChange={(value : string) => setCategoryIcon(value)} cName='categoryPicker'/>
             <div className='categoryButtons'>
                 <Button variant='contained' color='secondary' onClick={() => history.goBack()}>
                     Annuler
