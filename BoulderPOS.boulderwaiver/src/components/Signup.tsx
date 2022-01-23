@@ -21,17 +21,18 @@ import i18n from '../i18n';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
-const userSchema = Yup.object().shape({
-    FirstName : Yup.string().required('Please enter a first name'),
-    LastName : Yup.string().required('Please enter a last name'),
-    Email : Yup.string().email().required('Please enter a valid email.'),
-    PhoneNumber : Yup.string().matches(phoneRegExp, "Phone number is not valid").required(), // change this to required
-    BirthDate : Yup.date().notRequired(),
-    NewsletterSubscription : Yup.boolean().default(false)
-})
 
 function Signup() {
     const { t } = useTranslation(undefined, { i18n });
+    const userSchema = Yup.object().shape({
+        FirstName : Yup.string().required(t("enterValue")),
+        LastName : Yup.string().required(t("enterValue")),
+        Email : Yup.string().email().required(t("emailInvalid")),
+        PhoneNumber : Yup.string().matches(phoneRegExp, t("phoneInvalid")).required(), 
+        BirthDate : Yup.date().notRequired(),
+        NewsletterSubscription : Yup.boolean().default(false)
+    });
+
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const initialValues = {
@@ -102,7 +103,7 @@ function Signup() {
                             <Field name="NewsletterSubscription" type="checkbox" component={Checkbox}/>
                         </div>
                         <div className='submit-button-group'>
-                            <Button type="reset" variant='outlined' color='secondary' disabled={isSubmitting}>{t("reset")}</Button>
+                            <Button type="reset" variant='outlined' disabled={isSubmitting}>{t("reset")}</Button>
                             <Button type="submit" variant='outlined' color='primary' disabled={isSubmitting}>{t("submit")}</Button>
                         </div>
                         {isSubmitting && <LinearProgress color='primary' />}
