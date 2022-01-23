@@ -1,16 +1,20 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const marked = require("marked");
+const webpack = require("webpack");
 const renderer = new marked.Renderer;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { webpack, HotModuleReplacementPlugin } = require("webpack");
+const i18nextPlugin = require("ya-i18next-webpack-plugin").default;
+const ASSET_PATH = process.env.ASSET_PATH || '/';
+const PUBLIC_PATH = process.env.PUBLIC_PATH || '/public';
 
 module.exports = {
     entry: "./src/index.tsx",
     resolve: {
-      extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],
+      extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
     },
     module: {
       rules: [
@@ -23,6 +27,11 @@ module.exports = {
           enforce: "pre",
           test: /\.js$/,
           loader: "source-map-loader",
+        },
+        { 
+          test: /\.json$/, 
+          exclude: /(node_modules|public)/, 
+          type: 'asset/resource' 
         },
         {
           test: /\.css$/,
@@ -62,7 +71,6 @@ module.exports = {
       ],
     },
     plugins: [
-      new HotModuleReplacementPlugin(),
       new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
       new HtmlWebpackPlugin({
         template : './public/index.html',
@@ -72,11 +80,22 @@ module.exports = {
       }),
       new MiniCssExtractPlugin({
         filename: '[name]-[fullhash].css'
-      })
+      }),
+      new i18nextPlugin({
+        defaultLanguage: "fr",
+        languages: ["fr", "en"],
+        functionName: "t",
+        resourcePath: "./src/lang/{{lng}}/{{ns}}.json",
+        pathToSaveMissing: ".src/lang/{{lang}}//{{ns}}-missing.json"
+      }),
+      new webpack.DefinePlugin({
+        'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
+        'process.env.PUBLIC_PATH': JSON.stringify(PUBLIC_PATH),
+      }),
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
+        publicPath: 'auto',
         filename: 'bundle-[fullhash].js',
       }
   };

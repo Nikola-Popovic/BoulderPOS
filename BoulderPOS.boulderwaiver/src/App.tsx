@@ -30,21 +30,21 @@ function App() {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-            <div className="App">
-              <CssBaseline />
-              <SnackbarProvider maxSnack={1}>
-                <Header />
-                <div className="box-center">
-                <Router>
-                  <Switch>
-                    <Route path="/waiver" component={Waiver} />
-                    <Route path="/signup" component={Signup} />
-                    <Route path="/" component={GettingStarted} />
-                  </Switch>
-                </Router>
-                </div>
-              </SnackbarProvider>
-            </div>
+          <div className="App">
+            <CssBaseline />
+            <SnackbarProvider maxSnack={1}>
+              <Header />
+              <div className="box-center">
+              <Router>
+                <Switch>
+                  <Route path="/waiver" component={Waiver} />
+                  <Route path="/signup" component={Signup} />
+                  <Route path="/" component={GettingStarted} />
+                </Switch>
+              </Router>
+              </div>
+            </SnackbarProvider>
+          </div>
         </ThemeProvider>
       </StyledEngineProvider>
     </LocalizationProvider>

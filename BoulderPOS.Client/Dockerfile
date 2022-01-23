@@ -1,4 +1,4 @@
-FROM node:14.14.0-buster-slim as build
+FROM node:current-buster-slim as build
 
 # set working directory
 WORKDIR /app

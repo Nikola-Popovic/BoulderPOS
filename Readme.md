@@ -12,6 +12,9 @@ This command will start the postgres database, the api, the reverse proxy and th
 ### Build and start the project
 `docker-compose up --build`
 
+#### Build services will composed
+`docker-compose build --no-cache boulder-waiver boulder-pos`
+
 ### Debug a process
 To debug an application inside a Docker container, Attach a debugger to the process.
 
