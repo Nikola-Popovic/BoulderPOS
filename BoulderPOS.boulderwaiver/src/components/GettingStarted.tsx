@@ -1,10 +1,13 @@
 import React from 'react';
 import NavigationButton from './NavigationButton';
-import './Header.css';
+import './GettingStarted.css';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 
-function GettingStarted() {
+const GettingStarted = () => {
+    const { t } = useTranslation('translation', { i18n });
     return <div className='get-started'>
-        <NavigationButton text="Get Started" route="/waiver" variant='contained'/>
+        <NavigationButton text={t("getStarted")} route="/waiver" variant='contained'/>
     </div>
 }
 

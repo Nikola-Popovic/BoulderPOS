@@ -1,20 +1,15 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './Header.css';
+import i18n from '../i18n'
 
-interface IHeaderProps {
-    title? : string
+const Header = () => {
+    const { t } = useTranslation('translation', { i18n });
+    return <a href="/">
+    <h1 className="header">
+        {t("waiver")}
+    </h1>
+    </a>
 }
 
-export default class Header extends React.Component<IHeaderProps>  {
-    render()
-    {
-        const {title} = this.props;
-        return (
-            <a href="/">
-                <h1 className="header">
-                    {title ? title : "Boulder Waiver"}
-                </h1>
-            </a>
-        );
-    }
-}
+export default Header;

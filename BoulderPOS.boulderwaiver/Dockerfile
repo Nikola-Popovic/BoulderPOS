@@ -1,4 +1,4 @@
-FROM node:14.14.0-buster-slim as build
+FROM node:current-buster-slim as build
 
 # set working directory
 WORKDIR /app
@@ -9,13 +9,13 @@ EXPOSE 3001
 
 COPY package*.json ./
 COPY webpack* ./
+COPY tsconfig.json ./
 
 # install app dependencies
 RUN npm install -g webpack webpack-cli --silent
 RUN npm install react-scripts@3.4.1 -g --silent
 RUN npm install --silent
 
-COPY tsconfig.json ./
 COPY src /app/src
 COPY public /app/public
 RUN npm run build
