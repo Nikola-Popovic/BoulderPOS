@@ -8,6 +8,7 @@ import Waiver from './components/Waiver';
 import Signup from './components/Signup';
 import './App.css';
 import Header from './components/Header';
+import Navbar from './components/Navbar'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
@@ -34,6 +35,7 @@ function App() {
             <CssBaseline />
             <SnackbarProvider maxSnack={1}>
               <Header />
+              <Navbar />
               <div className="box-center">
               <Router>
                 <Switch>
