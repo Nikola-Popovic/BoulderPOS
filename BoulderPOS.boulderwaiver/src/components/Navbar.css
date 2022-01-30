@@ -1,7 +1,9 @@
 .Nav {
     display: flex;
-    height: calc(50px + 1vh);
-    width: 60vw;
+    height: calc(56px + 1vh);
+    padding: 4px;
+    width: 75vw;
+    max-width: 2000px;
     min-width: 400px;
     border-radius: 10px;
     justify-content: flex-end;
