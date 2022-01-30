@@ -6,11 +6,16 @@
 }
 
 .box-center {
-  padding-top: 10vh;
-  position: relative;
+  padding-top: 22px;
+  /* position: relative; */
   display: flex;
-  align-items: center;
-  height:60vh;  
+  /* align-items: center; */
+  /* height: 60vh; */
+  justify-content: center;
+  max-width: 1200px;
+  min-width: 400px;
+  min-height: 400px;
+  max-height: 1200px;
 }
 
 .App-logo {

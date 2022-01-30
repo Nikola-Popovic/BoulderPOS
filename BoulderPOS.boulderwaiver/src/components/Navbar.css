@@ -1,0 +1,18 @@
+.Nav {
+    display: flex;
+    height: calc(56px + 1vh);
+    padding: 4px;
+    width: 75vw;
+    max-width: 2000px;
+    min-width: 400px;
+    border-radius: 10px;
+    justify-content: flex-end;
+    background-color: aliceblue;
+}
+
+.EndSection {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin: 0px 10px 2px;
+}

@@ -28,6 +28,11 @@ module.exports = {
           test: /\.js$/,
           loader: "source-map-loader",
         },
+        {
+          test: /\.(js|jsx)$/, 
+          exclude: /node_modules/,
+          use: ['babel-loader'],
+        },
         { 
           test: /\.json$/, 
           exclude: /(node_modules|public)/, 
@@ -92,6 +97,7 @@ module.exports = {
         'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
         'process.env.PUBLIC_PATH': JSON.stringify(PUBLIC_PATH),
       }),
+      new webpack.HotModuleReplacementPlugin()
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),

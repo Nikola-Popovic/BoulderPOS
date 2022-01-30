@@ -21,7 +21,10 @@
     "isolatedModules": true,
     "outDir": "./dist/",
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "typeRoots": [
+      "node_modules/@types", "./typings.d.ts"
+    ]
   },
   "include": [
     "src"

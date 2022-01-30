@@ -10,6 +10,7 @@ EXPOSE 3001
 COPY package*.json ./
 COPY webpack* ./
 COPY tsconfig.json ./
+COPY babel.config.js ./
 
 # install app dependencies
 RUN npm install -g webpack webpack-cli --silent

@@ -11,19 +11,21 @@ import { useHistory } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { TextField, Checkbox } from 'formik-mui';
 import * as Yup from 'yup';
-import { NewCustomer } from '../payload';
-import { CustomerService } from '../services/api';
-import { DatePickerField } from './DatePickerField';
-import { PhoneInputField } from './PhoneInputField';
+import { NewCustomer } from '../../payload';
+import { CustomerService } from '../../services/api';
+import { DatePickerField } from '../ui/DatePickerField';
+import { PhoneInputField } from '../ui/PhoneInputField';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n';
+import i18n from '../../i18next';
+import { IWizardSectionProps } from '../wizard/wizard-component';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 
-function Signup() {
-    const { t } = useTranslation(undefined, { i18n });
+function Signup(props : IWizardSectionProps) {
+    const { t } = useTranslation('translation', { i18n });
+    
     const userSchema = Yup.object().shape({
         FirstName : Yup.string().required(t("enterValue")),
         LastName : Yup.string().required(t("enterValue")),
