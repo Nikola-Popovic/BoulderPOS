@@ -1,5 +1,7 @@
 import React from 'react';
 
-export const WIZARD_STEPS = {
-    1 : React.lazy(() => import('./wizard-pages/step1-getting-started')),
-};
+export const WIZARD_STEPS = [
+    React.lazy(() => import('../sections/GettingStarted')),
+    React.lazy(() => import('../sections/Waiver')),
+    React.lazy(() => import('../sections/Signup'))
+];

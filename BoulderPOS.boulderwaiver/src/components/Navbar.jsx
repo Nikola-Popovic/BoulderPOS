@@ -1,6 +1,6 @@
 import React from "react";
-import LanguageSwitcher from "./LanguageSwitcher";
-import HideOnScroll from './HideOnScoll';
+import LanguageSwitcher from "./ui/LanguageSwitcher";
+import HideOnScroll from './ui/HideOnScoll';
 import './Navbar.css';
 
 export default function Navbar(props) {

@@ -1,26 +1,6 @@
-enum WizardActions {
-    NEXT = 'NEXT',
-    PREC = 'PREC'
-}
+import { WizardActions, IWizardSectionState, IWizardSectionAction } from './';
 
-interface IWizardSectionAction {
-    type : WizardActions
-}
-
-interface IWizardSectionState {
-    isLoading: boolean,
-    isValid: boolean,
-    step : number,
-}
-
-const initialState : IWizardSectionState = {
-    isLoading: true,
-    isValid: false,
-    step : 0
-}
-
-
-function stepReducer(state : IWizardSectionState, action : IWizardSectionAction) {
+export function stepReducer(state : IWizardSectionState, action : IWizardSectionAction) {
     switch (action.type) {
         case WizardActions.NEXT :
             return {
@@ -38,6 +18,3 @@ function stepReducer(state : IWizardSectionState, action : IWizardSectionAction)
             return state;
     }
 }
-
-export { stepReducer, WizardActions, initialState };
-export type { IWizardSectionState, IWizardSectionAction };
