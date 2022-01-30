@@ -1,11 +1,12 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import './LanguageSwitcher.css';
 
 function LanguageSwitcher() {
   const { i18n } = useTranslation();
   return (
-    <FormControl className="select">
+    <FormControl className="lang-select">
       <Select
         value={i18n.language}
         id="demo-simple-select"
@@ -13,11 +14,10 @@ function LanguageSwitcher() {
           i18n.changeLanguage(e.target.value)
         }
       >
-      <MenuItem value="fr">Français</MenuItem>
-      <MenuItem value="en">English</MenuItem>
+        <MenuItem value="fr">Français</MenuItem>
+        <MenuItem value="en">English</MenuItem>
       </Select>
     </FormControl>
-    
   );
 }
 export default LanguageSwitcher;
