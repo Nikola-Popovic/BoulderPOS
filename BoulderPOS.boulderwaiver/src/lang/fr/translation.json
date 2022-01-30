@@ -10,6 +10,8 @@
     "firstName": "Prénom",
     "getStarted": "Commencer",
     "lastName": "Nom",
+    "next": "Suivant",
+    "prev": "Précédant",
     "phone": "Numéro de téléphone",
     "phoneInvalid": "Le numéro de téléphone saisie est invalide",
     "signup" : "Inscription",

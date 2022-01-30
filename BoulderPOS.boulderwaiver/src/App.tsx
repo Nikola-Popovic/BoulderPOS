@@ -11,6 +11,7 @@ import Header from './components/Header';
 import Navbar from './components/Navbar'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { WizardComponent } from './components/wizard/wizard-component';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -37,13 +38,7 @@ function App() {
               <Header />
               <Navbar />
               <div className="box-center">
-              <Router>
-                <Switch>
-                  <Route path="/waiver" component={Waiver} />
-                  <Route path="/signup" component={Signup} />
-                  <Route path="/" component={GettingStarted} />
-                </Switch>
-              </Router>
+                <WizardComponent></WizardComponent>
               </div>
             </SnackbarProvider>
           </div>
