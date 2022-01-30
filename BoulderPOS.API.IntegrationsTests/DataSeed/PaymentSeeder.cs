@@ -5,7 +5,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
 {
     public static class PaymentSeeder
     {
-        public static ProductPayment WalkinFoodPayment => new ProductPayment()
+        public static BillProduct WalkinBillProduct => new BillProduct()
         {
             Id = 1,
             ProductId = ProductSeeder.Product1Food.Id,
@@ -15,7 +15,7 @@ namespace BoulderPOS.API.IntegrationsTests.DataSeed
             IsRefunded = false
         };
 
-        public static ProductPayment Customer1Payment => new ProductPayment()
+        public static BillProduct Customer1BillProduct => new BillProduct()
         {
             Id = 2,
             CustomerId = CustomerSeeder.Customer1.Id,

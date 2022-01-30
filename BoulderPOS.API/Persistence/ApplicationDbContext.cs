@@ -15,7 +15,8 @@ namespace BoulderPOS.API.Persistence
         public DbSet<CustomerEntries> CustomerEntries { get; set; }
         public DbSet<CustomerSubscription> CustomerSubscriptions { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductPayment> ProductPayments { get; set; }
+        public DbSet<BillProduct> BillProducts { get; set; }
+        public DbSet<Bill> Bills { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductInventory> ProductInventory { get; set; }
 
@@ -30,9 +31,15 @@ namespace BoulderPOS.API.Persistence
             modelBuilder.ConfigureEntriesModelBuilder();
 
             modelBuilder.Entity<ProductInventory>().HasKey(c => c.ProductId);
-            modelBuilder.Entity<ProductPayment>()
+            modelBuilder.Entity<BillProduct>()
                 .HasOne(a => a.Customer)
-                .WithMany(c => c.Orders)
+                .WithMany(c => c.BillProducts)
+                .IsRequired(false)
+                .HasForeignKey(p => p.CustomerId);
+
+            modelBuilder.Entity<Bill>()
+                .HasOne(a => a.Customer)
+                .WithMany(c => c.Bills)
                 .IsRequired(false)
                 .HasForeignKey(p => p.CustomerId);
         }
