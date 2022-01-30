@@ -1,0 +1,13 @@
+.consigne {
+    display: flex;
+    flex-direction: row;
+}
+
+.securite-content {
+    height:calc(300px + 30vh);  
+    width: calc(350px + 25vw);
+    color: white;
+    background-color: black;
+    border: 1px solid gainsboro;
+    overflow-y: auto;
+}

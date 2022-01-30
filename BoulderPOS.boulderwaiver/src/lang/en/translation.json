@@ -10,6 +10,7 @@
     "firstName": "First Name",
     "forMoreInfo": "Pour plus d'information, veuillez consulter: ",
     "getStarted": "Get Started",
+    "iUnderstand": "I understand the rules",
     "lastName": "Name",
     "loading": "Loading",
     "next": "Next",
@@ -17,10 +18,12 @@
     "phone": "Phone number",
     "phoneInvalid": "Phone number is not valid",
     "propulsépar": "Powered by",
+    "reset": "Reset",
+    "securityIntro1": "To assure your security, we must all abideto the following rules.",
+    "securityIntro2": "Lisez attentivement les attentivement !",
     "signup": "Signup",
     "signupComplete": "Sign up successful. Thank you !",
     "submit": "Submit",
-    "reset": "Reset",
     "t&c": "Terms and conditions",
-    "waiver": "Bouldering Waiver"
+    "waiver": "Interactive Waiver"
 }

@@ -9,16 +9,19 @@
     "errorTryAgain": "Une erreur est survenue. Veuillez ressayer plus tard.",
     "firstName": "Prénom",
     "getStarted": "Commencer",
+    "iUnderstand": "I understand the rules",
     "lastName": "Nom",
     "loading": "Chargement",
     "next": "Suivant",
     "prev": "Précédant",
     "phone": "Numéro de téléphone",
     "phoneInvalid": "Le numéro de téléphone saisie est invalide",
+    "securityIntro1": "Pour assurer la sécurité de tous, nous devons respecter un ensemble de règle lorsqu'on grimpe,",
+    "securityIntro2": "Lisez attentivement les attentivement !",
     "signup" : "Inscription",
     "signupComplete": "Votre inscription est complété. Merci !",
     "submit": "Soumettre",
     "reset": "Réinitialiser",
     "t&c": "Termes et conditions",
-    "waiver": "Décharge électronique"
+    "waiver": "Décharge intéractive"
 }
