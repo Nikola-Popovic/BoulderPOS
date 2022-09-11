@@ -32,19 +32,6 @@ services:
       - ./BoulderPOS.Client/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 3000:80
-  boulder-waiver:
-    image: boulderwaive:dev
-    container_name: boulder-waiver
-    build:
-      context: ./BoulderPOS.boulderwaiver
-      dockerfile: Dockerfile
-    depends_on:
-      - boulder-api
-    volumes:
-      - ./BoulderPOS.boulderwaiver:/app
-      - ./BoulderPOS.boulderwaiver/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - 3001:80
   reverse-proxy:
     image: nginx:stable-alpine
     container_name: reverse-proxy
