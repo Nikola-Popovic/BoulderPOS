@@ -1,4 +1,29 @@
-# Project BoulderPOS
+# Project BoulderPOS (no longer supported)
+
+This was my last school project and was done in collaboration with a climbing gym owner (the client).
+This proposes a solution for the Point of Sale systems in climbing gyms.
+One client application (boulderwaiver) allows the inscription of users along a series of security rules to follow. 
+  This application uses webpack to compile static content (including a markdown file for Terms and Conditions (that would be later on easily updateable))
+The other react application is used to manage the point of sale systems (products and categories), checkin users (when they come to the gym) and access the shop portion of the POS (to sell products, entries and subscriptions).
+A rest api with integrations testing on every endpoint is present to handle the transactions to the postgresql database.
+The whole project is bootstrapped by a docker orchestration file and nginx is used as a reverse proxy in different to allow the communication between the different docker images.
+
+## Notes
+Even though this project had a lot of architectural challenges completed. This project is no longer maintained. A lot of the dependencies are outdated. 
+If I were to start it again, I would remove webpack from the waiver app (as the interactions between Docker + webpack can be tidious to maintain) and use react's styled.components. Also a series of components should be developped to remove the outdated dependancies (such as react-phone-input).
+
+## The good
++ The dockerisation and orchestration of every component
++ The integration tests for the API
++ A lot of key features already implemented (such as adding products and categories with icons, internationnalisation)
+## The bad
++ Lot of room for improving the fold structures and code cleaness
++ Linting
+## The next steps
++ Adding CI/CD pipelines with a script for the infrastructure
++ Adding camera support and photos for customers
++ Separating admin function in another applications
++ Adding Oath security to the application
 
 ## Running the application with Docker
 
